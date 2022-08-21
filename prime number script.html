@@ -23,7 +23,7 @@
 
     <script>
         function isPrime(num) {
-            for (var i = 2; i < num; i++)
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
                 if (num % i === 0) return false;
             return num > 1;
         }
@@ -47,7 +47,7 @@
             return [secondmult, thirdmult];
         }
         //}
-        for (let p = 2; p <= 1000; p++) {
+        for (let p = 2; p <= 2000; p++) {
             let result = addition(p);
             let color = ""
             let background = ""
