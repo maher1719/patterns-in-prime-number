@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table border="1">
+        <tr>
+            <th>number</th>
+            <th>one number is prime</th>
+            <th>both two numbers are primes</th>
+            <th>isPrime</th>
+        </tr>
+        <tbody id="numberTrue"></tbody>
+    </table>
+
+    <script>
+        function isPrime(num) {
+            for (var i = 2; i < num; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+        function addition(num) {
+            //let num = document.getElementById("number").value;
+            console.log(num)
+            //if (isPrime(num)) {
+            var quotient = Math.floor(num / 2);
+            var remainder = num % 2;
+            let falseCounter = 0;
+            let oneTrue = 0;
+            let twoTrue = 0;
+            let secondmult = 0;
+            let thirdmult = 0
+            let noPrime = 0
+            for (let index = 2; index <= quotient; index++) {
+                if (isPrime(index) && (isPrime(num - index))) {
+                    twoTrue += 1
+                    if (isPrime((index * quotient) + 1)) {
+                        thirdmult++
+                    }
+                } else if (isPrime(index) ^ (isPrime(num - index))) {
+                    oneTrue += 1
+                    if (isPrime((index * quotient) + 1)) {
+                        secondmult++
+                        console.log(index + " * " + quotient + " = " + ((index * quotient) + 1))
+                    }
+
+                }
+
+            }
+            return [secondmult, thirdmult];
+        }
+        //}
+        for (let p = 2; p <= 1000; p++) {
+            let result = addition(p);
+            let color = ""
+            let background = ""
+            if (isPrime(p)) {
+                color = "white";
+                background = "black"
+            }
+            document.getElementById("numberTrue").innerHTML += "<tr><td style='color:" + color + ";background-color:" + background + "'>"
+                + p + "</td><td>"
+                + result[0]
+                + "</td><td>" + result[1] +
+                "</td><td>" + isPrime(p) +
+                "</td></tr>";
+        }
+
+    </script>
+</body>
+
+</html>
