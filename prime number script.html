@@ -10,12 +10,14 @@
 
 <body>
     <table border="1">
-        <tr>
-            <th>number</th>
-            <th>one number is prime</th>
-            <th>both two numbers are primes</th>
-            <th>isPrime</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>number</th>
+                <th>one number is prime</th>
+                <th>both two numbers are primes</th>
+                <th>isPrime</th>
+            </tr>
+        </thead>
         <tbody id="numberTrue"></tbody>
     </table>
 
@@ -26,32 +28,21 @@
             return num > 1;
         }
         function addition(num) {
-            //let num = document.getElementById("number").value;
             console.log(num)
-            //if (isPrime(num)) {
             var quotient = Math.floor(num / 2);
-            var remainder = num % 2;
-            let falseCounter = 0;
-            let oneTrue = 0;
-            let twoTrue = 0;
             let secondmult = 0;
             let thirdmult = 0
-            let noPrime = 0
             for (let index = 2; index <= quotient; index++) {
                 if (isPrime(index) && (isPrime(num - index))) {
-                    twoTrue += 1
                     if (isPrime((index * quotient) + 1)) {
                         thirdmult++
                     }
                 } else if (isPrime(index) ^ (isPrime(num - index))) {
-                    oneTrue += 1
                     if (isPrime((index * quotient) + 1)) {
                         secondmult++
                         console.log(index + " * " + quotient + " = " + ((index * quotient) + 1))
                     }
-
                 }
-
             }
             return [secondmult, thirdmult];
         }
@@ -71,7 +62,6 @@
                 "</td><td>" + isPrime(p) +
                 "</td></tr>";
         }
-
     </script>
 </body>
 
