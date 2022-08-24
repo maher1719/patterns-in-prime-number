@@ -9,6 +9,10 @@
 </head>
 
 <body>
+    <input placeholder="type a min number" type="number" id="minInterval" />
+    <input placeholder="type a max number" type="number" id="endInterval" />
+    <button onclick="calculate()">calculate!</button>
+    <canvas id="myChart" width="400px" height="300px"></canvas>
     <table border="1">
         <thead>
             <tr>
@@ -21,7 +25,10 @@
         <tbody id="numberTrue"></tbody>
     </table>
 
-    <script>
+    <script src="chart.js"></script>
+    <script async>
+        let width = 1;
+        //let element = document.getElementById("myprogressBar");
         function isPrime(num) {
             for (let i = 2, s = Math.sqrt(num); i <= s; i++)
                 if (num % i === 0) return false;
@@ -32,6 +39,8 @@
             var quotient = Math.floor(num / 2);
             let secondmult = 0;
             let thirdmult = 0
+            let primes = [];
+
             for (let index = 2; index <= quotient; index++) {
                 if (isPrime(index) && (isPrime(num - index))) {
                     if (isPrime((index * quotient) + 1)) {
@@ -39,29 +48,105 @@
                     }
                 } else if (isPrime(index) ^ (isPrime(num - index))) {
                     if (isPrime((index * quotient) + 1)) {
+
                         secondmult++
                         console.log(index + " * " + quotient + " = " + ((index * quotient) + 1))
+                        if (index > 2) {
+                            primes.push((index * quotient) + 1)
+
+                        }
                     }
                 }
+
+
             }
-            return [secondmult, thirdmult];
+
+
+            return [secondmult, thirdmult, primes];
         }
         //}
-        for (let p = 2; p <= 2000; p++) {
-            let result = addition(p);
-            let color = ""
-            let background = ""
-            if (isPrime(p)) {
-                color = "white";
-                background = "black"
+        function calculate() {
+            document.getElementById("numberTrue").innerHTML = "";
+            let minInterval = document.getElementById("minInterval").value;
+            let endInterval = document.getElementById("endInterval").value;
+            if (minInterval > endInterval) {
+                let swap = minInterval;
+                minInterval = endInterval
+                endInterval = swap;
             }
-            document.getElementById("numberTrue").innerHTML += "<tr><td style='color:" + color + ";background-color:" + background + "'>"
-                + p + "</td><td>"
-                + result[0]
-                + "</td><td>" + result[1] +
-                "</td><td>" + isPrime(p) +
-                "</td></tr>";
+            let uniquePrimes = [];
+            let labels = []
+            let primeCount = []
+
+
+            for (let p = minInterval; p <= endInterval; p++) {
+                let result = addition(p);
+                labels.push(p);
+                primeCount.push(result[0])
+                let color = ""
+                let background = ""
+                if (isPrime(p)) {
+                    color = "white";
+                    background = "black"
+                }
+                result[2].forEach(element => {
+                    uniquePrimes.push(element)
+                });
+                //uniquePrimes.push(result[2])
+
+
+                document.getElementById("numberTrue").innerHTML += "<tr><td style='color:" + color + ";background-color:" + background + "'>"
+                    + p + "</td><td>"
+                    + result[0]
+                    + "</td><td>" + result[1] +
+                    "</td><td>" + isPrime(p) +
+                    "</td></tr>";
+
+
+
+            }
+
+            let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) { return a - b })
+            console.log(uniquePrimes2 + " count => " + uniquePrimes2.length)
+            document.getElementById('myChart').innerHTML = ""
+            const ctx = document.getElementById('myChart')
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of primes',
+                        data: primeCount,
+                        backgroundColor: [
+                            'rgba(26, 188, 156,1.0)',
+                            'rgba(192, 57, 43,1.0)',
+                            'rgba(241, 196, 15,1.0)',
+                            'rgba(142, 68, 173,1.0)',
+
+                        ],
+                        borderColor: [
+                            'rgba(26, 188, 156,1.0)',
+                            'rgba(192, 57, 43,1.0)',
+                            'rgba(241, 196, 15,1.0)',
+                            'rgba(142, 68, 173,1.0)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
         }
+
+        /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
+        window.location.href = image;*/
+
     </script>
 </body>
 
