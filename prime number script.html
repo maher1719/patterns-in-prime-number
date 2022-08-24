@@ -26,9 +26,7 @@
     </table>
 
     <script src="chart.js"></script>
-    <script async>
-        let width = 1;
-        //let element = document.getElementById("myprogressBar");
+    <script>
         function isPrime(num) {
             for (let i = 2, s = Math.sqrt(num); i <= s; i++)
                 if (num % i === 0) return false;
@@ -48,20 +46,14 @@
                     }
                 } else if (isPrime(index) ^ (isPrime(num - index))) {
                     if (isPrime((index * quotient) + 1)) {
-
                         secondmult++
                         console.log(index + " * " + quotient + " = " + ((index * quotient) + 1))
                         if (index > 2) {
                             primes.push((index * quotient) + 1)
-
                         }
                     }
                 }
-
-
             }
-
-
             return [secondmult, thirdmult, primes];
         }
         //}
@@ -69,17 +61,16 @@
             document.getElementById("numberTrue").innerHTML = "";
             let minInterval = document.getElementById("minInterval").value;
             let endInterval = document.getElementById("endInterval").value;
-            if (minInterval > endInterval) {
+            /*if (minInterval > endInterval) {
                 let swap = minInterval;
                 minInterval = endInterval
                 endInterval = swap;
-            }
+            }*/
+
             let uniquePrimes = [];
             let labels = []
             let primeCount = []
-
-
-            for (let p = minInterval; p <= endInterval; p++) {
+            for (let p = Number(minInterval); p <= Number(endInterval); p++) {
                 let result = addition(p);
                 labels.push(p);
                 primeCount.push(result[0])
