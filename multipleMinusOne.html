@@ -9,15 +9,18 @@
 </head>
 
 <body>
+    <canvas id="myChart" width="400px" height="300px"></canvas>
+    <canvas id="myChart2" width="400px" height="300px"></canvas>
     <input placeholder="type a min number" type="number" id="minInterval" />
     <input placeholder="type a max number" type="number" id="endInterval" />
     <button onclick="calculate()">calculate!</button>
-    <canvas id="myChart" width="400px" height="300px"></canvas>
+
     <table border="1">
         <thead>
             <tr>
                 <th>number</th>
                 <th>one number is prime</th>
+                <th>primes minus One</th>
                 <th>both two numbers are primes</th>
                 <th>isPrime</th>
             </tr>
@@ -53,29 +56,29 @@
                             primes.push((index * quotient) + 1)
                         }
                     }
+                    if (isPrime((index * quotient) - 1)) {
+                        multipleMinusOne++
+                    }
+
                 }
             }
-            return [secondmult, thirdmult, primes];
+
+            return [secondmult, thirdmult, primes, multipleMinusOne];
         }
         //}
         function calculate() {
-            var startTime = performance.now()
             document.getElementById("numberTrue").innerHTML = "";
             let minInterval = document.getElementById("minInterval").value;
             let endInterval = document.getElementById("endInterval").value;
-            /*if (minInterval > endInterval) {
-                let swap = minInterval;
-                minInterval = endInterval
-                endInterval = swap;
-            }*/
-
             let uniquePrimes = [];
             let labels = []
             let primeCount = []
+            let primeCountMinusOneEquation = []
             for (let p = Number(minInterval); p <= Number(endInterval); p++) {
                 let result = addition(p);
                 labels.push(p);
                 primeCount.push(result[0])
+                primeCountMinusOneEquation.push(result[3])
                 let color = ""
                 let background = ""
                 if (isPrime(p)) {
@@ -87,21 +90,19 @@
                 });
                 //uniquePrimes.push(result[2])
 
-
-                document.getElementById("numberTrue").innerHTML += "<tr><td style='color:" + color + ";background-color:" + background + "'>"
-                    + p + "</td><td>"
-                    + result[0]
-                    + "</td><td>" + result[1] +
-                    "</td><td>" + isPrime(p) +
-                    "</td></tr>";
+                console.log(result)
+                document.getElementById("numberTrue").innerHTML += "<tr>"
+                    + "<td style='color:" + color + ";background-color:" + background + "'>"
+                    + p + "</td>"
+                    + "<td>" + result[0] + "</td>"
+                    + "<td>" + result[3] + "</td>"
+                    + "<td>" + result[1] + "</td>"
+                    + "<td>" + isPrime(p) + "</td>"
+                    + "</tr>";
 
 
 
             }
-
-            var endTime = performance.now()
-
-            alert(`Call to doSomething took ${endTime - startTime} milliseconds`)
 
             let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) { return a - b })
             console.log(uniquePrimes2 + " count => " + uniquePrimes2.length)
@@ -112,7 +113,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: '# of primes',
+                        label: '# of primes equation +1',
                         data: primeCount,
                         backgroundColor: [
                             'rgba(26, 188, 156,1.0)',
@@ -139,7 +140,45 @@
                     }
                 }
             });
+
+            const ctx2 = document.getElementById('myChart2')
+            const myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of primes equation -1',
+                        data: primeCountMinusOneEquation,
+                        backgroundColor: [
+                            'rgba(26, 188, 156,1.0)',
+                            'rgba(192, 57, 43,1.0)',
+                            'rgba(241, 196, 15,1.0)',
+                            'rgba(142, 68, 173,1.0)',
+
+                        ],
+                        borderColor: [
+                            'rgba(26, 188, 156,1.0)',
+                            'rgba(192, 57, 43,1.0)',
+                            'rgba(241, 196, 15,1.0)',
+                            'rgba(142, 68, 173,1.0)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+
         }
+
+
 
         /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
         window.location.href = image;*/
