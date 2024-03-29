@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head border="1">
+<table>
+    <thead>
+        <tr>
+            <td>
+                number
+            </td>
+            <td>
+                Sum
+            </td>
+            <td>
+                root
+            </td>
+            <td>
+                sqrt
+            </td>
+            <td>
+                pythagorian triple
+            </td>
+        </tr>
+    </thead>
+    <tbody id="body">
+
+    </tbody>
+</table>
+
+<body>
+    <script>
+        function isPrime(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+        let sum = 0
+        let arraySum = []
+        let style = ""
+        for (let number = 1; number < 100000; number++) {
+
+            if (number % 2 == 1) {
+                let preSum = sum;
+                sum += number;
+                arraySum.push(sum)
+                if (Math.sqrt(sum) % 2 == 1 && (arraySum.indexOf(number) != -1)) {
+                    if (isPrime(Math.sqrt(sum))) {
+                        style = "background-color:black;color:white"
+                    }
+                    else {
+                        style = ""
+                    }
+                    document.getElementById("body").innerHTML += "<tr><td>"
+                        + number
+                        + "</td><td>"
+                        + sum
+                        + "</td><td>"
+                        + Math.sqrt(sum)
+                        + "</td><td>"
+                        + Math.sqrt(number)
+                        + "</td><td style='" + style + "'>"
+                        + "(" + (Math.sqrt(number) + "," + (Math.sqrt(sum) - 1) + "," + (Math.sqrt(sum))) + ")"
+                        + "<td></tr>"
+                }
+            }
+        }
+
+    </script>
+</body>
+
+</html>

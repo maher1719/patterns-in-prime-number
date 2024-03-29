@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="number" min="2" id="number">
+    <input type="button" value="calculate isPrime" onclick="TimeIsPrime()" />
+    <input type="button" value="calculate isPrime2" onclick="TimeIsPrime2()" />
+    <div id="results"></div>
+    <script>
+        function isPrime(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+        function isPrime12(num) {
+            const s = Math.sqrt(num);
+            for (let i = 2; i <= s; i++)
+                if (isP(i))
+                    if (num % i === 0) return false;
+            return num > 1;
+        }
+        function isPrime2(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++) {
+                if ((num - i) % i == 0) { return false };
+                return num > 1;
+            }
+        }
+        function isP(nu) {
+            num = Math.sqrt(nu)
+            let start = 2
+            let prime = true;
+            while (start <= num) {
+                if (isP(start)) {
+                    if (nu % start === 0) {
+                        //console.log(num, start, (num % start == 0))
+                        return false;
+
+                    }
+                }
+
+                start++
+            }
+            return prime;
+        }
+        function isP2(nu) {
+            num = Math.sqrt(nu)
+            let start = 2
+            let prime = true;
+            while (start <= num) {
+
+                if (nu % start === 0) {
+                    //console.log(num, start, (num % start == 0))
+                    return false;
+
+                }
+
+                start++
+            }
+            return prime;
+        }
+        const numberToCheck = document.getElementById('number').value;
+        document.getElementById('results').innerHTML = "";
+        let primesFromIsPrime = [];
+        let primesFromIsPrime2 = [];
+
+
+
+        function TimeIsPrime() {
+            const numberToCheck = document.getElementById('number').value;
+            let startTime = performance.now()
+            for (let number = 2; number <= numberToCheck; number++) {
+                if (isPrime(number))
+                    primesFromIsPrime.push(number)
+
+
+            }
+            let endTime = performance.now()
+            console.log(`Call to isPrime took ${endTime - startTime} milliseconds`)
+            document.getElementById('results').innerHTML += "<div>" + `Call to isPrime took ${endTime - startTime} milliseconds</div>`;
+        }
+
+        function TimeIsPrime2() {
+            const numberToCheck = document.getElementById('number').value;
+            let startTime = performance.now()
+            for (let number = 2; number <= numberToCheck; number++) {
+                if (isP(number))
+                    primesFromIsPrime2.push(number)
+            }
+            let endTime = performance.now()
+
+            console.log(`Call to isPrime2 took ${endTime - startTime} milliseconds`)
+            document.getElementById('results').innerHTML += "<div>" + `Call to isPrime2 took ${endTime - startTime} milliseconds</div>`;
+            console.log(JSON.stringify(primesFromIsPrime) == JSON.stringify(primesFromIsPrime2));
+            //console.log(primesFromIsPrime.filter(x => !primesFromIsPrime2.includes(x)))
+        }
+
+
+
+    </script>
+</body>
+
+</html>

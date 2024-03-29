@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="result"></div>
+    <script>
+        function isPrime(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+
+        for (let number = 10000; number <= 15000; number++) {
+            if (isPrime(number)) {
+                let divded = Math.floor((Math.pow(number, 2)) / 2)
+                console.log()
+                document.getElementById("result").innerHTML += "<div>(" + number + " , " + divded + " , " + (divded + 1) + ") ==> " + Math.pow(number, 2) + " + " + (Math.pow(divded, 2)) + " = " + (Math.pow((divded + 1), 2)) + " ====> " + ((Math.pow(number, 2)) + (Math.pow(divded, 2)) == (Math.pow((divded + 1), 2))) + "</div>"
+
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -137,11 +137,11 @@
 
             for (let index = 2; index <= quotient; index++) {
                 if (isPrime(index) && (isPrime(num - index))) {
-                    if (isPrime((index * quotient) + 1)) {
+                    if (isPrime((index * (num - index)) + 1)) {
                         thirdmult++
                     }
                 } else if (isPrime(index) ^ (isPrime(num - index))) {
-                    if (isPrime((index * quotient) + 1)) {
+                    if (isPrime((index * (num - index)) + 1)) {
                         secondmult++
                         console.log(index + " * " + quotient + " = " + ((index * quotient) + 1))
                         if (index > 2) {

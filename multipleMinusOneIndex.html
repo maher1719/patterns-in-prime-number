@@ -33,7 +33,9 @@
 
     <div id="result_primes_found"></div>
     <script src="chart.js"></script>
+    <script src="primeFactors.js"></script>
     <script>
+
         function isPrime(num) {
             for (let i = 2, s = Math.sqrt(num); i <= s; i++)
                 if (num % i === 0) return false;
@@ -47,23 +49,36 @@
             let primes = [];
             let multipleMinusOne = 0;
 
-            for (let index = 3; index <= numberToGeneratePrimes - 2; index++) {
-                if (/*isPrime(index) ||*/ (isPrime(numberToGeneratePrimes - index))) {
+            for (let index = 3; index <= numberToGeneratePrimes; index++) {
+                if ((/*isPrime(index) ||*/ (isPrime(numberToGeneratePrimes - index))) && (numberToGeneratePrimes - index > 2)) {
+                    let possibleTwin1,possibleTwin2;
                     if (isPrime((index * quotient) + 1)) {
+
                         secondmult++
+                        possibleTwin1=(index * quotient) + 1;
                         console.log(index + " * " + quotient + " + 1 = " + ((index * quotient) + 1))
                         //if ((numberToGeneratePrimes - index) > 2) {
                         primes.push((index * quotient) + 1)
+                        
                         //}
                     }
                     if (isPrime((index * quotient) - 1)) {
 
                         //if ((numberToGeneratePrimes - index) > 2) {
                         multipleMinusOne++;
+                        possibleTwin2=(index * quotient) - 1
                         primes.push((index * quotient) - 1)
                         //}
 
                         console.log(index + " * " + quotient + " - 1 = " + ((index * quotient) - 1))
+                    }
+                    if (possibleTwin1-possibleTwin2==2) {
+
+                        //if ((numberToGeneratePrimes - index) > 2) {
+                        //}
+                        console.log(primeFactors(index))
+                        console.log(index * quotient + "=> " + index + " * " + quotient + " - 1 = " + ((index * quotient) - 1) + " || " + index + " * " + quotient + " + 1 = " + ((index * quotient) + 1))
+
                     }
 
                 }
@@ -73,6 +88,7 @@
         }
         //}
         function calculate() {
+            let uniqueFact = []
             document.getElementById("numberTrue").innerHTML = "";
             let minInterval = document.getElementById("minInterval").value;
             let endInterval = document.getElementById("endInterval").value;
@@ -110,6 +126,16 @@
                     exceptionBackgroundColor = "blue";
                     exceptionColor = "white";
                 }
+                if ((number - 1) % 12 == 0) {
+
+                    exceptionBackgroundColor = "yellow";
+                    exceptionColor = "black";
+                }
+                /*if ((number + 1) % 12 == 0) {
+
+                    exceptionBackgroundColor = "green";
+                    exceptionColor = "black";
+                }*/
                 document.getElementById("numberTrue").innerHTML += "<tr style='color:" + exceptionColor + ";background-color:" + exceptionBackgroundColor + "'>"
                     + "<td style='color:" + color + ";background-color:" + background + "'>"
                     + number + "</td>"
@@ -129,11 +155,13 @@
             let twinPrimes = []
 
 
+
             for (let index = 0; index < uniquePrimes2.length; index++) {
                 if (uniquePrimes2[index] - uniquePrimes2[index - 1] == 2) {
                     content += "<span style='color:red'>" + uniquePrimes2[index] + "</span>, "
                     twinPrimes.push(uniquePrimes2[index - 1])
                     twinPrimes.push(uniquePrimes2[index])
+                    //uniqueFact.push(index + "=>" + primeFactors(index))
 
                 } else {
                     content += uniquePrimes2[index] + " , "
@@ -229,6 +257,7 @@
 
 
         }
+
 
 
 

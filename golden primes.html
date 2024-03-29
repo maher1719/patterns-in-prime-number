@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function isPrime(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+        let powerTwo = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096]
+        let sequence = []
+        let results = []
+        let index = 2;
+        let numberPrime = 0
+        for (let number = 3; number <= Math.pow(2, 24); number++) {
+            if (isPrime(number)) {
+                let power = Math.pow(2, index)
+                if (number > power) {
+                    let division = Number(index)
+                    results.push((sequence.length + 1) / division)
+                    //console.log(sequence)
+                    sequence = [];
+                    index++
+                }
+                sequence.push(number)
+                numberPrime++
+            }
+        }
+        let results2 = [];
+        let results3 = [];
+        let results4 = [];
+        for (let x = 0; x < results.length - 1; x++) {
+            console.log(results[x] / results[x + 1])
+            results2.push(results[x] / results[x + 1])
+        }
+        console.log("***************************")
+        for (let x = 0; x < results2.length - 1; x++) {
+            console.log(results2[x] / results2[x + 1])
+            results3.push(results2[x] / results2[x + 1])
+        }
+        console.log("***************************")
+        for (let x = 0; x < results3.length - 1; x++) {
+            console.log(results3[x] / results3[x + 1])
+            results4.push(results3[x] / results3[x + 1])
+
+        }
+        console.log("***************************")
+        for (let x = 0; x < results4.length - 1; x++) {
+            console.log(results4[x] / results4[x + 1])
+
+        }
+        console.log(results)
+    </script>
+</body>
+
+</html>

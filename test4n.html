@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="result"></div>
+    <script>
+        // general function to test of the primilaity of give n number
+        function isPrime(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+        function addition(num) {
+            console.log(num)
+            // 
+            var quotient = Math.floor(num / 2);
+            let secondmult = 0;
+            let thirdmult = 0
+            let primes = [];
+            let multipleMinusOne = 0;
+
+            for (let index = 3; index <= quotient; index++) {
+                if (isPrime(index) || isPrime(num - index)) {
+                    if (isPrime((index * quotient) + 1)) {
+                        secondmult++
+                        console.log(num)
+                        console.log(index + " * " + quotient + " + 1 = " + ((index * quotient) + 1))
+                        if (index > 2) {
+                            primes.push((index * quotient) + 1)
+                        }
+                    }
+                    if (isPrime((index * quotient) - 1)) {
+                        multipleMinusOne++
+                        console.log(index + " * " + quotient + " - 1 = " + ((index * quotient) - 1))
+                    }
+
+                }
+            }
+
+            return [secondmult, thirdmult, primes, multipleMinusOne];
+        }
+        for (let num = 1; num <= 10000; num++) {
+            let numberToCheck = Number(4 * num + 2)
+            addition(numberToCheck)
+        }
+
+    </script>
+</body>
+
+</html>

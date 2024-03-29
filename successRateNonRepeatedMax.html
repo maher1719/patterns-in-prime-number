@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<input type="number" id="minNumber" />
+<input type="number" id="maxNumber" />
+<button id="calculate" onclick="calculate()">calculate!</button>
+<p id="progression"></p>
+<div id="results"></div>
+
+<body>
+    <script>
+        function isPrime(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+
+        function calculate() {
+            let numbersPlusTwoTrue = []
+            let maxTwinFound = 0
+            let maxPrimeAndTwinCombination = {};
+            const maxNumber = document.getElementById('maxNumber').value
+            const minNumber = document.getElementById('minNumber').value
+            document.getElementById("results").innerHTML = "";
+            for (let n = minNumber; n <= maxNumber; n++) {
+                console.log((n / maxNumber) * 100, "%")
+                let primeCount = 0;
+                let successPlusTwo = 0
+                let successMinusTwo = 0
+                document.getElementById("results").innerHTML += "Number <b>" + n + "</b><br/>"
+                for (let m = n; m <= maxNumber; m++) {
+
+                    let testingNumber = ((4 * n) / 2) * m + 1;
+                    if (isPrime(testingNumber)) {
+                        primeCount++;
+                        if (isPrime(testingNumber + 2)) {
+                            successPlusTwo++
+                            if (maxTwinFound < testingNumber + 2) {
+                                maxTwinFound = Number(testingNumber + 2)
+                                maxPrimeAndTwinCombination = JSON.parse('{ "prime": ' + n + ', "twinPlusTwo": ' + maxTwinFound + '}')
+                            }
+                        }
+                        if (isPrime(testingNumber - 2)) {
+                            successMinusTwo++
+                        }
+
+                        document.getElementById("results").innerHTML += "<div>" + n + " " + m + " " + testingNumber + " is twin p-2? " + isPrime(testingNumber - 2) + " is twin p+2? " + isPrime(testingNumber + 2) + "</div>"
+                    }
+
+
+
+                }
+                if (primeCount > 0) {
+                    document.getElementById("results").innerHTML += "<br/><div>" + n + " prime count=>" + primeCount + " sucess Rate -2 => " + (successMinusTwo / primeCount) * 100 + "% sucess Rate +2 => <b>" + (successPlusTwo / primeCount) * 100 + "%</b></div>"
+                }
+            }
+            document.getElementById("results").innerHTML += "<div>" + maxPrimeAndTwinCombination.prime + " Twin Number =>" + maxPrimeAndTwinCombination.twinPlusTwo
+        }
+        //console.log(numbersPlusTwoTrue.sort((a, b) => b - a));
+
+    </script>
+</body>
+
+</html>
