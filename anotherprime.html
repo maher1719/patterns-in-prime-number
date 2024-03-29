@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function isPrime(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+        let numbersPlusTwoTrue = []
+        let maxTwinFound = 0
+        let maxPrimeAndTwinCombination = {};
+        for (let n = 2; n <= 6000; n++) {
+            let primeCount = 0;
+            let successPlusTwo = 0
+            let successMinusTwo = 0
+
+
+            for (let m = 2; m <= 6000; m++) {
+
+                if (isPrime(n) && isPrime(m)) {
+                    let testingNumber = ((4 * n) / 2) * m + 1;
+                    if (isPrime(testingNumber)) {
+                        primeCount++;
+                        if (isPrime(testingNumber + 2)) {
+                            successPlusTwo++
+                            if (maxTwinFound < testingNumber + 2) {
+                                maxTwinFound = Number(testingNumber + 2)
+                                maxPrimeAndTwinCombination = JSON.parse('{ "prime": ' + n + ', "twinPlusTwo": ' + maxTwinFound + '}')
+                            }
+                        }
+                        if (n==3 && isPrime(testingNumber - 2)) {
+                            successMinusTwo++
+                        }
+
+                        document.writeln("<div>" + n + " " + m + " " + testingNumber + " is twin p-2? " + isPrime(testingNumber - 2) + " is twin p+2? " + isPrime(testingNumber + 2) + "</div>")
+                    }
+
+                }
+
+            }
+            if (primeCount > 0) {
+                document.writeln("<div> prime count=>" + primeCount + " sucess Rate -2 => " + (successMinusTwo / primeCount) * 100 + "% sucess Rate +2 => " + (successPlusTwo / primeCount) * 100 + "%</div>")
+            }
+        }
+        //console.log(numbersPlusTwoTrue.sort((a, b) => b - a));
+        document.writeln("<div>" + maxPrimeAndTwinCombination.prime + " Twin Number =>" + maxPrimeAndTwinCombination.twinPlusTwo)
+    </script>
+</body>
+
+</html>

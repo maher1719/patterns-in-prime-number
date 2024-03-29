@@ -11,13 +11,10 @@
 <body>
     <canvas id="myChart" width="400px" height="300px"></canvas>
     <canvas id="myChart2" width="400px" height="300px"></canvas>
-    <div>
-        <input placeholder="type a min number" type="number" id="minInterval" />
-        <input placeholder="type a max number" type="number" id="endInterval" />
+    <input placeholder="type a min number" type="number" id="minInterval" />
+    <input placeholder="type a max number" type="number" id="endInterval" />
+    <button onclick="calculate()">calculate!</button>
 
-        <button onclick="calculate()">calculate!</button>
-    </div>
-    <div id="ratio"></div>
     <table border="1">
         <thead>
             <tr>
@@ -31,7 +28,6 @@
         <tbody id="numberTrue"></tbody>
     </table>
 
-    <div id="result_primes_found"></div>
     <script src="chart.js"></script>
     <script>
         function isPrime(num) {
@@ -39,31 +35,25 @@
                 if (num % i === 0) return false;
             return num > 1;
         }
-        function addition(numberToGeneratePrimes) {
-            console.log(numberToGeneratePrimes)
-            var quotient = Math.floor(numberToGeneratePrimes / 2);
+        function addition(num) {
+            console.log(num)
+            var quotient = Math.floor(num / 2);
             let secondmult = 0;
             let thirdmult = 0
             let primes = [];
             let multipleMinusOne = 0;
 
-            for (let index = 3; index <= numberToGeneratePrimes - 2; index++) {
-                if (/*isPrime(index) ||*/ (isPrime(numberToGeneratePrimes - index))) {
-                    if (isPrime((index * quotient) + 1)) {
+            for (let index = 3; index <= quotient; index++) {
+                if (isPrime(index) || (isPrime(num - index))) {
+                    if (isPrime((index * quotient) + 2)) {
                         secondmult++
-                        console.log(index + " * " + quotient + " + 1 = " + ((index * quotient) + 1))
-                        //if ((numberToGeneratePrimes - index) > 2) {
-                        primes.push((index * quotient) + 1)
-                        //}
+                        console.log(index + " * " + quotient + " = " + ((index * quotient) + 2))
+                        if (index > 2) {
+                            primes.push((index * quotient) + 2)
+                        }
                     }
-                    if (isPrime((index * quotient) - 1)) {
-
-                        //if ((numberToGeneratePrimes - index) > 2) {
-                        multipleMinusOne++;
-                        primes.push((index * quotient) - 1)
-                        //}
-
-                        console.log(index + " * " + quotient + " - 1 = " + ((index * quotient) - 1))
+                    if (isPrime((index * quotient) - 2)) {
+                        multipleMinusOne++
                     }
 
                 }
@@ -79,19 +69,15 @@
             let uniquePrimes = [];
             let labels = []
             let primeCount = []
-            let primesCountPlus = 0;
-            let primesCountMinus = 0;
             let primeCountMinusOneEquation = []
-            for (let number = Number(minInterval); number <= Number(endInterval); number++) {
-                let result = addition(number);
-                labels.push(number);
+            for (let p = Number(minInterval); p <= Number(endInterval); p++) {
+                let result = addition(p);
+                labels.push(p);
                 primeCount.push(result[0])
-                primesCountPlus += result[0];
-                primesCountMinus += result[3]
                 primeCountMinusOneEquation.push(result[3])
                 let color = ""
                 let background = ""
-                if (isPrime(number)) {
+                if (isPrime(p)) {
                     color = "white";
                     background = "black"
                 }
@@ -100,23 +86,14 @@
                 });
                 //uniquePrimes.push(result[2])
 
-                //console.log(result)
-
-                let exceptionBackgroundColor = ""
-                let exceptionColor = "black"
-                //condition for not generate any primes if num=p
-                if ((number - 2) % 4 == 0) {
-
-                    exceptionBackgroundColor = "blue";
-                    exceptionColor = "white";
-                }
-                document.getElementById("numberTrue").innerHTML += "<tr style='color:" + exceptionColor + ";background-color:" + exceptionBackgroundColor + "'>"
+                console.log(result)
+                document.getElementById("numberTrue").innerHTML += "<tr>"
                     + "<td style='color:" + color + ";background-color:" + background + "'>"
-                    + number + "</td>"
+                    + p + "</td>"
                     + "<td>" + result[0] + "</td>"
                     + "<td>" + result[3] + "</td>"
                     + "<td>" + result[1] + "</td>"
-                    + "<td>" + isPrime(number) + "</td>"
+                    + "<td>" + isPrime(p) + "</td>"
                     + "</tr>";
 
 
@@ -124,41 +101,9 @@
             }
 
             let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) { return a - b })
-            //console.log(uniquePrimes2 + " count => " + uniquePrimes2.length)
-            content = "";
-            let twinPrimes = []
-
-
-            for (let index = 0; index < uniquePrimes2.length; index++) {
-                if (uniquePrimes2[index] - uniquePrimes2[index - 1] == 2) {
-                    content += "<span style='color:red'>" + uniquePrimes2[index] + "</span>, "
-                    twinPrimes.push(uniquePrimes2[index - 1])
-                    twinPrimes.push(uniquePrimes2[index])
-
-                } else {
-                    content += uniquePrimes2[index] + " , "
-                }
-                if (index % 10 == 0) {
-                    content += "<br/>"
-                }
-
-
-            }
-            let primesResults = "<div> primes plus 1= " + primesCountPlus + " prime minus 1= " + primesCountMinus + " </div>";
-            document.getElementById("ratio").innerHTML = " ratio unique primes / twin primes " + uniquePrimes2.length + " / " + twinPrimes.length + " = " + (uniquePrimes2.length / twinPrimes.length)
-            document.getElementById("ratio").innerHTML += primesResults
-            document.getElementById("ratio").innerHTML += " ratio primes plus / primes minus =" + (primesCountPlus / primesCountMinus)
-            document.getElementById("result_primes_found").innerHTML = "<div>" + content + "</div>" + (uniquePrimes2.length / twinPrimes.length);
-            let twinPrimesFound = "";
-            //console.log(twinPrimes)
-            let seperator = ","
-            twinPrimes.forEach((element, index) => {
-                twinPrimesFound += element + " " + seperator
-            });
-            document.getElementById("result_primes_found").innerHTML += "<div>" + twinPrimesFound + "</div>";
+            console.log(uniquePrimes2 + " count => " + uniquePrimes2.length)
             document.getElementById('myChart').innerHTML = ""
             const ctx = document.getElementById('myChart')
-
             const myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -193,7 +138,6 @@
             });
 
             const ctx2 = document.getElementById('myChart2')
-
             const myChart2 = new Chart(ctx2, {
                 type: 'bar',
                 data: {

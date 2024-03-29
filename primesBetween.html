@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+
+<script>
+function findPrimes(n, m) {
+    let primes = [];
+    for(let i = n; i <= m; i++) {
+        if(isPrime(i)) {
+            primes.push(i);
+        }
+    }
+    return primes;
+}
+
+function isPrime(num) {
+    for(let i = 2, sqrt = Math.sqrt(num); i <= sqrt; i++)
+        if(num % i === 0) return false; 
+    return num > 1;
+}
+
+console.log(findPrimes(301950603901, 302151604301)); // Call the function
+
+</script>
+</html>

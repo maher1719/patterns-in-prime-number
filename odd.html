@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head border="1">
+<table>
+    <thead>
+        <tr>
+            <td>
+                number
+            </td>
+            <td>
+                Sum
+            </td>
+            <td>
+                root
+            </td>
+            <td>
+                cbrt
+            </td>
+            <td>
+                fourth
+            </td>
+            <td>
+                fifth
+            </td>
+            <td>
+                sixth
+            </td>
+            <td>
+                ninth
+            </td>
+            <td>
+                twelveth
+            </td>
+        </tr>
+    </thead>
+    <tbody id="body">
+
+    </tbody>
+</table>
+
+<body>
+    <script>
+        let sum = 0
+        
+        for (let number = 1; number < 4000; number++) {
+
+            if (number % 2 == 1) {
+                let preSum = sum;
+                sum += number;
+
+                let sixthRoot = Math.pow(sum, 1 / 6);
+                let sixthRootFloor = Math.floor(sixthRoot);
+                if ((sixthRoot - sixthRootFloor == 0.9999999999999996) || (sixthRoot - sixthRootFloor == 0.999999999999999)) {
+                    sixthRoot = sixthRootFloor + 1;
+                }
+                if ((sixthRoot - sixthRootFloor == 0.999999999999999)) {
+                    sixthRoot = sixthRootFloor + 1;
+                }
+                //if (Math.sqrt(sum) % 2 == 1)
+                    document.getElementById("body").innerHTML += "<tr><td>"
+                        + number
+                        + "</td><td>"
+                        + sum
+                        + "</td><td>"
+                        + Math.sqrt(sum)
+                        + "</td><td>"
+                        + Math.cbrt(sum)
+                        + "</td><td>"
+                        + Math.pow(sum, 1 / 4)
+                        + "</td><td>"
+                        + Math.pow(sum, 1 / 5)
+                        + "</td><td>"
+                        + sixthRoot
+                        + "</td><td>"
+                        + Math.pow(sum, 1 / 9)
+                        + "</td><td>"
+                        + Math.pow(sum, 1 / 12)
+                        + "<td></tr>"
+            }
+        }
+
+    </script>
+</body>
+
+</html>

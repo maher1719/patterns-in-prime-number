@@ -13,6 +13,7 @@
     <input placeholder="type a max number" type="number" id="endInterval" />
     <button onclick="calculate()">calculate!</button>
     <canvas id="myChart" width="400px" height="300px"></canvas>
+    <canvas id="myChart2" width="400px" height="300px"></canvas>
     <table border="1">
         <thead>
             <tr>
@@ -39,8 +40,7 @@
             let thirdmult = 0
             let primes = [];
             let multipleMinusOne = 0;
-
-            for (let index = 2; index <= quotient; index++) {
+            for (let index = 3; index <= quotient; index++) {
                 if (isPrime(index) && (isPrime(num - index))) {
                     if (isPrime((index * quotient) + 1)) {
                         thirdmult++
@@ -63,19 +63,16 @@
             document.getElementById("numberTrue").innerHTML = "";
             let minInterval = document.getElementById("minInterval").value;
             let endInterval = document.getElementById("endInterval").value;
-            /*if (minInterval > endInterval) {
-                let swap = minInterval;
-                minInterval = endInterval
-                endInterval = swap;
-            }*/
 
             let uniquePrimes = [];
             let labels = []
             let primeCount = []
+            let primeCountBothPrime = []
             for (let p = Number(minInterval); p <= Number(endInterval); p++) {
                 let result = addition(p);
                 labels.push(p);
                 primeCount.push(result[0])
+                primeCountBothPrime.push(result[1])
                 let color = ""
                 let background = ""
                 if (isPrime(p)) {
@@ -85,30 +82,23 @@
                 result[2].forEach(element => {
                     uniquePrimes.push(element)
                 });
-                //uniquePrimes.push(result[2])
-
-
                 document.getElementById("numberTrue").innerHTML += "<tr><td style='color:" + color + ";background-color:" + background + "'>"
                     + p + "</td><td>"
                     + result[0]
                     + "</td><td>" + result[1] +
                     "</td><td>" + isPrime(p) +
                     "</td></tr>";
-
-
-
             }
 
             var endTime = performance.now()
 
-            alert(`Call to doSomething took ${endTime - startTime} milliseconds`)
+            console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
 
             let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) { return a - b })
             console.log(uniquePrimes2 + " count => " + uniquePrimes2.length)
-            document.getElementById('myChart').innerHTML = ""
             const ctx = document.getElementById('myChart')
             const myChart = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
@@ -136,11 +126,51 @@
                         y: {
                             beginAtZero: true
                         }
-                    }
+                    },
+                    pointStyle: "dash"
+                }
+            });
+
+            const ctx2 = document.getElementById('myChart2')
+            const myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of primes of both primes',
+                        data: primeCount,
+                        backgroundColor: [
+                            'rgba(26, 188, 156,1.0)',
+                            'rgba(192, 57, 43,1.0)',
+                            'rgba(241, 196, 15,1.0)',
+                            'rgba(142, 68, 173,1.0)',
+
+                        ],
+                        borderColor: [
+                            'rgba(26, 188, 156,1.0)',
+                            'rgba(192, 57, 43,1.0)',
+                            'rgba(241, 196, 15,1.0)',
+                            'rgba(142, 68, 173,1.0)',
+
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    fill: false,
+                    interaction: {
+                        intersect: false
+                    },
+                    radius: 0,
+
                 }
             });
         }
-
         /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
         window.location.href = image;*/
 

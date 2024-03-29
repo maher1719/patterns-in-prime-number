@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body id="body">
+    <script>
+        function isPrime(num) {
+            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+                if (num % i === 0) return false;
+            return num > 1;
+        }
+        document.getElementById("body").innerHTML = ""
+        for (j = 1; j <= 22; j++) {
+            let numberTwin = 0;
+            let primeNumbersCount = 0;
+            for (let number = Math.pow(2, j - 1); number < Math.pow(2, j); number++) {
+                if (isPrime(number)) {
+                    primeNumbersCount++
+                }
+                if (isPrime(number) && isPrime(number + 2)) {
+                    numberTwin += 2
+                }
+            }
+            primeNumbersCount -= numberTwin;
+            document.getElementById("body").innerHTML += primeNumbersCount + " == " + numberTwin / primeNumbersCount + "  ==== " + j + " " + numberTwin + " ==>" + numberTwin / j + "<br>"
+        }
+    </script>
+</body>
+
+</html>
