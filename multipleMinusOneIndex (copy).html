@@ -39,12 +39,12 @@
     <script src="chart.js"></script>
     <script src="primeFactors.js"></script>
     <script>
-      function isPrime2(num) {
+      function isPrimeA(num) {
         for (let i = 2, s = Math.sqrt(num); i <= s; i++)
           if (num % i === 0) return false;
         return num > 1;
       }
-      function isPrime(num) {
+      function isPrime4(num) {
         if (num <= 1) return false;
         if (num <= 3) return true;
         if (num % 2 === 0 || num % 3 === 0) return false;
@@ -56,6 +56,59 @@
         }
 
         return true;
+      }
+      /**
+       * Performs the AKS primality test for a given number.
+       * @param {number} n - The number to test for primality.
+       * @returns {boolean} - True if the number is prime, false if the number is composite.
+       */
+      function isPrime(n) {
+        // Handle some base cases
+        if (n < 2) return false;
+        if (n <= 3) return true;
+        if (n % 2 === 0 || n % 3 === 0) return false;
+
+        // Step 1: Find the smallest r such that n^r is congruent to 1 modulo n
+        let r = 1;
+        while (true) {
+          if (modularExponentiation(n, r, n) === 1) break;
+          r++;
+        }
+
+        // Step 2: If r > floor(sqrt(n)), then n is prime
+        if (r > Math.floor(Math.sqrt(n))) {
+          return true;
+        }
+
+        // Step 3: Compute (x + 1)^n - (x^n + 1) and check if it is divisible by n
+        for (let x = 0; x < r; x++) {
+          let left = modularExponentiation(x + 1, n, n);
+          let right = (modularExponentiation(x, n, n) + 1) % n;
+          if ((left - right) % n !== 0) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      /**
+       * Performs modular exponentiation using the square-and-multiply algorithm.
+       * @param {number} base - The base number.
+       * @param {number} exponent - The exponent.
+       * @param {number} modulus - The modulus.
+       * @returns {number} The result of (base ^ exponent) % modulus.
+       */
+      function modularExponentiation(base, exponent, modulus) {
+        let result = 1;
+        while (exponent > 0) {
+          if (exponent % 2 === 1) {
+            result = (result * base) % modulus;
+          }
+          exponent >>= 1;
+          base = (base * base) % modulus;
+        }
+        return result;
       }
       function addition(numberToGeneratePrimes) {
         //console.log(numberToGeneratePrimes)
@@ -262,6 +315,21 @@
         document.getElementById("result_primes_found").innerHTML +=
           "<div>" + twinPrimesFound + "</div>";
         document.getElementById("myChart").innerHTML = "";
+        const backgroundColorChart = [
+          "rgba(142, 68, 173, 1.0)", // Purple
+          "rgba(26, 188, 156, 1.0)", // Turquoise
+          "rgba(243, 156, 18, 1.0)", // Orange
+          "rgba(46, 204, 113, 1.0)", // Green
+          "rgba(52, 152, 219, 1.0)", // Blue
+          "rgba(241, 196, 15, 1.0)", // Yellow
+          "rgba(231, 76, 60, 1.0)", // Red
+          "rgba(236, 112, 99, 1.0)", // Pink
+          "rgba(52, 152, 219, 1.0)", // Sky Blue
+          "rgba(0, 206, 209, 1.0)", // Teal
+          "rgba(199, 0, 255, 1.0)", // Violet
+          "rgba(255, 127, 80, 1.0)", // Coral
+        ];
+
         const ctx = document.getElementById("myChart");
 
         const myChart = new Chart(ctx, {
@@ -272,18 +340,7 @@
               {
                 label: "# of primes equation +1",
                 data: primeCount,
-                backgroundColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-                ],
-                borderColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-                ],
+                backgroundColor: backgroundColorChart,
                 borderWidth: 1,
               },
             ],
@@ -307,18 +364,7 @@
               {
                 label: "# of primes equation -1",
                 data: primeCountMinusOneEquation,
-                backgroundColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-                ],
-                borderColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-                ],
+                backgroundColor: backgroundColorChart,
                 borderWidth: 1,
               },
             ],
@@ -342,22 +388,7 @@
               {
                 label: "# twins",
                 data: primeTwinsException,
-                backgroundColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-
-                  "rgba(0, 0, 255,1.0)",
-                  "rgba(240, 0, 0,1.0)",
-                  "rgba(0, 0, 0,1.0)",
-                  "rgba(0, 248, 0,1.0)",
-
-                  "rgba(90, 95, 116,1.0)",
-                  "rgba(145, 74, 243,1.0)",
-                  "rgba(192, 110, 200,1.0)",
-                  "rgba(200, 0, 73,1.0)",
-                ],
+                backgroundColor: backgroundColorChart,
                 borderColor: [
                   "rgba(26, 188, 156,1.0)",
                   "rgba(192, 57, 43,1.0)",
@@ -459,18 +490,8 @@
               {
                 label: "# twins",
                 data: primeTwinsException3,
-                backgroundColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-                ],
-                borderColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-                ],
+                backgroundColor: backgroundColorChart,
+                borderColor: backgroundColorChart,
                 borderWidth: 1,
               },
             ],
@@ -494,18 +515,8 @@
               {
                 label: "# twins",
                 data: primeTwinsException4,
-                backgroundColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-                ],
-                borderColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-                ],
+                backgroundColor: backgroundColorChart,
+                borderColor: backgroundColorChart,
                 borderWidth: 1,
               },
             ],
@@ -563,38 +574,8 @@
               {
                 label: "# ratio ",
                 data: primeTwinsRatioPlusOne,
-                backgroundColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-
-                  "rgba(0, 0, 255,1.0)",
-                  "rgba(240, 0, 0,1.0)",
-                  "rgba(0, 0, 0,1.0)",
-                  "rgba(0, 248, 0,1.0)",
-
-                  "rgba(90, 95, 116,1.0)",
-                  "rgba(145, 74, 243,1.0)",
-                  "rgba(192, 110, 200,1.0)",
-                  "rgba(200, 0, 73,1.0)",
-                ],
-                borderColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-
-                  "rgba(90, 188, 156,1.0)",
-                  "rgba(45, 57, 43,1.0)",
-                  "rgba(22, 196, 15,1.0)",
-                  "rgba(11, 68, 173,1.0)",
-
-                  "rgba(90, 35, 156,1.0)",
-                  "rgba(45, 24, 43,1.0)",
-                  "rgba(22, 11, 15,1.0)",
-                  "rgba(11, 70, 173,1.0)",
-                ],
+                backgroundColor: backgroundColorChart,
+                borderColor: backgroundColorChart,
                 borderWidth: 1,
               },
               {
@@ -635,38 +616,8 @@
               {
                 label: "# ratio ",
                 data: primeReverseTwinsRatioPlusOne,
-                backgroundColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-
-                  "rgba(0, 0, 255,1.0)",
-                  "rgba(240, 0, 0,1.0)",
-                  "rgba(0, 0, 0,1.0)",
-                  "rgba(0, 248, 0,1.0)",
-
-                  "rgba(90, 95, 116,1.0)",
-                  "rgba(145, 74, 243,1.0)",
-                  "rgba(192, 110, 200,1.0)",
-                  "rgba(200, 0, 73,1.0)",
-                ],
-                borderColor: [
-                  "rgba(26, 188, 156,1.0)",
-                  "rgba(192, 57, 43,1.0)",
-                  "rgba(241, 196, 15,1.0)",
-                  "rgba(142, 68, 173,1.0)",
-
-                  "rgba(90, 188, 156,1.0)",
-                  "rgba(45, 57, 43,1.0)",
-                  "rgba(22, 196, 15,1.0)",
-                  "rgba(11, 68, 173,1.0)",
-
-                  "rgba(90, 35, 156,1.0)",
-                  "rgba(45, 24, 43,1.0)",
-                  "rgba(22, 11, 15,1.0)",
-                  "rgba(11, 70, 173,1.0)",
-                ],
+                backgroundColor: backgroundColorChart,
+                borderColor: backgroundColorChart,
                 borderWidth: 1,
               },
             ],
