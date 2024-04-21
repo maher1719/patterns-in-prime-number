@@ -41,3 +41,26 @@ function isPrimeNumber(x, primes) {
   }
   return true;
 }
+function calculateChTimeComplexity(y) {
+    return y * Math.sqrt(y / Math.log(y));
+  }
+  
+  function calculateSTimeComplexity(y) {
+    return y * Math.log(Math.log(Math.sqrt(y)));
+  }
+  function calculateSTimeComplexity2(y) {
+    return 2*y+(y*Math.sqrt(y));
+  }
+
+  function chT(y) {
+    return y * Math.sqrt(y / Math.log(y));
+  }
+  
+  function sT(y) {
+    return y * Math.log(Math.log(Math.sqrt(y)));
+  }
+  function sT2(y) {
+    return 2*y+(y*Math.sqrt(y));
+  }
+
+  function diff(y){return [chT(y),sT(y),sT2(y)]}
