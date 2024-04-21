@@ -46,8 +46,8 @@
             let primes = [];
             let multipleMinusOne = 0;
 
-            for (let index = 3; index <= quotient; index++) {
-                if (isPrime(index) || (isPrime(num - index))) {
+            for (let index = 3; index <= num; index++) {
+                if ( (isPrime(num - index))&& (num - index > 2)) {
                     if (isPrime((index * quotient) + 1)) {
                         secondmult++
                         console.log(index + " * " + quotient + " + 1 = " + ((index * quotient) + 1))
