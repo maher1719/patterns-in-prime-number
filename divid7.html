@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <input type="number" id="minInterval" placeholder="Enter minimum interval">
+    <input type="number" id="endInterval" placeholder="Enter maximum interval">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>number</th>
+                <th>one number is prime</th>
+                <th>primes minus One</th>
+                <th>both two numbers are primes</th>
+                <th>isPrime</th>
+            </tr>
+        </thead>
+        <tbody id="numberTrue"></tbody>
+    </table>
+    <button onclick="calculate()">Analyze</button>
+
+    <table id="numberTrue"></table>
+
+    <div id="result_primes_found"></div>
+    <canvas id="myChart"></canvas>
+    <canvas id="myChart2"></canvas>
+
+    <script>
+        function isPrime(num) {
+            if (num <= 1) return false;
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        function calculatePrimes(num) {
+            let secondMult = 0, multipleMinusOne = 0, primes = [];
+            const quotient = Math.floor(num / 7);
+
+            for (let index = 3; index <= num; index++) {
+                if (isPrime(num - index) && (num - index) > 2) {
+                    if (isPrime((index * quotient) + 1)) {
+                        secondMult++;
+                        primes.push((index * quotient) + 1);
+                    }
+                    if (isPrime((index * quotient) - 1)) {
+                        multipleMinusOne++;
+                        primes.push((index * quotient) - 1);
+                    }
+                }
+            }
+
+            return [secondMult, multipleMinusOne, primes];
+        }
+
+        function calculate() {
+            const minInterval = Number(document.getElementById("minInterval").value);
+            const endInterval = Number(document.getElementById("endInterval").value);
+
+            let labels = [], primeCount = [], primeCountMinusOneEquation = [];
+            let uniquePrimes = new Set();
+
+            for (let p = minInterval; p <= endInterval; p++) {
+                const result = calculatePrimes(p);
+                labels.push(p);
+                primeCount.push(result[0]);
+                primeCountMinusOneEquation.push(result[2].length); // count of primes for -1 equation
+                result[2].forEach(prime => uniquePrimes.add(prime));
+            }
+
+            const uniquePrimes2 = Array.from(uniquePrimes).sort((a, b) => a - b);
+
+            document.getElementById("numberTrue").innerHTML = "";
+            let content = "";
+
+            for (let p = minInterval; p <= endInterval; p++) {
+                const isPPrime = isPrime(p);
+                let backgroundColor = "";
+                let color = isPPrime ? "white" : "black";
+                if (((p - 1) % 7 === 0 && Math.floor((p - 1) / 7) % 2 === 1) ||
+                    ((p - 3) % 7 === 0 && Math.floor((p - 3) / 7) % 2 === 1) ||
+                    ((p - 5) % 7 === 0 && Math.floor((p - 5) / 7) % 2 === 1)) {
+                    backgroundColor = "blue";
+                    color = "white";
+                }
+                content += `<tr>
+                    <td style='color:<span class="math-inline">\{color\};background\-color\:</span>{backgroundColor}'><span class="math-inline">\{p\}</td\>
+<td\></span>{primeCount[p - minInterval]}</td>
+                    <td><span class="math-inline">\{primeCountMinusOneEquation\[p \- minInterval\]\}</td\>
+<td\>\*</td\> <td\></span>{isPPrime}</td>
+                </tr>`;
+            }
+
+            document.getElementById("numberTrue").innerHTML = content;
+            document.getElementById("result_primes_found").textContent = `Unique Prime Numbers: ${uniquePrimes2.join(", ")} (count: ${uniquePrimes2.length})`;
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of primes equation +1',
+                        data: primeCount,
+                        backgroundColor: [
+                            'rgba(26, 188, 156, 1.0)',
+                            'rgba(192, 57, 43, 1.0)',
+                            'rgba(241, 196, 15, 1.0)',
+                            'rgba(142, 68, 173, 1.0)'
+                        ],
+                        borderColor: [
+                            'rgba(26, 188, 156, 1.0)',
+                            'rgba(192, 57, 43, 1.0)',
+                            'rgba(241, 196, 15, 1.0)',
+                            'rgba(142, 68, 173, 1.0)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('myChart2').getContext('2d');
+            const myChart2 = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: '# of primes equation -1',
+                        data: primeCountMinusOneEquation,
+                        backgroundColor: [
+                            'rgba(26, 188, 156, 1.0)',
+                            'rgba(192, 57, 43, 1.0)',
+                            'rgba(241, 196, 15, 1.0)',
+                            'rgba(142, 68, 173, 1.0)'
+                        ],
+                        borderColor: [
+                            'rgba(26, 188, 156, 1.0)',
+                            'rgba(192, 57, 43, 1.0)',
+                            'rgba(241, 196, 15, 1.0)',
+                            'rgba(142, 68, 173, 1.0)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
