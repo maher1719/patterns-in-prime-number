@@ -19,7 +19,7 @@ function c(y) {
     for (let x = 11; x <= y; x++) {
         if (isPrime[x]) {
             // Use your primality testing method for further verification
-            if (isPrimeNumber(x, primes)) {
+            if (isPrimeNumber(x, primes)) { 
                 primes.push(x); // If prime, add to the list of primes
             }
             counter++; // Increment counter for each iteration of the verification step
