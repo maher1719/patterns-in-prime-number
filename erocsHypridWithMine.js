@@ -14,7 +14,6 @@ function c(y) {
             }
         }
     }
-
     // Apply additional primality testing for numbers beyond the square root of y
     for (let x = 11; x <= y; x++) {
         if (isPrime[x]) {
