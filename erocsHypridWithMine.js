@@ -1,4 +1,4 @@
-function c(y) {
+function ch(y) {
     // Initialize prime table with pre-computed initial primes
     const primes = [2, 3, 5, 7];
     let counter = 0; // Initialize counter
