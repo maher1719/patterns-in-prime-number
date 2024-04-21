@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <canvas id="myChart" width="400px" height="300px"></canvas>
     <canvas id="myChart2" width="400px" height="300px"></canvas>
     <canvas id="myChart3" width="400px" height="300px"></canvas>
@@ -17,323 +16,405 @@
     <canvas id="myChart7" width="400px" height="300px"></canvas>
     <canvas id="myChart8" width="400px" height="300px"></canvas>
     <div>
-        <input placeholder="type a min number" type="number" id="minInterval" />
-        <input placeholder="type a max number" type="number" id="endInterval" />
+      <input placeholder="type a min number" type="number" id="minInterval" />
+      <input placeholder="type a max number" type="number" id="endInterval" />
 
-        <button onclick="calculate()">calculate!</button>
+      <button onclick="calculate()">calculate!</button>
     </div>
     <div id="ratio"></div>
     <table border="1">
-        <thead>
-            <tr>
-                <th>number</th>
-                <th>one number is prime</th>
-                <th>primes minus One</th>
-                <th>number of twin primes generated</th>
-                <th>isPrime</th>
-            </tr>
-        </thead>
-        <tbody id="numberTrue"></tbody>
+      <thead>
+        <tr>
+          <th>number</th>
+          <th>one number is prime</th>
+          <th>primes minus One</th>
+          <th>number of twin primes generated</th>
+          <th>isPrime</th>
+        </tr>
+      </thead>
+      <tbody id="numberTrue"></tbody>
     </table>
 
     <div id="result_primes_found"></div>
     <script src="chart.js"></script>
     <script src="primeFactors.js"></script>
     <script>
+      function isPrime2(num) {
+        for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+          if (num % i === 0) return false;
+        return num > 1;
+      }
+      function isPrime(num) {
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) return false;
 
-        function isPrime(num) {
-            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
-                if (num % i === 0) return false;
-            return num > 1;
+        for (let i = 5; i * i <= num; i += 6) {
+          if (num % i === 0 || num % (i + 2) === 0) {
+            return false;
+          }
         }
-        function addition(numberToGeneratePrimes) {
-            //console.log(numberToGeneratePrimes)
-            var quotient = Math.floor(numberToGeneratePrimes / 2);
-            let secondmult = 0;
-            let thirdmult = 0
-            let primes = [];
-            let multipleMinusOne = 0;
-            let twinsNumber=0;
-            for (let index = 2; index <= numberToGeneratePrimes; index++) {
-            
-                if (1==1){//!(isPrime(numberToGeneratePrimes - index))&&!(isPrime(index) {
-                    
-                    //console.log(numberToGeneratePrimes - index+" "+index)
-                    let possibleTwin1,possibleTwin2;
-                    let primePlusOne=index * quotient + 1;
-                    let primeMinusOne=index * quotient - 1;
-                    
-                    if (isPrime((index * quotient) + 1)) {
 
-                        secondmult++
-                        possibleTwin1=primePlusOne;
-                        console.log(index + " * " + quotient + " + 1 = " + (primePlusOne))
-                        primes.push(primePlusOne)
-                    }
-                    if (isPrime(primeMinusOne)) {
-                        multipleMinusOne++;
-                        possibleTwin2=primeMinusOne;
-                        primes.push(primeMinusOne);
-                        //}
+        return true;
+      }
+      function addition(numberToGeneratePrimes) {
+        //console.log(numberToGeneratePrimes)
+        var quotient = Math.floor(numberToGeneratePrimes / 2);
+        let secondmult = 0;
+        let thirdmult = 0;
+        let primes = [];
+        let multipleMinusOne = 0;
+        let twinsNumber = 0;
+        for (let index = 2; index <= numberToGeneratePrimes; index++) {
+          if (1 == 1) {
+            //!(isPrime(numberToGeneratePrimes - index))&&!(isPrime(index) {
 
-                        //console.log(index + " * " + quotient + " - 1 = " + ((index * quotient) - 1))
-                    }
-                    if (possibleTwin1-possibleTwin2==2) {
-                        twinsNumber++
-                    }
+            //console.log(numberToGeneratePrimes - index+" "+index)
+            let possibleTwin1, possibleTwin2;
+            let primePlusOne = index * quotient + 1;
+            let primeMinusOne = index * quotient - 1;
 
-                }
+            if (isPrime(index * quotient + 1)) {
+              secondmult++;
+              possibleTwin1 = primePlusOne;
+              //console.log(index + " * " + quotient + " + 1 = " + primePlusOne);
+              primes.push(primePlusOne);
             }
+            if (isPrime(primeMinusOne)) {
+              multipleMinusOne++;
+              possibleTwin2 = primeMinusOne;
+              primes.push(primeMinusOne);
+              //}
 
-            return [secondmult, thirdmult, primes, multipleMinusOne,twinsNumber];
+              //console.log(index + " * " + quotient + " - 1 = " + ((index * quotient) - 1))
+            }
+            if (possibleTwin1 - possibleTwin2 == 2) {
+              twinsNumber++;
+            }
+          }
         }
-        //}
-        function calculate() {
-            let uniqueFact = []
-            document.getElementById("numberTrue").innerHTML = "";
-            let minInterval = document.getElementById("minInterval").value;
-            let endInterval = document.getElementById("endInterval").value;
-            let uniquePrimes = [];
-            let labels = []
-            let labels2=[]
-            let labels3=[]
-            let labels4=[]
-            let primeCount = []
-            let primesCountPlus = 0;
-            let primesCountMinus = 0;
-            let primeCountMinusOneEquation = []
-            let primeTwinsCount=[]
-            let primeTwinsException=[]
-            let primeTwinsException3=[]
-            let primeTwinsException4=[]
-            let primeTwinsRatioPlusOne=[]
-            let primeReverseTwinsRatioPlusOne=[]
-            for (let number = Number(minInterval); number <= Number(endInterval); number+=2) {
-                let result = addition(number);
-                labels.push(number);
-                primeCount.push(result[0])
-                primesCountPlus += result[0];
-                primesCountMinus += result[3]
-                primeCountMinusOneEquation.push(result[3])
-                primeTwinsCount.push(result[4])
-                primeTwinsRatioPlusOne.push(result[0]/result[4])
-                primeReverseTwinsRatioPlusOne.push(result[4]/result[0])
-                if((number)%12==0&&(result[4]>0)){
-                    labels2.push(number);
-                    primeTwinsException.push(result[4])
-                }
-                if((number)%60==0&&(result[4]>0)){
-                    labels3.push(number);
-                    primeTwinsException3.push(result[4])
-                }
-                if((number)%420==0&&(result[4]>0)){
-                    labels4.push(number);
-                    primeTwinsException4.push(result[4])
-                }
-                let color = ""
-                let background = ""
-                if (isPrime(number)) {
-                    color = "white";
-                    background = "black"
-                }
-                result[2].forEach(element => {
-                    uniquePrimes.push(element)
-                });
-                //uniquePrimes.push(result[2])
 
-                //console.log(result)
+        return [secondmult, thirdmult, primes, multipleMinusOne, twinsNumber];
+      }
+      //}
+      function calculate() {
+        let uniqueFact = [];
+        document.getElementById("numberTrue").innerHTML = "";
+        let minInterval = document.getElementById("minInterval").value;
+        let endInterval = document.getElementById("endInterval").value;
+        let uniquePrimes = [];
+        let labels = [];
+        let labels2 = [];
+        let labels3 = [];
+        let labels4 = [];
+        let primeCount = [];
+        let primesCountPlus = 0;
+        let primesCountMinus = 0;
+        let primeCountMinusOneEquation = [];
+        let primeTwinsCount = [];
+        let primeTwinsException = [];
+        let primeTwinsException3 = [];
+        let primeTwinsException4 = [];
+        let primeTwinsRatioPlusOne = [];
+        let primeReverseTwinsRatioPlusOne = [];
+        for (
+          let number = Number(minInterval);
+          number <= Number(endInterval);
+          number += 2
+        ) {
+          let result = addition(number);
+          labels.push(number);
+          primeCount.push(result[0]);
+          primesCountPlus += result[0];
+          primesCountMinus += result[3];
+          primeCountMinusOneEquation.push(result[3]);
+          primeTwinsCount.push(result[4]);
+          primeTwinsRatioPlusOne.push(result[0] / result[4]);
+          primeReverseTwinsRatioPlusOne.push(result[4] / result[0]);
+          if (number % 12 == 0 && result[4] > 0) {
+            labels2.push(number);
+            primeTwinsException.push(result[4]);
+          }
+          if (number % 60 == 0 && result[4] > 0) {
+            labels3.push(number);
+            primeTwinsException3.push(result[4]);
+          }
+          if (number % 420 == 0 && result[4] > 0) {
+            labels4.push(number);
+            primeTwinsException4.push(result[4]);
+          }
+          let color = "";
+          let background = "";
+          if (isPrime(number)) {
+            color = "white";
+            background = "black";
+          }
+          result[2].forEach((element) => {
+            uniquePrimes.push(element);
+          });
+          //uniquePrimes.push(result[2])
 
-                let exceptionBackgroundColor = ""
-                let exceptionColor = "black"
-                let BackgroundColor = ""
-                let Color = "black"
-                let ColorTwin="black"
-                //condition for not generate any primes if num=p
-                /*if ((number - 2) % 4 == 0) {
+          //console.log(result)
+
+          let exceptionBackgroundColor = "";
+          let exceptionColor = "black";
+          let BackgroundColor = "";
+          let Color = "black";
+          let ColorTwin = "black";
+          //condition for not generate any primes if num=p
+          /*if ((number - 2) % 4 == 0) {
 
                     exceptionBackgroundColor = "blue";
                     exceptionColor = "white";
                 }*/
-                if (number % 12 == 0) {
-			exceptionBackgroundColor = "green";
-			exceptionColor = "white";
-		}
-		if (number  % 60 == 0) {
+          if (number % 12 == 0) {
+            exceptionBackgroundColor = "green";
+            exceptionColor = "white";
+          }
+          if (number % 60 == 0) {
+            exceptionBackgroundColor = "blue";
+            exceptionColor = "white";
+          }
+          if (number % 420 == 0) {
+            exceptionBackgroundColor = "red";
+            exceptionColor = "white";
+          }
+          document.getElementById("numberTrue").innerHTML +=
+            "<tr style='color:" +
+            exceptionColor +
+            ";background-color:" +
+            exceptionBackgroundColor +
+            "'>" +
+            "<td style='color:" +
+            color +
+            ";background-color:" +
+            background +
+            "'>" +
+            number +
+            "</td>" +
+            "<td>" +
+            result[0] +
+            "</td>" +
+            "<td>" +
+            result[3] +
+            "</td>" +
+            "<td style='color:" +
+            exceptionColor +
+            ";background-color:" +
+            BackgroundColor +
+            "'>" +
+            result[4] +
+            "</td>" +
+            "<td>" +
+            isPrime(number) +
+            "</td>" +
+            "</tr>";
+        }
 
-                    exceptionBackgroundColor = "blue";
-                    exceptionColor = "white";
-                }
-                if (number  % 420 == 0) {
+        let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
+          return a - b;
+        });
+        //console.log(uniquePrimes2 + " count => " + uniquePrimes2.length)
+        content = "";
+        let twinPrimes = [];
 
-                    exceptionBackgroundColor = "red";
-                    exceptionColor = "white";
-                }
-                document.getElementById("numberTrue").innerHTML += "<tr style='color:" + exceptionColor + ";background-color:" + exceptionBackgroundColor + "'>"
-                    + "<td style='color:" + color + ";background-color:" + background + "'>"
-                    + number + "</td>"
-                    + "<td>" + result[0] + "</td>"
-                    + "<td>" + result[3] + "</td>"
-                    + "<td style='color:" + exceptionColor + ";background-color:" + BackgroundColor + "'>" + result[4] + "</td>"
-                    + "<td>" + isPrime(number) + "</td>"
-                    + "</tr>";
-
-
-
-            }
-
-            let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) { return a - b })
-            //console.log(uniquePrimes2 + " count => " + uniquePrimes2.length)
-            content = "";
-            let twinPrimes = []
-
-
-
-            for (let index = 0; index < uniquePrimes2.length; index++) {
-                if (uniquePrimes2[index] - uniquePrimes2[index - 1] == 2) {
-                    content += "<span style='color:red'>" + uniquePrimes2[index] + "</span>, "
-                    twinPrimes.push(uniquePrimes2[index - 1])
-                    twinPrimes.push(uniquePrimes2[index])
-                    //uniqueFact.push(index + "=>" + primeFactors(index))
-
-                } else {
-                    content += uniquePrimes2[index] + " , "
-                }
-                /*if (index % 10 == 0) {
+        for (let index = 0; index < uniquePrimes2.length; index++) {
+          if (uniquePrimes2[index] - uniquePrimes2[index - 1] == 2) {
+            content +=
+              "<span style='color:red'>" + uniquePrimes2[index] + "</span>, ";
+            twinPrimes.push(uniquePrimes2[index - 1]);
+            twinPrimes.push(uniquePrimes2[index]);
+            //uniqueFact.push(index + "=>" + primeFactors(index))
+          } else {
+            content += uniquePrimes2[index] + " , ";
+          }
+          /*if (index % 10 == 0) {
                     content += "<br/>"
                 }*/
+        }
+        let primesResults =
+          "<div> primes plus 1= " +
+          primesCountPlus +
+          " prime minus 1= " +
+          primesCountMinus +
+          " </div>";
+        document.getElementById("ratio").innerHTML =
+          " ratio unique primes / twin primes " +
+          uniquePrimes2.length +
+          " / " +
+          twinPrimes.length +
+          " = " +
+          uniquePrimes2.length / twinPrimes.length;
+        document.getElementById("ratio").innerHTML += primesResults;
+        document.getElementById("ratio").innerHTML +=
+          " ratio primes plus / primes minus =" +
+          primesCountPlus / primesCountMinus;
+        document.getElementById("result_primes_found").innerHTML =
+          "<div>" +
+          content +
+          "</div>" +
+          uniquePrimes2.length / twinPrimes.length;
+        let twinPrimesFound = "";
+        //console.log(twinPrimes)
+        let seperator = ",";
+        twinPrimes.forEach((element, index) => {
+          twinPrimesFound += element + " " + seperator;
+        });
+        document.getElementById("result_primes_found").innerHTML +=
+          "<div>" + twinPrimesFound + "</div>";
+        document.getElementById("myChart").innerHTML = "";
+        const ctx = document.getElementById("myChart");
 
+        const myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "# of primes equation +1",
+                data: primeCount,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
 
-            }
-            let primesResults = "<div> primes plus 1= " + primesCountPlus + " prime minus 1= " + primesCountMinus + " </div>";
-            document.getElementById("ratio").innerHTML = " ratio unique primes / twin primes " + uniquePrimes2.length + " / " + twinPrimes.length + " = " + (uniquePrimes2.length / twinPrimes.length)
-            document.getElementById("ratio").innerHTML += primesResults
-            document.getElementById("ratio").innerHTML += " ratio primes plus / primes minus =" + (primesCountPlus / primesCountMinus)
-            document.getElementById("result_primes_found").innerHTML = "<div>" + content + "</div>" + (uniquePrimes2.length / twinPrimes.length);
-            let twinPrimesFound = "";
-            //console.log(twinPrimes)
-            let seperator = ","
-            twinPrimes.forEach((element, index) => {
-                twinPrimesFound += element + " " + seperator
-            });
-            document.getElementById("result_primes_found").innerHTML += "<div>" + twinPrimesFound + "</div>";
-            document.getElementById('myChart').innerHTML = ""
-            const ctx = document.getElementById('myChart')
+        const ctx2 = document.getElementById("myChart2");
 
-            const myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# of primes equation +1',
-                        data: primeCount,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
+        const myChart2 = new Chart(ctx2, {
+          type: "bar",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "# of primes equation -1",
+                data: primeCountMinusOneEquation,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
 
-                        ],
-                        borderColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
+        const ctx3 = document.getElementById("myChart3");
 
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
+        const myChart3 = new Chart(ctx3, {
+          type: "bar",
+          data: {
+            labels: labels2,
+            datasets: [
+              {
+                label: "# twins",
+                data: primeTwinsException,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
 
-            const ctx2 = document.getElementById('myChart2')
+                  "rgba(0, 0, 255,1.0)",
+                  "rgba(240, 0, 0,1.0)",
+                  "rgba(0, 0, 0,1.0)",
+                  "rgba(0, 248, 0,1.0)",
 
-            const myChart2 = new Chart(ctx2, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# of primes equation -1',
-                        data: primeCountMinusOneEquation,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
+                  "rgba(90, 95, 116,1.0)",
+                  "rgba(145, 74, 243,1.0)",
+                  "rgba(192, 110, 200,1.0)",
+                  "rgba(200, 0, 73,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 168, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+        function getLogRegression(data) {
+          const n = data.length;
+          console.log(n);
+          let sumX = 0,
+            sumY = 0,
+            sumXY = 0,
+            sumXX = 0;
 
-                        ],
-                        borderColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
+          for (let i = 0; i < n; i++) {
+            const x = i + 1;
+            const y = Math.log(data[i]);
+            sumX += x;
+            sumY += y;
+            sumXY += x * y;
+            sumXX += x * x;
+          }
 
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
+          const b = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+          const a = (sumY - b * sumX) / n;
 
-            const ctx3 = document.getElementById('myChart3')
+          return (x) => a + b * x;
+        }
 
-            const myChart3 = new Chart(ctx3, {
-                type: 'bar',
-                data: {
-                    labels: labels2,
-                    datasets: [{
-                        label: '# twins',
-                        data: primeTwinsException,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-                            
-                            'rgba(0, 0, 255,1.0)',
-                            'rgba(240, 0, 0,1.0)',
-                            'rgba(0, 0, 0,1.0)',
-                            'rgba(0, 248, 0,1.0)',
-                            
-                            'rgba(90, 95, 116,1.0)',
-                            'rgba(145, 74, 243,1.0)',
-                            'rgba(192, 110, 200,1.0)',
-                            'rgba(200, 0, 73,1.0)',
-
-                        ],
-                        borderColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 168, 173,1.0)',
-
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-
-         /*const ctx5 = document.getElementById('myChart5')
+        function getLogRegressionData(data) {
+          const logRegression = getLogRegression(data);
+          console.log();
+          console.log(
+            data.map((ratio, index) => ({
+              x: index + 1,
+              y: Math.exp(logRegression[index + 1]),
+            }))
+          );
+          return data.map((ratio, index) => ({
+            x: index + 1,
+            y: Math.exp(logRegression(index + 1)),
+          }));
+        }
+        /*const ctx5 = document.getElementById('myChart5')
 
             const myChart5 = new Chart(ctx5, {
                 type: 'bar',
@@ -369,204 +450,240 @@
                     }
                 }
             });*/
-            const ctx4 = document.getElementById('myChart4')
+        const ctx4 = document.getElementById("myChart4");
 
-            const myChart4 = new Chart(ctx4, {
-                type: 'bar',
-                data: {
-                    labels: labels3,
-                    datasets: [{
-                        label: '# twins',
-                        data: primeTwinsException3,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
+        const myChart4 = new Chart(ctx4, {
+          type: "bar",
+          data: {
+            labels: labels3,
+            datasets: [
+              {
+                label: "# twins",
+                data: primeTwinsException3,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
 
-                        ],
-                        borderColor: [
+        const ctx6 = document.getElementById("myChart5");
 
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
+        const myChart6 = new Chart(ctx6, {
+          type: "bar",
+          data: {
+            labels: labels4,
+            datasets: [
+              {
+                label: "# twins",
+                data: primeTwinsException4,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
 
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
+        function getLogRegression(data, x) {
+          const n = data.length;
+          let sumX = 0,
+            sumY = 0,
+            sumXY = 0,
+            sumXX = 0;
 
+          for (let i = 0; i < n; i++) {
+            const x = i + 1;
+            const y = Math.log(data[i]);
+            sumX += x;
+            sumY += y;
+            sumXY += x * y;
+            sumXX += x * x;
+          }
 
+          const b = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+          const a = (sumY - b * sumX) / n;
 
-        
-            const ctx6 = document.getElementById('myChart5')
-
-            const myChart6 = new Chart(ctx6, {
-                type: 'bar',
-                data: {
-                    labels: labels4,
-                    datasets: [{
-                        label: '# twins',
-                        data: primeTwinsException4,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-
-                        ],
-                        borderColor: [
-
-
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-const ctx7 = document.getElementById('myChart7')
-
-            const myChart7 = new Chart(ctx7, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# ratio ',
-                        data: primeTwinsRatioPlusOne,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-                            
-                            'rgba(0, 0, 255,1.0)',
-                            'rgba(240, 0, 0,1.0)',
-                            'rgba(0, 0, 0,1.0)',
-                            'rgba(0, 248, 0,1.0)',
-                            
-                            'rgba(90, 95, 116,1.0)',
-                            'rgba(145, 74, 243,1.0)',
-                            'rgba(192, 110, 200,1.0)',
-                            'rgba(200, 0, 73,1.0)',
-
-                        ],
-                        borderColor: [
-
-
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-                            
-                            'rgba(90, 188, 156,1.0)',
-                            'rgba(45, 57, 43,1.0)',
-                            'rgba(22, 196, 15,1.0)',
-                            'rgba(11, 68, 173,1.0)',
-                            
-                            'rgba(90, 35, 156,1.0)',
-                            'rgba(45, 24, 43,1.0)',
-                            'rgba(22, 11, 15,1.0)',
-                            'rgba(11, 70, 173,1.0)',
-
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-            
-const ctx8 = document.getElementById('myChart8')
-
-            const myChart8 = new Chart(ctx8, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# ratio ',
-                        data: primeReverseTwinsRatioPlusOne,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-                            
-                            'rgba(0, 0, 255,1.0)',
-                            'rgba(240, 0, 0,1.0)',
-                            'rgba(0, 0, 0,1.0)',
-                            'rgba(0, 248, 0,1.0)',
-                            
-                            'rgba(90, 95, 116,1.0)',
-                            'rgba(145, 74, 243,1.0)',
-                            'rgba(192, 110, 200,1.0)',
-                            'rgba(200, 0, 73,1.0)',
-
-                        ],
-                        borderColor: [
-
-
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-                            
-                            'rgba(90, 188, 156,1.0)',
-                            'rgba(45, 57, 43,1.0)',
-                            'rgba(22, 196, 15,1.0)',
-                            'rgba(11, 68, 173,1.0)',
-                            
-                            'rgba(90, 35, 156,1.0)',
-                            'rgba(45, 24, 43,1.0)',
-                            'rgba(22, 11, 15,1.0)',
-                            'rgba(11, 70, 173,1.0)',
-
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-
+          return Math.exp(a + b * x);
         }
 
+        function getLogRegressionData(data, x) {
+          const logRegression = getLogRegression(data, x);
+          const regressionData = [];
 
-        /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
+          for (let i = 0; i < data.length; i++) {
+            const x = i + 1;
+            const y = logRegression(x);
+            regressionData.push({ x, y });
+          }
+          console.log(regressionData);
+          return regressionData;
+        }
+        const ctx7 = document.getElementById("myChart7");
+
+        const myChart7 = new Chart(ctx7, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "# ratio ",
+                data: primeTwinsRatioPlusOne,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+
+                  "rgba(0, 0, 255,1.0)",
+                  "rgba(240, 0, 0,1.0)",
+                  "rgba(0, 0, 0,1.0)",
+                  "rgba(0, 248, 0,1.0)",
+
+                  "rgba(90, 95, 116,1.0)",
+                  "rgba(145, 74, 243,1.0)",
+                  "rgba(192, 110, 200,1.0)",
+                  "rgba(200, 0, 73,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+
+                  "rgba(90, 188, 156,1.0)",
+                  "rgba(45, 57, 43,1.0)",
+                  "rgba(22, 196, 15,1.0)",
+                  "rgba(11, 68, 173,1.0)",
+
+                  "rgba(90, 35, 156,1.0)",
+                  "rgba(45, 24, 43,1.0)",
+                  "rgba(22, 11, 15,1.0)",
+                  "rgba(11, 70, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+              {
+                label: "Logarithmic Regression",
+                data: primeTwinsRatioPlusOne.map((ratio, index) => {
+                  const x = index;
+                  const y = ratio;
+                  return {
+                    x,
+                    y: Math.exp(getLogRegression(primeTwinsRatioPlusOne, x)),
+                  };
+                }),
+                type: "line",
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 2,
+                pointRadius: 0,
+              },
+            ],
+          },
+
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+
+        const ctx8 = document.getElementById("myChart8");
+
+        const myChart8 = new Chart(ctx8, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "# ratio ",
+                data: primeReverseTwinsRatioPlusOne,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+
+                  "rgba(0, 0, 255,1.0)",
+                  "rgba(240, 0, 0,1.0)",
+                  "rgba(0, 0, 0,1.0)",
+                  "rgba(0, 248, 0,1.0)",
+
+                  "rgba(90, 95, 116,1.0)",
+                  "rgba(145, 74, 243,1.0)",
+                  "rgba(192, 110, 200,1.0)",
+                  "rgba(200, 0, 73,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+
+                  "rgba(90, 188, 156,1.0)",
+                  "rgba(45, 57, 43,1.0)",
+                  "rgba(22, 196, 15,1.0)",
+                  "rgba(11, 68, 173,1.0)",
+
+                  "rgba(90, 35, 156,1.0)",
+                  "rgba(45, 24, 43,1.0)",
+                  "rgba(22, 11, 15,1.0)",
+                  "rgba(11, 70, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+      }
+
+      /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
         window.location.href = image;*/
-
     </script>
-</body>
-
+  </body>
 </html>
