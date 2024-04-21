@@ -64,3 +64,31 @@ function calculateChTimeComplexity(y) {
   }
 
   function diff(y){return [chT(y),sT(y),sT2(y)]}
+  function isPrime(n) {
+    if (n <= 1) return false;
+    if (n <= 3) return true;
+    if (n % 2 === 0 || n % 3 === 0) return false;
+
+    let i = 5;
+    while (i * i <= n) {
+        if (n % i === 0 || n % (i + 2) === 0) return false;
+        i += 6;
+    }
+    return true;
+}
+
+function countTwinPrimes(x, y) {
+    let count = 0;
+    for (let i = x; i <= y - 2; i++) {
+        if (isPrime(i) && isPrime(i + 2)) {
+            count++;
+        }
+    }
+    return count;
+}
+
+const x = 10; // Starting number of the range
+const y = 100; // Ending number of the range
+
+const twinPrimeCount = countTwinPrimes(x, y);
+console.log(`Number of twin prime numbers between ${x} and ${y}:`, twinPrimeCount);
