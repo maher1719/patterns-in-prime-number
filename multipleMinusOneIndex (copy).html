@@ -39,12 +39,12 @@
     <script src="chart.js"></script>
     <script src="primeFactors.js"></script>
     <script>
-      function isPrimeA(num) {
+      function isPrime1(num) {
         for (let i = 2, s = Math.sqrt(num); i <= s; i++)
           if (num % i === 0) return false;
         return num > 1;
       }
-      function isPrime4(num) {
+      function isPrime(num) {
         if (num <= 1) return false;
         if (num <= 3) return true;
         if (num % 2 === 0 || num % 3 === 0) return false;
@@ -62,7 +62,7 @@
        * @param {number} n - The number to test for primality.
        * @returns {boolean} - True if the number is prime, false if the number is composite.
        */
-      function isPrime(n) {
+      function isPrime2(n) {
         // Handle some base cases
         if (n < 2) return false;
         if (n <= 3) return true;
@@ -112,6 +112,7 @@
       }
       function addition(numberToGeneratePrimes) {
         //console.log(numberToGeneratePrimes)
+        
         var quotient = Math.floor(numberToGeneratePrimes / 2);
         let secondmult = 0;
         let thirdmult = 0;
@@ -150,6 +151,7 @@
       }
       //}
       function calculate() {
+        const startTime = performance.now();
         let uniqueFact = [];
         document.getElementById("numberTrue").innerHTML = "";
         let minInterval = document.getElementById("minInterval").value;
@@ -169,6 +171,8 @@
         let primeTwinsException4 = [];
         let primeTwinsRatioPlusOne = [];
         let primeReverseTwinsRatioPlusOne = [];
+        let equationTwinMax=[];
+        let equationTwinMax2=[];
         for (
           let number = Number(minInterval);
           number <= Number(endInterval);
@@ -183,6 +187,9 @@
           primeTwinsCount.push(result[4]);
           primeTwinsRatioPlusOne.push(result[0] / result[4]);
           primeReverseTwinsRatioPlusOne.push(result[4] / result[0]);
+          equationTwinMax.push((0.120-(0.0001*Math.log(number))))
+          equationTwinMax2.push((0.1333333333-(0.0001*Math.log(number))))
+          //equationTwinMax.push(Math.exp((number+0.041)/0.104))
           if (number % 12 == 0 && result[4] > 0) {
             labels2.push(number);
             primeTwinsException.push(result[4]);
@@ -318,7 +325,7 @@
         const backgroundColorChart = [
           "rgba(142, 68, 173, 1.0)", // Purple
           "rgba(26, 188, 156, 1.0)", // Turquoise
-          "rgba(243, 156, 18, 1.0)", // Orange
+          "rgba(0, 0, 0, 1.0)", // Orange
           "rgba(46, 204, 113, 1.0)", // Green
           "rgba(52, 152, 219, 1.0)", // Blue
           "rgba(241, 196, 15, 1.0)", // Yellow
@@ -578,22 +585,7 @@
                 borderColor: backgroundColorChart,
                 borderWidth: 1,
               },
-              {
-                label: "Logarithmic Regression",
-                data: primeTwinsRatioPlusOne.map((ratio, index) => {
-                  const x = index;
-                  const y = ratio;
-                  return {
-                    x,
-                    y: Math.exp(getLogRegression(primeTwinsRatioPlusOne, x)),
-                  };
-                }),
-                type: "line",
-                backgroundColor: "rgba(255, 99, 132, 0.2)",
-                borderColor: "rgba(255, 99, 132, 1)",
-                borderWidth: 2,
-                pointRadius: 0,
-              },
+              
             ],
           },
 
@@ -609,7 +601,7 @@
         const ctx8 = document.getElementById("myChart8");
 
         const myChart8 = new Chart(ctx8, {
-          type: "line",
+          type: "scatter",
           data: {
             labels: labels,
             datasets: [
@@ -620,16 +612,37 @@
                 borderColor: backgroundColorChart,
                 borderWidth: 1,
               },
+              {
+                label:"line average",
+                data: equationTwinMax,
+                backgroundColor:'rgba(192, 57, 43,1.0)',
+                type:"line",
+              }
+              /*,
+              {
+                label:"line max",
+                data: equationTwinMax2,
+                backgroundColor:'rgba(142, 68, 173,1.0)',
+                type:"line",
+              }*/
+
             ],
           },
           options: {
             scales: {
               y: {
                 beginAtZero: true,
+                min:0,
+                max:2
               },
             },
           },
         });
+        const endTime = performance.now();
+        const elapsedTime = endTime - startTime;
+
+        // Output the elapsed time
+        console.log("Elapsed time:", elapsedTime, "milliseconds");
       }
 
       /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
