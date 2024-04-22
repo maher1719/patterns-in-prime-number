@@ -183,6 +183,7 @@
         let primeTwinsException4 = [];
         let primeTwinsRatioPlusOne = [];
         let primeReverseTwinsRatioPlusOne = [];
+        let equationLn=[]
         for (
           let number = Number(minInterval) * 420;
           number <= Number(endInterval) * 420;
@@ -208,6 +209,9 @@
           if (number % (420 * 3) == 0 && result[4] > 0) {
             labels4.push(number);
             primeTwinsException4.push(result[4]);
+            //equationLn.push(3.357*Math.log(number)+0.000004*(number))
+            //equationLn.push(140.31+125.77*Math.log(number))
+            equationLn.push((0.0425*Math.log(number))-3.33333)
           }
           let color = "";
           let background = "";
@@ -555,7 +559,7 @@
         const ctx6 = document.getElementById("myChart5");
 
         const myChart6 = new Chart(ctx6, {
-          type: "bar",
+          type: "scatter",
           data: {
             labels: labels4,
             datasets: [
@@ -576,6 +580,11 @@
                 ],
                 borderWidth: 1,
               },
+              {
+                label:"equation",
+                data:equationLn,
+                type:"line"
+              }
             ],
           },
           options: {
