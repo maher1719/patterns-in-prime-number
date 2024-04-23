@@ -79,8 +79,11 @@ function calculateChTimeComplexity(y) {
 
 function countTwinPrimes(x, y) {
     let count = 0;
+    let twins=[]
     for (let i = x; i <= y - 2; i++) {
         if (isPrime(i) && isPrime(i + 2)) {
+            twins.push(i)
+            twins.push(i+2)
             count++;
         }
     }

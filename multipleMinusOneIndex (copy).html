@@ -39,12 +39,12 @@
     <script src="chart.js"></script>
     <script src="primeFactors.js"></script>
     <script>
-      function isPrime1(num) {
+      function isPrime(num) {
         for (let i = 2, s = Math.sqrt(num); i <= s; i++)
           if (num % i === 0) return false;
         return num > 1;
       }
-      function isPrime(num) {
+      function isPrime2(num) {
         if (num <= 1) return false;
         if (num <= 3) return true;
         if (num % 2 === 0 || num % 3 === 0) return false;
@@ -112,7 +112,7 @@
       }
       function addition(numberToGeneratePrimes) {
         //console.log(numberToGeneratePrimes)
-        
+
         var quotient = Math.floor(numberToGeneratePrimes / 2);
         let secondmult = 0;
         let thirdmult = 0;
@@ -171,12 +171,12 @@
         let primeTwinsException4 = [];
         let primeTwinsRatioPlusOne = [];
         let primeReverseTwinsRatioPlusOne = [];
-        let equationTwinMax=[];
-        let equationTwinMax2=[];
+        let equationTwinMax = [];
+        let equationTwinMax2 = [];
         for (
           let number = Number(minInterval);
           number <= Number(endInterval);
-          number += 2
+          number += 1
         ) {
           let result = addition(number);
           labels.push(number);
@@ -187,8 +187,8 @@
           primeTwinsCount.push(result[4]);
           primeTwinsRatioPlusOne.push(result[0] / result[4]);
           primeReverseTwinsRatioPlusOne.push(result[4] / result[0]);
-          equationTwinMax.push((0.120-(0.0001*Math.log(number))))
-          equationTwinMax2.push((0.1333333333-(0.0001*Math.log(number))))
+          equationTwinMax.push(0.12 - 0.0001 * Math.log(number));
+          equationTwinMax2.push(0.1333333333 - 0.0001 * Math.log(number));
           //equationTwinMax.push(Math.exp((number+0.041)/0.104))
           if (number % 12 == 0 && result[4] > 0) {
             labels2.push(number);
@@ -269,6 +269,26 @@
             "</td>" +
             "</tr>";
         }
+        let csvContent = "Number,Primes +1,Primes -1,Twins,Is Prime\n";
+
+        // Loop through the data and add it to the CSV content
+        for (let i = 0; i < labels.length; i++) {
+          csvContent += `${labels[i]},${primeCount[i]},${
+            primeCountMinusOneEquation[i]
+          },${primeTwinsCount[i]},${isPrime(labels[i])}\n`;
+        }
+
+        // Create a Blob object containing the CSV data
+        const blob = new Blob([csvContent], { type: "text/csv" });
+
+        // Create a link element to download the CSV file
+        const link = document.createElement("a");
+        link.href = window.URL.createObjectURL(blob);
+        link.download = "prime_data.csv";
+
+        // Simulate a click on the link to trigger the download
+        link.click();
+
 
         let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
           return a - b;
@@ -585,7 +605,6 @@
                 borderColor: backgroundColorChart,
                 borderWidth: 1,
               },
-              
             ],
           },
 
@@ -613,11 +632,11 @@
                 borderWidth: 1,
               },
               {
-                label:"line average",
+                label: "line average",
                 data: equationTwinMax,
-                backgroundColor:'rgba(192, 57, 43,1.0)',
-                type:"line",
-              }
+                backgroundColor: "rgba(192, 57, 43,1.0)",
+                type: "line",
+              },
               /*,
               {
                 label:"line max",
@@ -625,15 +644,14 @@
                 backgroundColor:'rgba(142, 68, 173,1.0)',
                 type:"line",
               }*/
-
             ],
           },
           options: {
             scales: {
               y: {
                 beginAtZero: true,
-                min:0,
-                max:2
+                min: 0,
+                max: 2,
               },
             },
           },
