@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--link rel="stylesheet" href="bootstrap/bootstrap-5.3.3-dist/css/bootstrap.min.css"-->
     <title>Document</title>
   </head>
 
@@ -13,13 +14,13 @@
     <canvas id="myChartPrimes" width="400px" height="300px"></canvas>
     myChartPrimes
     <div>
-      <input placeholder="type a min number" type="number" id="minInterval" />
-      <input placeholder="type a max number" type="number" id="endInterval" />
+      <input class="form-control" placeholder="type a min number" type="number" id="minInterval" />
+      <input class="form-control" placeholder="type a max number" type="number" id="endInterval" />
 
-      <button onclick="calculate()">calculate!</button>
+      <button class="btn btn-primary" onclick="calculate()">calculate!</button>
     </div>
 
-    <table border="1">
+    <table class="table table-bordered" border="1">
       <thead>
         <tr>
           <th>number</th>
@@ -38,30 +39,6 @@
       const primeCache = new Map();
       const primesFound = new Set();
       const table = document.getElementById("numberTrue");
-      function isPrime2(num) {
-        if (primeCache.size >= Math.pow(10, 7)) {
-          primeCache.clear();
-        }
-        if (primesFound.has(num)) {
-          return true;
-        }
-        if (primeCache.has(num)) {
-          return primeCache.get(num);
-        }
-        if (num <= 1) return false;
-        if (num <= 3) return true;
-        if (num % 2 === 0 || num % 3 === 0) return false;
-
-        for (let i = 5; i * i <= num; i += 6) {
-          if (num % i === 0 || num % (i + 2) === 0) {
-            primeCache.set(num, false);
-            return false;
-          }
-        }
-        primesFound.add(num);
-        primeCache.set(num, true);
-        return true;
-      }
       function isPrime(num) {
         if (primeCache.size >= Math.pow(10, 7)) {
           primeCache.clear();
@@ -71,7 +48,10 @@
         }
         if (num <= 1) return false;
         if (num <= 3) return true;
-        if (num % 2 === 0 || num % 3 === 0) return false;
+        if (num % 2 === 0 || num % 3 === 0) {
+          primeCache.set(num, false);
+          return false;
+        }
 
         for (let i = 5; i * i <= num; i += 6) {
           if (num % i === 0 || num % (i + 2) === 0) {
@@ -84,7 +64,7 @@
       }
 
       function addition(num) {
-        console.log(num);
+        //console.log(num);
         var quotient = Math.floor(num / 1);
         let secondmult = 0;
         let thirdmult = 0;
@@ -92,12 +72,7 @@
         let multipleMinusOne = 0;
 
         for (let index = 2; index <= quotient; index++) {
-          if (
-            /*primesFound.has(index) ||
-            primesFound.has(num - index) ||*/
-            isPrime(index) ||
-            isPrime(num - index)
-          ) {
+          if (isPrime(index) || isPrime(num - index)) {
             if (isPrime(index * quotient + 1)) {
               secondmult++;
               /*console.log(
@@ -189,7 +164,7 @@
                     backgroundColor = "blue";
                     n4color = "white";
                 }*/
-          /*contentTable +=
+          contentTable +=
             "<tr style='color:" +
             n4color +
             ";background-color:" +
@@ -214,10 +189,10 @@
             "<td>" +
             isPrime(p) +
             "</td>" +
-            "</tr>";*/
+            "</tr>";
         }
         //console.log(regressionData);
-        //table.innerHTML=contentTable
+        table.innerHTML=contentTable
         console.log(primeCache.size);
         const regressionLineData = returnRegression(regressionData, "linear");
         const regressionLineDataPrimes = returnRegression(
