@@ -39,40 +39,77 @@
     <script src="chart.js"></script>
     <script src="primeFactors.js"></script>
     <script>
-      const primeCache = new Map();
-      const minIntervalInput = document.getElementById("minInterval");
-      const endIntervalInput = document.getElementById("endInterval");
-      const numberTrueTable = document.getElementById("numberTrue");
+      function isPrimeA(num) {
+        for (let i = 2, s = Math.sqrt(num); i <= s; i++)
+          if (num % i === 0) return false;
+        return num > 1;
+      }
       function isPrime(num) {
-        if (primeCache.size>=Math.pow(2,6)){
-          primeCache.clear()
-        }
-        if (primeCache.has(num)) {
-          return primeCache.get(num);
-        }
         if (num <= 1) return false;
         if (num <= 3) return true;
         if (num % 2 === 0 || num % 3 === 0) return false;
 
         for (let i = 5; i * i <= num; i += 6) {
           if (num % i === 0 || num % (i + 2) === 0) {
-            primeCache.set(num, false);
             return false;
           }
         }
-        primeCache.set(num, true);
+
         return true;
       }
-      // Initialize prime cache
-      //const primeCache = new Map();
-
-      // Function to check if a number is prime using Sieve of Eratosthenes algorithm
-
       /**
        * Performs the AKS primality test for a given number.
        * @param {number} n - The number to test for primality.
        * @returns {boolean} - True if the number is prime, false if the number is composite.
        */
+      function isPrime2(n) {
+        // Handle some base cases
+        if (n < 2) return false;
+        if (n <= 3) return true;
+        if (n % 2 === 0 || n % 3 === 0) return false;
+
+        // Step 1: Find the smallest r such that n^r is congruent to 1 modulo n
+        let r = 1;
+        while (true) {
+          if (modularExponentiation(n, r, n) === 1) break;
+          r++;
+        }
+
+        // Step 2: If r > floor(sqrt(n)), then n is prime
+        if (r > Math.floor(Math.sqrt(n))) {
+          return true;
+        }
+
+        // Step 3: Compute (x + 1)^n - (x^n + 1) and check if it is divisible by n
+        for (let x = 0; x < r; x++) {
+          let left = modularExponentiation(x + 1, n, n);
+          let right = (modularExponentiation(x, n, n) + 1) % n;
+          if ((left - right) % n !== 0) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      /**
+       * Performs modular exponentiation using the square-and-multiply algorithm.
+       * @param {number} base - The base number.
+       * @param {number} exponent - The exponent.
+       * @param {number} modulus - The modulus.
+       * @returns {number} The result of (base ^ exponent) % modulus.
+       */
+      function modularExponentiation(base, exponent, modulus) {
+        let result = 1;
+        while (exponent > 0) {
+          if (exponent % 2 === 1) {
+            result = (result * base) % modulus;
+          }
+          exponent >>= 1;
+          base = (base * base) % modulus;
+        }
+        return result;
+      }
       function addition(numberToGeneratePrimes) {
         //console.log(numberToGeneratePrimes)
 
@@ -83,28 +120,30 @@
         let multipleMinusOne = 0;
         let twinsNumber = 0;
         for (let index = 2; index <= numberToGeneratePrimes; index++) {
-          //!(isPrime(numberToGeneratePrimes - index))&&!(isPrime(index) {
-          //console.log(numberToGeneratePrimes - index+" "+index)
-          let possibleTwin1, possibleTwin2;
-          let primePlusOne = index * quotient + 1;
-          let primeMinusOne = index * quotient - 1;
+          if (1 == 1) {
+            //!(isPrime(numberToGeneratePrimes - index))&&!(isPrime(index) {
+            //console.log(numberToGeneratePrimes - index+" "+index)
+            let possibleTwin1, possibleTwin2;
+            let primePlusOne = index * quotient + 1;
+            let primeMinusOne = index * quotient - 1;
 
-          if (isPrime(primePlusOne)) {
-            secondmult++;
-            possibleTwin1 = primePlusOne;
-            //console.log(index + " * " + quotient + " + 1 = " + primePlusOne);
-            primes.push(primePlusOne);
-          }
-          if (isPrime(primeMinusOne)) {
-            multipleMinusOne++;
-            possibleTwin2 = primeMinusOne;
-            primes.push(primeMinusOne);
-            //}
+            if (isPrime(index * quotient + 1)) {
+              secondmult++;
+              possibleTwin1 = primePlusOne;
+              //console.log(index + " * " + quotient + " + 1 = " + primePlusOne);
+              primes.push(primePlusOne);
+            }
+            if (isPrime(primeMinusOne)) {
+              multipleMinusOne++;
+              possibleTwin2 = primeMinusOne;
+              primes.push(primeMinusOne);
+              //}
 
-            //console.log(index + " * " + quotient + " - 1 = " + ((index * quotient) - 1))
-          }
-          if (possibleTwin1 - possibleTwin2 == 2) {
-            twinsNumber++;
+              //console.log(index + " * " + quotient + " - 1 = " + ((index * quotient) - 1))
+            }
+            if (possibleTwin1 - possibleTwin2 == 2) {
+              twinsNumber++;
+            }
           }
         }
 
@@ -115,9 +154,8 @@
         const startTime = performance.now();
         let uniqueFact = [];
         document.getElementById("numberTrue").innerHTML = "";
-        let minInterval = minIntervalInput.value;
-        let endInterval = endIntervalInput.value;
-
+        let minInterval = document.getElementById("minInterval").value;
+        let endInterval = document.getElementById("endInterval").value;
         let uniquePrimes = [];
         let labels = [];
         let labels2 = [];
@@ -135,14 +173,12 @@
         let primeReverseTwinsRatioPlusOne = [];
         let equationTwinMax = [];
         let equationTwinMax2 = [];
-        let contentHtml = [];
         for (
           let number = Number(minInterval);
           number <= Number(endInterval);
           number += 2
         ) {
           let result = addition(number);
-          let primeCheck = isPrime(number);
           labels.push(number);
           primeCount.push(result[0]);
           primesCountPlus += result[0];
@@ -168,7 +204,7 @@
           }
           let color = "";
           let background = "";
-          if (primeCheck) {
+          if (isPrime(number)) {
             color = "white";
             background = "black";
           }
@@ -202,18 +238,39 @@
             exceptionBackgroundColor = "red";
             exceptionColor = "white";
           }
-          contentHtml.push(
-            `<tr style="color:${exceptionColor};background-color:${exceptionBackgroundColor};">` +
-              `<td style="color:${color};background-color:${background};">${number}</td>` +
-              `<td>${result[0]}</td>` +
-              `<td>${result[3]}</td>` +
-              `<td style="color:${exceptionColor};background-color:${BackgroundColor};">${result[4]}</td>` +
-              `<td>${primeCheck}</td>` +
-              `</tr>`
-          );
+          document.getElementById("numberTrue").innerHTML +=
+            "<tr style='color:" +
+            exceptionColor +
+            ";background-color:" +
+            exceptionBackgroundColor +
+            "'>" +
+            "<td style='color:" +
+            color +
+            ";background-color:" +
+            background +
+            "'>" +
+            number +
+            "</td>" +
+            "<td>" +
+            result[0] +
+            "</td>" +
+            "<td>" +
+            result[3] +
+            "</td>" +
+            "<td style='color:" +
+            exceptionColor +
+            ";background-color:" +
+            BackgroundColor +
+            "'>" +
+            result[4] +
+            "</td>" +
+            "<td>" +
+            isPrime(number) +
+            "</td>" +
+            "</tr>";
         }
         let csvContent = "Number,Primes +1,Primes -1,Twins,Is Prime\n";
-        numberTrueTable.innerHTML = contentHtml.join("");
+
         // Loop through the data and add it to the CSV content
         for (let i = 0; i < labels.length; i++) {
           csvContent += `${labels[i]},${primeCount[i]},${
@@ -230,7 +287,8 @@
         link.download = "prime_data.csv";
 
         // Simulate a click on the link to trigger the download
-        //link.click();
+        link.click();
+
 
         let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
           return a - b;
@@ -266,7 +324,6 @@
           twinPrimes.length +
           " = " +
           uniquePrimes2.length / twinPrimes.length;
-
         document.getElementById("ratio").innerHTML += primesResults;
         document.getElementById("ratio").innerHTML +=
           " ratio primes plus / primes minus =" +
@@ -603,7 +660,7 @@
         const elapsedTime = endTime - startTime;
 
         // Output the elapsed time
-        console.log("Elapsed time:", elapsedTime/1000, "secondes");
+        console.log("Elapsed time:", elapsedTime/1000, "seconds");
       }
 
       /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")

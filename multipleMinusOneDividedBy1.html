@@ -1,100 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <canvas id="myChart" width="400px" height="300px"></canvas>
     <canvas id="myChart2" width="400px" height="300px"></canvas>
+    <canvas id="myChartPrimes" width="400px" height="300px"></canvas>
+    myChartPrimes
     <div>
-        <input placeholder="type a min number" type="number" id="minInterval" />
-        <input placeholder="type a max number" type="number" id="endInterval" />
+      <input placeholder="type a min number" type="number" id="minInterval" />
+      <input placeholder="type a max number" type="number" id="endInterval" />
 
-        <button onclick="calculate()">calculate!</button>
+      <button onclick="calculate()">calculate!</button>
     </div>
 
     <table border="1">
-        <thead>
-            <tr>
-                <th>number</th>
-                <th>one number is prime</th>
-                <th>primes minus One</th>
-                <th>both two numbers are primes</th>
-                <th>isPrime</th>
-            </tr>
-        </thead>
-        <tbody id="numberTrue"></tbody>
+      <thead>
+        <tr>
+          <th>number</th>
+          <th>one number is prime</th>
+          <th>primes minus One</th>
+          <th>both two numbers are primes</th>
+          <th>isPrime</th>
+        </tr>
+      </thead>
+      <tbody id="numberTrue"></tbody>
     </table>
     <div id="result_primes_found"></div>
     <script src="chart.js"></script>
+    <script src="regression.js"></script>
     <script>
-        function isPrime(num) {
-            for (let i = 2, s = Math.sqrt(num); i <= s; i++)
-                if (num % i === 0) return false;
-            return num > 1;
+      const primeCache = new Map();
+      const primesFound = new Set();
+      const table = document.getElementById("numberTrue");
+      function isPrime2(num) {
+        if (primeCache.size >= Math.pow(10, 7)) {
+          primeCache.clear();
         }
-        function addition(num) {
-            console.log(num)
-            var quotient = Math.floor(num / 1);
-            let secondmult = 0;
-            let thirdmult = 0
-            let primes = [];
-            let multipleMinusOne = 0;
+        if (primesFound.has(num)) {
+          return true;
+        }
+        if (primeCache.has(num)) {
+          return primeCache.get(num);
+        }
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) return false;
 
-            for (let index = 2; index <= quotient; index++) {
-                if (isPrime(index) || (isPrime(num - index))) {
-                    if (isPrime((index * quotient) + 1)) {
-                        secondmult++
-                        console.log(index + " * " + quotient + " + 1 = " + ((index * quotient) + 1))
-                        if (index > 2) {
-                            primes.push((index * quotient) + 1)
-                        }
-                    }
-                    if (isPrime((index * quotient) - 1)) {
-                        multipleMinusOne++;
-                        primes.push((index * quotient) - 1)
-                        console.log(index + " * " + quotient + " - 1 = " + ((index * quotient) - 1))
-                    }
+        for (let i = 5; i * i <= num; i += 6) {
+          if (num % i === 0 || num % (i + 2) === 0) {
+            primeCache.set(num, false);
+            return false;
+          }
+        }
+        primesFound.add(num);
+        primeCache.set(num, true);
+        return true;
+      }
+      function isPrime(num) {
+        if (primeCache.size >= Math.pow(10, 7)) {
+          primeCache.clear();
+        }
+        if (primeCache.has(num)) {
+          return primeCache.get(num);
+        }
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) return false;
 
-                }
+        for (let i = 5; i * i <= num; i += 6) {
+          if (num % i === 0 || num % (i + 2) === 0) {
+            primeCache.set(num, false);
+            return false;
+          }
+        }
+        primeCache.set(num, true);
+        return true;
+      }
+
+      function addition(num) {
+        console.log(num);
+        var quotient = Math.floor(num / 1);
+        let secondmult = 0;
+        let thirdmult = 0;
+        let primes = [];
+        let multipleMinusOne = 0;
+
+        for (let index = 2; index <= quotient; index++) {
+          if (
+            /*primesFound.has(index) ||
+            primesFound.has(num - index) ||*/
+            isPrime(index) ||
+            isPrime(num - index)
+          ) {
+            if (isPrime(index * quotient + 1)) {
+              secondmult++;
+              /*console.log(
+                index + " * " + quotient + " + 1 = " + (index * quotient + 1)
+              );*/
+              if (index > 2) {
+                primes.push(index * quotient + 1);
+              }
             }
-
-            return [secondmult, thirdmult, primes, multipleMinusOne];
+            if (isPrime(index * quotient - 1)) {
+              multipleMinusOne++;
+              primes.push(index * quotient - 1);
+              /*console.log(
+                index + " * " + quotient + " - 1 = " + (index * quotient - 1)
+              );*/
+            }
+          }
         }
-        //}
-        function calculate() {
-            document.getElementById("numberTrue").innerHTML = "";
-            let minInterval = document.getElementById("minInterval").value;
-            let endInterval = document.getElementById("endInterval").value;
-            let uniquePrimes = [];
-            let labels = []
-            let primeCount = []
-            let primeCountMinusOneEquation = []
-            for (let p = Number(minInterval); p <= Number(endInterval); p++) {
-                let result = addition(p);
-                labels.push(p);
-                primeCount.push(result[0])
-                primeCountMinusOneEquation.push(result[3])
-                let color = ""
-                let background = ""
-                if (isPrime(p)) {
-                    color = "white";
-                    background = "black"
-                }
-                result[2].forEach(element => {
-                    uniquePrimes.push(element)
-                });
-                //uniquePrimes.push(result[2])
 
-                //console.log(result)
-                let backgroundColor = ""
-                let n4color = "black"
-                /*if (((p - 1) % 11 == 0 && (p - 1) % 2 != 0) ||
+        return [secondmult, thirdmult, primes, multipleMinusOne];
+      }
+
+      function returnRegression(data, type) {
+        let result;
+        if (type == "linear") {
+          result = regression.linear(data);
+        }
+        if (type == "log") {
+          result = regression.logarithmic(data);
+        }
+
+        // Extract the x and y values from the data
+        const xValues = data.map((d) => d[0]);
+        const yValues = data.map((d) => d[1]);
+        const equation = result.equation;
+
+        // Format the equation for display
+        const formattedEquation = `y = ${equation[0]}x + ${equation[1]}`;
+
+        // Display the equation
+        console.log("Regression Equation:", formattedEquation);
+        // Create the regression line data
+        return (regressionLineData = xValues.map((x) => result.predict(x)[1]));
+      }
+      //}
+      function calculate() {
+        const startTime = performance.now();
+        document.getElementById("numberTrue").innerHTML = "";
+        let minInterval = document.getElementById("minInterval").value;
+        let endInterval = document.getElementById("endInterval").value;
+        let uniquePrimes = [];
+        let labels = [];
+        let primeCount = [];
+        let primeCountMinusOneEquation = [];
+        let regressionData = [];
+        let regressionPrimes = [];
+        let primes = [];
+        let primesData = [];
+        let contentTable = "";
+        for (let p = Number(minInterval); p <= Number(endInterval); p++) {
+          let result = addition(p);
+          labels.push(p);
+          primeCount.push(result[0]);
+          primeCountMinusOneEquation.push(result[3]);
+          let color = "";
+          let background = "";
+          if (isPrime(p)) {
+            color = "white";
+            background = "black";
+            primes.push(p);
+            primesData.push(result[3]);
+            regressionPrimes.push([p, result[3]]);
+          }
+          result[2].forEach((element) => {
+            uniquePrimes.push(element);
+          });
+          regressionData.push([p, result[3]]);
+          //uniquePrimes.push(result[2])
+
+          //console.log(result)
+          let backgroundColor = "";
+          let n4color = "black";
+          /*if (((p - 1) % 11 == 0 && (p - 1) % 2 != 0) ||
                     ((p - 3) % 11 == 0 && (p - 3) % 2 != 0) ||
                     ((p - 5) % 11 == 0 && (p - 5) % 2 != 0 ||
                         (((p - 7) % 11 == 0 && (p - 7) % 2 != 0)) ||
@@ -103,111 +189,201 @@
                     backgroundColor = "blue";
                     n4color = "white";
                 }*/
-                document.getElementById("numberTrue").innerHTML += "<tr style='color:" + n4color + ";background-color:" + backgroundColor + "'>"
-                    + "<td style='color:" + color + ";background-color:" + background + "'>"
-                    + p + "</td>"
-                    + "<td>" + result[0] + "</td>"
-                    + "<td>" + result[3] + "</td>"
-                    + "<td>" + result[1] + "</td>"
-                    + "<td>" + isPrime(p) + "</td>"
-                    + "</tr>";
-
-
-
-            }
-
-            let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) { return a - b })
-            console.log(uniquePrimes2 + " count => " + uniquePrimes2.length)
-            content = "";
-            for (let index = 0; index < uniquePrimes2.length; index++) {
-                content += uniquePrimes2[index] + " , "
-                if (index % 10 == 0) {
-                    content += "<br/>"
-                }
-
-
-            }
-            document.getElementById("result_primes_found").innerHTML = content;
-            document.getElementById('myChart').innerHTML = ""
-            const ctx = document.getElementById('myChart')
-
-            const myChart = new Chart(ctx, {
-                type: 'scatter',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# of primes equation +1',
-                        data: primeCount,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-
-                        ],
-                        borderColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-            const ctx2 = document.getElementById('myChart2')
-
-            const myChart2 = new Chart(ctx2, {
-                type: 'scatter',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: '# of primes equation -1',
-                        data: primeCountMinusOneEquation,
-                        backgroundColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-
-                        ],
-                        borderColor: [
-                            'rgba(26, 188, 156,1.0)',
-                            'rgba(192, 57, 43,1.0)',
-                            'rgba(241, 196, 15,1.0)',
-                            'rgba(142, 68, 173,1.0)',
-
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-
-
+          /*contentTable +=
+            "<tr style='color:" +
+            n4color +
+            ";background-color:" +
+            backgroundColor +
+            "'>" +
+            "<td style='color:" +
+            color +
+            ";background-color:" +
+            background +
+            "'>" +
+            p +
+            "</td>" +
+            "<td>" +
+            result[0] +
+            "</td>" +
+            "<td>" +
+            result[3] +
+            "</td>" +
+            "<td>" +
+            result[1] +
+            "</td>" +
+            "<td>" +
+            isPrime(p) +
+            "</td>" +
+            "</tr>";*/
         }
+        //console.log(regressionData);
+        //table.innerHTML=contentTable
+        console.log(primeCache.size);
+        const regressionLineData = returnRegression(regressionData, "linear");
+        const regressionLineDataPrimes = returnRegression(
+          regressionPrimes,
+          "linear"
+        );
+        let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
+          return a - b;
+        });
+        //console.log(uniquePrimes2 + " count => " + uniquePrimes2.length);
+        //content = "";
+        /*for (let index = 0; index < uniquePrimes2.length; index++) {
+          content += uniquePrimes2[index] + " , ";
+          if (index % 10 == 0) {
+            content += "<br/>";
+          }
+        }*/
+        //document.getElementById("result_primes_found").innerHTML = content;
+        document.getElementById("myChart").innerHTML = "";
+        const ctx = document.getElementById("myChart");
 
+        const myChart = new Chart(ctx, {
+          type: "scatter",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "# of primes equation +1",
+                data: primeCount,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
 
+        const ctx2 = document.getElementById("myChart2");
 
-        /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
+        const myChart2 = new Chart(ctx2, {
+          type: "scatter",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "# of primes equation -1",
+                data: primeCountMinusOneEquation,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+              {
+                label: "Regression Line",
+                data: regressionData.map((d, i) => ({
+                  x: d[0],
+                  y: regressionLineData[i],
+                })),
+                backgroundColor: "red",
+                type: "line",
+                fill: false,
+                borderWidth: 2,
+              },
+              {
+                label: "Regression primes",
+                data: regressionPrimes.map((d, i) => ({
+                  x: d[0],
+                  y: Math.round(regressionLineDataPrimes[i]),
+                })),
+                backgroundColor: "blue",
+                type: "line",
+                fill: false,
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+
+        const ctxPrimes = document.getElementById("myChartPrimes");
+
+        const myChartPrimes = new Chart(ctxPrimes, {
+          type: "scatter",
+          data: {
+            labels: primes,
+            datasets: [
+              {
+                label: "# of primes equation +1",
+                data: primesData,
+                backgroundColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderColor: [
+                  "rgba(26, 188, 156,1.0)",
+                  "rgba(192, 57, 43,1.0)",
+                  "rgba(241, 196, 15,1.0)",
+                  "rgba(142, 68, 173,1.0)",
+                ],
+                borderWidth: 1,
+              },
+              {
+                label: "Regression primes",
+                data: regressionPrimes.map((d, i) => ({
+                  x: d[0],
+                  y: Math.round(regressionLineDataPrimes[i]),
+                })),
+                backgroundColor: "blue",
+                type: "line",
+                fill: false,
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+        const endTime = performance.now();
+        const elapsedTime = endTime - startTime;
+
+        // Output the elapsed time
+        console.log("Elapsed time:", elapsedTime / 1000, "secondes");
+        console.log(primeCache);
+      }
+
+      /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
         window.location.href = image;*/
-
     </script>
-</body>
-
+  </body>
 </html>
