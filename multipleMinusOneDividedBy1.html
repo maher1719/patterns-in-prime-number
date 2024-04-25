@@ -64,7 +64,7 @@
       }
 
       function addition(num) {
-        //console.log(num);
+
         var quotient = Math.floor(num / 1);
         let secondmult = 0;
         let thirdmult = 0;
@@ -75,9 +75,6 @@
           if (isPrime(index) || isPrime(num - index)) {
             if (isPrime(index * quotient + 1)) {
               secondmult++;
-              /*console.log(
-                index + " * " + quotient + " + 1 = " + (index * quotient + 1)
-              );*/
               if (index > 2) {
                 primes.push(index * quotient + 1);
               }
@@ -164,7 +161,7 @@
                     backgroundColor = "blue";
                     n4color = "white";
                 }*/
-          contentTable +=
+          /*contentTable +=
             "<tr style='color:" +
             n4color +
             ";background-color:" +
@@ -189,7 +186,7 @@
             "<td>" +
             isPrime(p) +
             "</td>" +
-            "</tr>";
+            "</tr>";*/
         }
         //console.log(regressionData);
         table.innerHTML=contentTable
@@ -199,7 +196,7 @@
           regressionPrimes,
           "linear"
         );
-        let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
+        /*let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
           return a - b;
         });
         //console.log(uniquePrimes2 + " count => " + uniquePrimes2.length);

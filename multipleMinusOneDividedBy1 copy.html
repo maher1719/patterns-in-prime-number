@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--link rel="stylesheet" href="bootstrap/bootstrap-5.3.3-dist/css/bootstrap.min.css"-->
+    <title>Document</title>
+  </head>
+
+  <body>
+    <canvas id="myChart" width="400px" height="300px"></canvas>
+    <canvas id="myChart2" width="400px" height="300px"></canvas>
+    <canvas id="myChartPrimes" width="400px" height="300px"></canvas>
+    myChartPrimes
+    <div>
+      <input class="form-control" placeholder="type a min number" type="number" id="minInterval" />
+      <input class="form-control" placeholder="type a max number" type="number" id="endInterval" />
+
+      <button class="btn btn-primary" onclick="calculate()">calculate!</button>
+    </div>
+
+    <table class="table table-bordered" border="1">
+      <thead>
+        <tr>
+          <th>number</th>
+          <th>one number is prime</th>
+          <th>primes minus One</th>
+          <th>both two numbers are primes</th>
+          <th>isPrime</th>
+        </tr>
+      </thead>
+      <tbody id="numberTrue"></tbody>
+    </table>
+    <div id="result_primes_found"></div>
+    <script src="chart.js"></script>
+    <script src="regression.js"></script>
+    <script>
+      const primeCache=new Map,primesFound=new Set,table=document.getElementById("numberTrue");function isPrime(e){if(primeCache.size>=Math.pow(10,7)&&primeCache.clear(),primeCache.has(e))return primeCache.get(e);if(e<=1)return!1;if(e<=3)return!0;if(e%2==0||e%3==0)return primeCache.set(e,!1),!1;for(let r=5;r*r<=e;r+=6)if(e%r==0||e%(r+2)==0)return primeCache.set(e,!1),!1;return primeCache.set(e,!0),!0}function addition(e){var r=Math.floor(e/1);let t=0,a=[],o=0;for(let n=2;n<=r;n++)(isPrime(n)||isPrime(e-n))&&(isPrime(n*r+1)&&(t++,n>2&&a.push(n*r+1)),isPrime(n*r-1)&&(o++,a.push(n*r-1)));return[t,0,a,o]}function returnRegression(e,r){let t;"linear"==r&&(t=regression.linear(e)),"log"==r&&(t=regression.logarithmic(e));const a=e.map((e=>e[0])),o=(e.map((e=>e[1])),t.equation),n=`y = ${o[0]}x + ${o[1]}`;return console.log("Regression Equation:",n),regressionLineData=a.map((e=>t.predict(e)[1]))}function calculate(){const e=performance.now();document.getElementById("numberTrue").innerHTML="";let r=document.getElementById("minInterval").value,t=document.getElementById("endInterval").value,a=[],o=[],n=[],i=[],l=[],s=[],d=[],b=[],u="";for(let e=Number(r);e<=Number(t);e++){let r=addition(e);o.push(e),n.push(r[0]),i.push(r[3]);let t="",c="";isPrime(e)&&(t="white",c="black",d.push(e),b.push(r[3]),s.push([e,r[3]])),r[2].forEach((e=>{a.push(e)})),l.push([e,r[3]]),u+="<tr style='color:"+"black"+";background-color:"+""+"'><td style='color:"+t+";background-color:"+c+"'>"+e+"</td><td>"+r[0]+"</td><td>"+r[3]+"</td><td>"+r[1]+"</td><td>"+isPrime(e)+"</td></tr>"}table.innerHTML=u,console.log(primeCache.size);const c=returnRegression(l,"linear"),g=returnRegression(s,"linear");[...new Set(a)].sort((function(e,r){return e-r}));document.getElementById("myChart").innerHTML="";const m=document.getElementById("myChart"),p=(new Chart(m,{type:"scatter",data:{labels:o,datasets:[{label:"# of primes equation +1",data:n,backgroundColor:["rgba(26, 188, 156,1.0)","rgba(192, 57, 43,1.0)","rgba(241, 196, 15,1.0)","rgba(142, 68, 173,1.0)"],borderColor:["rgba(26, 188, 156,1.0)","rgba(192, 57, 43,1.0)","rgba(241, 196, 15,1.0)","rgba(142, 68, 173,1.0)"],borderWidth:1}]},options:{scales:{y:{beginAtZero:!0}}}}),document.getElementById("myChart2")),h=(new Chart(p,{type:"scatter",data:{labels:o,datasets:[{label:"# of primes equation -1",data:i,backgroundColor:["rgba(26, 188, 156,1.0)","rgba(192, 57, 43,1.0)","rgba(241, 196, 15,1.0)","rgba(142, 68, 173,1.0)"],borderColor:["rgba(26, 188, 156,1.0)","rgba(192, 57, 43,1.0)","rgba(241, 196, 15,1.0)","rgba(142, 68, 173,1.0)"],borderWidth:1},{label:"Regression Line",data:l.map(((e,r)=>({x:e[0],y:c[r]}))),backgroundColor:"red",type:"line",fill:!1,borderWidth:2},{label:"Regression primes",data:s.map(((e,r)=>({x:e[0],y:Math.round(g[r])}))),backgroundColor:"blue",type:"line",fill:!1,borderWidth:2}]},options:{scales:{y:{beginAtZero:!0}}}}),document.getElementById("myChartPrimes")),y=(new Chart(h,{type:"scatter",data:{labels:d,datasets:[{label:"# of primes equation +1",data:b,backgroundColor:["rgba(26, 188, 156,1.0)","rgba(192, 57, 43,1.0)","rgba(241, 196, 15,1.0)","rgba(142, 68, 173,1.0)"],borderColor:["rgba(26, 188, 156,1.0)","rgba(192, 57, 43,1.0)","rgba(241, 196, 15,1.0)","rgba(142, 68, 173,1.0)"],borderWidth:1},{label:"Regression primes",data:s.map(((e,r)=>({x:e[0],y:Math.round(g[r])}))),backgroundColor:"blue",type:"line",fill:!1,borderWidth:2}]},options:{scales:{y:{beginAtZero:!0}}}}),performance.now()-e);console.log("Elapsed time:",y/1e3,"secondes"),console.log(primeCache)}
+    </script>
+  </body>
+</html>
