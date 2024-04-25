@@ -39,13 +39,16 @@
     <script src="chart.js"></script>
     <script src="primeFactors.js"></script>
     <script>
-      const primeCache = new Map();
       const minIntervalInput = document.getElementById("minInterval");
       const endIntervalInput = document.getElementById("endInterval");
       const numberTrueTable = document.getElementById("numberTrue");
+      const primeCache = new Map();
       function isPrime(num) {
-        if (primeCache.size>=Math.pow(2,6)){
-          primeCache.clear()
+        if (primeCache.size > Math.pow(10, 7)) {
+          primeCache.clear();
+        }
+        if (primeCache.size >= Math.pow(2, 6)) {
+          primeCache.clear();
         }
         if (primeCache.has(num)) {
           return primeCache.get(num);
@@ -286,31 +289,57 @@
           "<div>" + twinPrimesFound + "</div>";
         document.getElementById("myChart").innerHTML = "";
         const backgroundColorChart = [
-          "rgba(142, 68, 173, 1.0)", // Purple
-          "rgba(26, 188, 156, 1.0)", // Turquoise
-          "rgba(0, 0, 0, 1.0)", // Orange
-          "rgba(46, 204, 113, 1.0)", // Green
-          "rgba(52, 152, 219, 1.0)", // Blue
-          "rgba(241, 196, 15, 1.0)", // Yellow
-          "rgba(231, 76, 60, 1.0)", // Red
-          "rgba(236, 112, 99, 1.0)", // Pink
-          "rgba(52, 152, 219, 1.0)", // Sky Blue
-          "rgba(0, 206, 209, 1.0)", // Teal
-          "rgba(199, 0, 255, 1.0)", // Violet
-          "rgba(255, 127, 80, 1.0)", // Coral
+          "rgba(0, 0, 0, 1.0)", // black
+          "rgba(0, 255, 0, 1.0)", // Green (Cool)
+          "rgba(255, 0, 0, 1.0)", // Red (Warm)
+          "rgba(0, 0, 255, 1.0)", // Blue (Cool)
+          "rgba(255, 0, 255, 1.0)", // Magenta (Cool)
+          "rgba(255, 255, 0, 1.0)", // Yellow (Warm)
         ];
+        const backgroundColorChartSpecial = [
+          "rgba(255, 128, 0, 1.0)",
+          "gba(64, 224, 208, 1.0)"
+        ];
+        function getBackgroundColor(label) {
+          const remainder420 = label % 420;
+          if(remainder420==0){
+            return backgroundColorChartSpecial[1]
+          }
+          const remainder60 = label % 60;
+          if(remainder60==0){
+            return backgroundColorChartSpecial[0]
+          }
+          const remainder = label % 12;
+
+          if (remainder === 2) {
+            return backgroundColorChart[0]; // black for 12n
+          } else if (remainder === 4) {
+            return backgroundColorChart[1]; // Green for 12n+2
+          } else if (remainder === 6) {
+            return backgroundColorChart[2]; // Red for 12n+4
+          } else if (remainder === 8) {
+            return backgroundColorChart[3]; // Blue for 12n+6
+          } else if (remainder === 10) {
+            return backgroundColorChart[4]; // Magenta for 12n+8
+          } else if (remainder === 0) {
+            return backgroundColorChart[5]; // Yellow for 12n+10
+          }
+        }
+
+        // Now, assign colors based on labels
+        const backgroundColors = labels.map(getBackgroundColor);
 
         const ctx = document.getElementById("myChart");
 
         const myChart = new Chart(ctx, {
-          type: "bar",
+          type: "scatter",
           data: {
             labels: labels,
             datasets: [
               {
                 label: "# of primes equation +1",
                 data: primeCount,
-                backgroundColor: backgroundColorChart,
+                backgroundColor: backgroundColors,
                 borderWidth: 1,
               },
             ],
@@ -327,14 +356,14 @@
         const ctx2 = document.getElementById("myChart2");
 
         const myChart2 = new Chart(ctx2, {
-          type: "bar",
+          type: "scatter",
           data: {
             labels: labels,
             datasets: [
               {
                 label: "# of primes equation -1",
                 data: primeCountMinusOneEquation,
-                backgroundColor: backgroundColorChart,
+                backgroundColor: backgroundColors,
                 borderWidth: 1,
               },
             ],
@@ -377,6 +406,7 @@
             },
           },
         });
+        
         function getLogRegression(data) {
           const n = data.length;
           console.log(n);
@@ -399,7 +429,7 @@
 
           return (x) => a + b * x;
         }
-
+        
         function getLogRegressionData(data) {
           const logRegression = getLogRegression(data);
           console.log();
@@ -453,7 +483,7 @@
         const ctx4 = document.getElementById("myChart4");
 
         const myChart4 = new Chart(ctx4, {
-          type: "bar",
+          type: "scatter",
           data: {
             labels: labels3,
             datasets: [
@@ -537,15 +567,15 @@
         const ctx7 = document.getElementById("myChart7");
 
         const myChart7 = new Chart(ctx7, {
-          type: "line",
+          type: "scatter",
           data: {
             labels: labels,
             datasets: [
               {
                 label: "# ratio ",
                 data: primeTwinsRatioPlusOne,
-                backgroundColor: backgroundColorChart,
-                borderColor: backgroundColorChart,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors,
                 borderWidth: 1,
               },
             ],
@@ -570,8 +600,8 @@
               {
                 label: "# ratio ",
                 data: primeReverseTwinsRatioPlusOne,
-                backgroundColor: backgroundColorChart,
-                borderColor: backgroundColorChart,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors,
                 borderWidth: 1,
               },
               {
@@ -603,7 +633,7 @@
         const elapsedTime = endTime - startTime;
 
         // Output the elapsed time
-        console.log("Elapsed time:", elapsedTime/1000, "secondes");
+        console.log("Elapsed time:", elapsedTime / 1000, "secondes");
       }
 
       /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
