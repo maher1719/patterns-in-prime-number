@@ -8,6 +8,7 @@
   </head>
 
   <body>
+    <h1>Primes generated from even numbers </h1>
     <canvas id="myChart" width="400px" height="300px"></canvas>
     <canvas id="myChart2" width="400px" height="300px"></canvas>
     <canvas id="myChart3" width="400px" height="300px"></canvas>
@@ -139,6 +140,15 @@
         let equationTwinMax = [];
         let equationTwinMax2 = [];
         let contentHtml = [];
+        let lnFunc = [];
+        let lnFunc2 = [];
+        let lnFunc3 = [];
+        let lnFunc4 = [];
+        let ln = [];
+        let ln2 = [];
+        let ln3 = [];
+        let ReciprocLn=[]
+        let ReciprocLnForMultipleOf3=[]
         for (
           let number = Number(minInterval);
           number <= Number(endInterval);
@@ -152,6 +162,16 @@
           primesCountMinus += result[3];
           primeCountMinusOneEquation.push(result[3]);
           primeTwinsCount.push(result[4]);
+          lnFunc.push(Math.round(number / Math.log(number)));
+          lnFunc2.push(Math.round(number / Math.log(number)) * 1.5);
+          lnFunc3.push(Math.round(number / Math.log(number)) / 1.4);
+          lnFunc4.push(Math.round(number / Math.log(number)) * 2.8);
+          const logNumber=Math.log(number) - 1.5
+          let ResultLogTwinPrimeRatio=logNumber
+          
+          ln.push(ResultLogTwinPrimeRatio);
+          ReciprocLnForMultipleOf3.push(ResultLogTwinPrimeRatio-2)
+          ReciprocLn.push(1/ResultLogTwinPrimeRatio)
           primeTwinsRatioPlusOne.push(result[0] / result[4]);
           primeReverseTwinsRatioPlusOne.push(result[4] / result[0]);
           equationTwinMax.push(0.12 - 0.0001 * Math.log(number));
@@ -298,16 +318,16 @@
         ];
         const backgroundColorChartSpecial = [
           "rgba(255, 128, 0, 1.0)",
-          "gba(64, 224, 208, 1.0)"
+          "gba(64, 224, 208, 1.0)",
         ];
         function getBackgroundColor(label) {
           const remainder420 = label % 420;
-          if(remainder420==0){
-            return backgroundColorChartSpecial[1]
+          if (remainder420 == 0) {
+            return backgroundColorChartSpecial[1];
           }
           const remainder60 = label % 60;
-          if(remainder60==0){
-            return backgroundColorChartSpecial[0]
+          if (remainder60 == 0) {
+            return backgroundColorChartSpecial[0];
           }
           const remainder = label % 12;
 
@@ -342,6 +362,34 @@
                 backgroundColor: backgroundColors,
                 borderWidth: 1,
               },
+              {
+                label: "# of primes equation +1",
+                type: "line",
+                data: lnFunc,
+                backgroundColor: "black",
+                borderWidth: 1,
+              },
+              {
+                label: "# of primes equation +1",
+                type: "line",
+                data: lnFunc2,
+                backgroundColor: "black",
+                borderWidth: 1,
+              },
+              {
+                label: "# of primes equation +1",
+                type: "line",
+                data: lnFunc3,
+                backgroundColor: "black",
+                borderWidth: 1,
+              },
+              {
+                label: "# of primes equation +1",
+                type: "line",
+                data: lnFunc4,
+                backgroundColor: "black",
+                borderWidth: 1,
+              },
             ],
           },
           options: {
@@ -364,6 +412,13 @@
                 label: "# of primes equation -1",
                 data: primeCountMinusOneEquation,
                 backgroundColor: backgroundColors,
+                borderWidth: 1,
+              },
+              {
+                label: "# of primes equation +1",
+                type: "line",
+                data: lnFunc,
+                backgroundColor: "black",
                 borderWidth: 1,
               },
             ],
@@ -406,7 +461,7 @@
             },
           },
         });
-        
+
         function getLogRegression(data) {
           const n = data.length;
           console.log(n);
@@ -429,7 +484,7 @@
 
           return (x) => a + b * x;
         }
-        
+
         function getLogRegressionData(data) {
           const logRegression = getLogRegression(data);
           console.log();
@@ -530,40 +585,6 @@
           },
         });
 
-        function getLogRegression(data, x) {
-          const n = data.length;
-          let sumX = 0,
-            sumY = 0,
-            sumXY = 0,
-            sumXX = 0;
-
-          for (let i = 0; i < n; i++) {
-            const x = i + 1;
-            const y = Math.log(data[i]);
-            sumX += x;
-            sumY += y;
-            sumXY += x * y;
-            sumXX += x * x;
-          }
-
-          const b = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-          const a = (sumY - b * sumX) / n;
-
-          return Math.exp(a + b * x);
-        }
-
-        function getLogRegressionData(data, x) {
-          const logRegression = getLogRegression(data, x);
-          const regressionData = [];
-
-          for (let i = 0; i < data.length; i++) {
-            const x = i + 1;
-            const y = logRegression(x);
-            regressionData.push({ x, y });
-          }
-          console.log(regressionData);
-          return regressionData;
-        }
         const ctx7 = document.getElementById("myChart7");
 
         const myChart7 = new Chart(ctx7, {
@@ -576,6 +597,27 @@
                 data: primeTwinsRatioPlusOne,
                 backgroundColor: backgroundColors,
                 borderColor: backgroundColors,
+                borderWidth: 1,
+              },
+              {
+                label: "# of primes equation +1",
+                type: "line",
+                data: ln,
+                backgroundColor: "black",
+                borderWidth: 1,
+              },
+              {
+                label: "# of primes equation +1",
+                type: "line",
+                data: ln2,
+                backgroundColor: "black",
+                borderWidth: 1,
+              },
+              {
+                label: "# of primes equation +1",
+                type: "line",
+                data: ln3,
+                backgroundColor: "black",
                 borderWidth: 1,
               },
             ],
@@ -606,7 +648,7 @@
               },
               {
                 label: "line average",
-                data: equationTwinMax,
+                data: ReciprocLn,
                 backgroundColor: "rgba(192, 57, 43,1.0)",
                 type: "line",
               },

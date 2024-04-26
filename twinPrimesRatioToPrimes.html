@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Numbers Analysis</title>
+    <!-- Import Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div>
+        <label for="stepInput">Step for n:</label>
+        <input type="number" id="stepInput" min="1" value="1000">
+        <label for="limitInput">Limit m:</label>
+        <input type="number" id="limitInput" min="1000" value="10000">
+        <button onclick="updateCharts()">Generate Charts</button>
+    </div>
+    <div>
+        <canvas id="primeChart" width="400" height="300"></canvas>
+    </div>
+    <div>
+        <canvas id="twinPrimeChart" width="400" height="300"></canvas>
+    </div>
+    <div>
+        <canvas id="ratioChart" width="400" height="300"></canvas>
+    </div>
+
+    <script>
+        // Declare variables for chart instances
+        let primeChart, twinPrimeChart, ratioChart;
+
+        // Function to check if a number is prime
+        function isPrime(num) {
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            for (let i = 5; i * i <= num; i += 6) {
+                if (num % i === 0 || num % (i + 2) === 0) return false;
+            }
+            return true;
+        }
+
+        // Function to calculate twin primes
+        function calculateTwinPrimes(start, end) {
+            let twinPrimes = [];
+            for (let i = start; i <= end - 2; i++) {
+                if (isPrime(i) && isPrime(i + 2)) {
+                    twinPrimes.push(i);
+                }
+            }
+            return twinPrimes;
+        }
+
+        // Function to calculate the ratio of primes to twin primes
+        function calculateRatio(primes, twinPrimes) {
+            return primes.length / twinPrimes.length;
+        }
+
+        // Function to generate data for plotting
+        function generateData(step, limit) {
+            let primeData = [];
+            let twinPrimeData = [];
+            let ratioData = [];
+            let labels = [];
+            let ratioLog=[]
+            for (let i = step; i <= limit; i += step) {
+                let primes = [];
+                let twinPrimes = calculateTwinPrimes(i, i + step);
+                for (let j = i; j <= i + step; j++) {
+                    if (isPrime(j)) primes.push(j);
+                }
+                primeData.push(primes.length);
+                twinPrimeData.push(twinPrimes.length);
+                ratioData.push(calculateRatio(primes, twinPrimes));
+                labels.push(`${i} - ${i + step}`);
+                ratioLog.push(Math.log(i)-2)
+            }
+
+            return {
+                primeData: primeData,
+                twinPrimeData: twinPrimeData,
+                ratioData: ratioData,
+                labels: labels,
+                ratioLog:ratioLog
+            };
+        }
+
+        // Function to create charts
+        function createCharts(data) {
+            // Destroy existing charts if they exist
+            if (primeChart) primeChart.destroy();
+            if (twinPrimeChart) twinPrimeChart.destroy();
+            if (ratioChart) ratioChart.destroy();
+
+            // Prime Numbers Chart
+            primeChart = new Chart(document.getElementById("primeChart"), {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Number of Primes',
+                        data: data.primeData,
+                        fill: false,
+                        borderColor: 'blue',
+                        tension: 0.1
+                    }]
+                }
+            });
+
+            // Twin Primes Chart
+            twinPrimeChart = new Chart(document.getElementById("twinPrimeChart"), {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Number of Twin Primes',
+                        data: data.twinPrimeData,
+                        fill: false,
+                        borderColor: 'green',
+                        tension: 0.1
+                    }]
+                }
+            });
+
+            // Ratio Chart
+            ratioChart = new Chart(document.getElementById("ratioChart"), {
+                type: 'line',
+                data: {
+                    labels: data.labels,
+                    datasets: [
+                    {
+                        
+                        label: 'Ratio of Primes to Twin Primes',
+                        data: data.ratioLog,
+                        backgroundColor:"blue",
+                        borderColor: 'blue',
+                        
+                    },{
+                        label: 'Ratio of Primes to Twin Primes',
+                        data: data.ratioData,
+                        backgroundColor:"red",
+                        borderColor: 'red',
+                        
+                    },
+                ]
+                }
+            });
+        }
+
+        // Function to update charts
+        function updateCharts() {
+            let step = parseInt(document.getElementById("stepInput").value);
+            let limit = parseInt(document.getElementById("limitInput").value);
+            let data = generateData(step, limit);
+            createCharts(data);
+        }
+
+        // Create the initial charts when the DOM is loaded
+        document.addEventListener("DOMContentLoaded", function () {
+            updateCharts();
+        });
+    </script>
+</body>
+</html>
