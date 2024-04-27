@@ -149,6 +149,7 @@
         let ln3 = [];
         let ReciprocLn=[]
         let ReciprocLnForMultipleOf3=[]
+        const sqrt2=Math.sqrt(2);
         for (
           let number = Number(minInterval);
           number <= Number(endInterval);
@@ -162,11 +163,13 @@
           primesCountMinus += result[3];
           primeCountMinusOneEquation.push(result[3]);
           primeTwinsCount.push(result[4]);
+          
           lnFunc.push(Math.round(number / Math.log(number)));
-          lnFunc2.push(Math.round(number / Math.log(number)) * 1.5);
-          lnFunc3.push(Math.round(number / Math.log(number)) / 1.4);
-          lnFunc4.push(Math.round(number / Math.log(number)) * 2.8);
-          const logNumber=Math.log(number) - 1.5
+          //lnFunc.push(Math.round(number / Math.log(number))-(Math.sqrt(number)*Math.log(number)));
+          lnFunc2.push(Math.round(number / Math.log(number)) * sqrt2);
+          lnFunc3.push(Math.round(number / Math.log(number)) / sqrt2);
+          lnFunc4.push(Math.round(number / Math.log(number)) * 2*sqrt2);
+          const logNumber=Math.log(number) - sqrt2
           let ResultLogTwinPrimeRatio=logNumber
           
           ln.push(ResultLogTwinPrimeRatio);
@@ -332,17 +335,17 @@
           const remainder = label % 12;
 
           if (remainder === 2) {
-            return backgroundColorChart[0]; // black for 12n
+            return backgroundColorChart[0]; // black for 12n+2
           } else if (remainder === 4) {
-            return backgroundColorChart[1]; // Green for 12n+2
+            return backgroundColorChart[1]; // Green for 12n+4
           } else if (remainder === 6) {
-            return backgroundColorChart[2]; // Red for 12n+4
+            return backgroundColorChart[2]; // Red for 12n+6
           } else if (remainder === 8) {
-            return backgroundColorChart[3]; // Blue for 12n+6
+            return backgroundColorChart[3]; // Blue for 12n+8
           } else if (remainder === 10) {
-            return backgroundColorChart[4]; // Magenta for 12n+8
+            return backgroundColorChart[4]; // Magenta for 12n+10
           } else if (remainder === 0) {
-            return backgroundColorChart[5]; // Yellow for 12n+10
+            return backgroundColorChart[5]; // Yellow for 12n
           }
         }
 

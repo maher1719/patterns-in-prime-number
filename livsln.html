@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Li(x) vs x/ln(x)</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="800" height="400"></canvas>
+
+    <script>
+        // Function to calculate Li(x)
+        function li(x) {
+            if (x < 2) return 0; // Li(0) = Li(1) = 0
+            let sum = 0;
+            for (let n = 2; n <= x; n++) {
+                sum += 1 / Math.log(n);
+            }
+            return sum;
+        }
+
+        // Generate data for plotting
+        const data = {
+            labels: [],
+            datasets: [
+                {
+                    label: 'Li(x)',
+                    data: [],
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    //yAxisID: 'Li',
+                },
+                {
+                    label: 'x/ln(x)',
+                    data: [],
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    //yAxisID: 'x_ln_x',
+                }
+            ]
+        };
+
+        // Calculate Li(x) and x/ln(x) for each x value
+        for (let x = 2; x <= 100; x += 1) {
+            data.labels.push(x);
+            data.datasets[0].data.push(li(x));
+            data.datasets[1].data.push(x / Math.log(x));
+        }
+
+        // Configure the chart
+        const config = {
+            type: 'line',
+            data: data,
+            options: {
+                scales: {
+                    /*x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },*/
+                    y: {
+                        beginAtZero: true
+                    },
+                    /*Li: {
+                        type: 'linear',
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Li(x)'
+                        }
+                    },
+                    x_ln_x: {
+                        type: 'linear',
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'x/ln(x)'
+                        }
+                    }*/
+                }
+            }
+        };
+
+        // Render the chart
+        var myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+    </script>
+</body>
+</html>

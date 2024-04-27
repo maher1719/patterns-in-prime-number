@@ -202,7 +202,7 @@
           regressionPrimes,
           "linear"
         );
-        /*let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
+        let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
           return a - b;
         });
         //console.log(uniquePrimes2 + " count => " + uniquePrimes2.length);
@@ -213,7 +213,7 @@
             content += "<br/>";
           }
         }*/
-        //document.getElementById("result_primes_found").innerHTML = content;
+        document.getElementById("result_primes_found").innerHTML = uniquePrimes2.length;
         document.getElementById("myChart").innerHTML = "";
         const ctx = document.getElementById("myChart");
 
