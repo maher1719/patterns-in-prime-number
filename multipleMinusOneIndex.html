@@ -37,10 +37,29 @@
     <script src="chart.js"></script>
     <script src="primeFactors.js"></script>
     <script>
+      const primeCache = new Map();
       function isPrime(num) {
-        for (let i = 2, s = Math.sqrt(num); i <= s; i++)
-          if (num % i === 0) return false;
-        return num > 1;
+        if (primeCache.size > Math.pow(10, 7)) {
+          primeCache.clear();
+        }
+        if (primeCache.size >= Math.pow(2, 6)) {
+          primeCache.clear();
+        }
+        if (primeCache.has(num)) {
+          return primeCache.get(num);
+        }
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) return false;
+
+        for (let i = 5; i * i <= num; i += 6) {
+          if (num % i === 0 || num % (i + 2) === 0) {
+            primeCache.set(num, false);
+            return false;
+          }
+        }
+        primeCache.set(num, true);
+        return true;
       }
       function addition(numberToGeneratePrimes) {
         //console.log(numberToGeneratePrimes)
@@ -57,7 +76,7 @@
             let primePlusOne = index * quotient + 1;
             let primeMinusOne = index * quotient - 1;
 
-            if (isPrime(index * quotient + 1)) {
+            if (isPrime(primePlusOne)) {
               secondmult++;
               possibleTwin1 = primePlusOne;
               //console.log(index + " * " + quotient + " + 1 = " + primePlusOne);
@@ -85,6 +104,7 @@
         document.getElementById("numberTrue").innerHTML = "";
         let minInterval = document.getElementById("minInterval").value;
         let endInterval = document.getElementById("endInterval").value;
+        let contentHtml="";
         let uniquePrimes = [];
         let labels = [];
         let labels2 = [];
@@ -152,7 +172,7 @@
             BackgroundColor = "yellow";
             ColorTwin = "black";
           }
-          document.getElementById("numberTrue").innerHTML +=
+           contentHtml+=
             "<tr style='color:" +
             exceptionColor +
             ";background-color:" +
@@ -183,7 +203,7 @@
             "</td>" +
             "</tr>";
         }
-
+        document.getElementById("numberTrue").innerHTML=contentHtml
         let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
           return a - b;
         });
@@ -239,7 +259,7 @@
         const ctx = document.getElementById("myChart");
 
         const myChart = new Chart(ctx, {
-          type: "bar",
+          type: "scatter",
           data: {
             labels: labels,
             datasets: [
@@ -274,7 +294,7 @@
         const ctx2 = document.getElementById("myChart2");
 
         const myChart2 = new Chart(ctx2, {
-          type: "bar",
+          type: "scatter",
           data: {
             labels: labels,
             datasets: [
@@ -344,7 +364,7 @@
         const ctx5 = document.getElementById("myChart5");
 
         const myChart5 = new Chart(ctx5, {
-          type: "bar",
+          type: "scatter",
           data: {
             labels: labels,
             datasets: [
