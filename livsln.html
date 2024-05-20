@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Li(x) vs x/ln(x)</title>
+    <title>Li(x), pi(x), and x/ln(x)</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <label for="start">Start:</label>
+    <input type="number" id="start" name="start" value="2">
+    <label for="end">End:</label>
+    <input type="number" id="end" name="end" value="100">
+    <button onclick="updateChart()">Update Chart</button>
     <canvas id="myChart" width="800" height="400"></canvas>
 
     <script>
@@ -20,72 +25,109 @@
             return sum;
         }
 
-        // Generate data for plotting
-        const data = {
-            labels: [],
-            datasets: [
-                {
-                    label: 'Li(x)',
-                    data: [],
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    //yAxisID: 'Li',
-                },
-                {
-                    label: 'x/ln(x)',
-                    data: [],
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    //yAxisID: 'x_ln_x',
+        // Function to calculate pi(x) using the Sieve of Eratosthenes
+        function primesUpTo(n) {
+            const primes = [];
+            const sieve = Array(n + 1).fill(true);
+            for (let p = 2; p * p <= n; p++) {
+                if (sieve[p]) {
+                    for (let i = p * p; i <= n; i += p) {
+                        sieve[i] = false;
+                    }
                 }
-            ]
-        };
-
-        // Calculate Li(x) and x/ln(x) for each x value
-        for (let x = 2; x <= 100; x += 1) {
-            data.labels.push(x);
-            data.datasets[0].data.push(li(x));
-            data.datasets[1].data.push(x / Math.log(x));
+            }
+            for (let i = 2; i <= n; i++) {
+                if (sieve[i]) primes.push(i);
+            }
+            return primes;
         }
 
-        // Configure the chart
+        function pi(x) {
+            return primesUpTo(x).length;
+        }
+
+        // Function to update the chart with new data
+        function updateChart() {
+            const start = parseInt(document.getElementById('start').value);
+            const end = parseInt(document.getElementById('end').value);
+            const labels = [];
+            const liData = [];
+            const piData = [];
+            const x_ln_xData = [];
+
+            for (let x = start; x <= end; x++) {
+                labels.push(x);
+                //liData.push(li(x)-Math.log(x));
+                liData.push(Math.round(li(x)))
+                piData.push(pi(x));
+                x_ln_xData.push(x / Math.log(x));
+            }
+
+            myChart.data.labels = labels;
+            myChart.data.datasets[0].data = liData;
+            myChart.data.datasets[1].data = piData;
+            myChart.data.datasets[2].data = x_ln_xData;
+            myChart.update();
+        }
+
+        // Initial chart configuration
+        const initialStart = parseInt(document.getElementById('start').value);
+        const initialEnd = parseInt(document.getElementById('end').value);
+        const initialLabels = [];
+        const initialLiData = [];
+        const initialPiData = [];
+        const initialX_ln_xData = [];
+
+        for (let x = initialStart; x <= initialEnd; x++) {
+            initialLabels.push(x);
+            initialLiData.push(Math.round((x)-(Math.log(x)*4)-(Math.log10(x)*12)));
+            initialPiData.push(pi(x));
+            initialX_ln_xData.push(x / Math.log(x));
+        }
+
         const config = {
             type: 'line',
-            data: data,
+            data: {
+                labels: initialLabels,
+                datasets: [
+                    {
+                        label: 'Li(x)',
+                        type:"scatter",
+                        data: initialLiData,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    },
+                    {
+                        label: 'pi(x)',
+                        type:"scatter",
+                        data: initialPiData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    },
+                    {
+                        label: 'x/ln(x)',
+                        data: initialX_ln_xData,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    }
+                ]
+            },
             options: {
                 scales: {
-                    /*x: {
+                    x: {
                         type: 'linear',
                         position: 'bottom'
-                    },*/
+                    },
                     y: {
                         beginAtZero: true
                     },
-                    /*Li: {
-                        type: 'linear',
-                        position: 'left',
-                        title: {
-                            display: true,
-                            text: 'Li(x)'
-                        }
-                    },
-                    x_ln_x: {
-                        type: 'linear',
-                        position: 'right',
-                        title: {
-                            display: true,
-                            text: 'x/ln(x)'
-                        }
-                    }*/
                 }
             }
         };
 
         // Render the chart
-        var myChart = new Chart(
-            document.getElementById('myChart'),
-            config
-        );
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, config);
     </script>
 </body>
 </html>
