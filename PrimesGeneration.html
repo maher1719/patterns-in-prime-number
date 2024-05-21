@@ -26,7 +26,7 @@
           <th>number</th>
           <th>one number is prime</th>
           <th>primes minus One</th>
-          <th>both two numbers are primes</th>
+          <th>twin primes</th>
           <th>isPrime</th>
         </tr>
       </thead>
@@ -70,51 +70,37 @@
         let thirdmult = 0;
         let primes = [];
         let multipleMinusOne = 0;
+        twinsNumber=0;
 
         for (let index = 2; index <= quotient; index++) {
-          if (1==1) {
-            if (isPrime(index * quotient + 1)) {
+          let possibleTwin1, possibleTwin2;
+            let primePlusOne = index * quotient + 1;
+            let primeMinusOne = index * quotient - 1;
+            if (isPrime(primePlusOne)) {
               secondmult++;
+              possibleTwin1=primePlusOne;
               if (index > 2) {
-                primes.push(index * quotient + 1);
+                primes.push(primePlusOne);
               }
             }
-            if (isPrime(index * quotient - 1)) {
+            if (isPrime(primeMinusOne)) {
               multipleMinusOne++;
-              primes.push(index * quotient - 1);
+              possibleTwin2=primeMinusOne;
+              primes.push(primeMinusOne);
               /*console.log(
                 index + " * " + quotient + " - 1 = " + (index * quotient - 1)
               );*/
             }
-          }
+            if (possibleTwin1 - possibleTwin2 == 2) {
+              twinsNumber++;
+            }
+          
         }
 
-        return [secondmult, thirdmult, primes, multipleMinusOne];
+        return [secondmult, twinsNumber, primes, multipleMinusOne];
       }
 
-      function returnRegression(data, type) {
-        let result;
-        if (type == "linear") {
-          result = regression.linear(data);
-        }
-        if (type == "log") {
-          result = regression.logarithmic(data);
-        }
 
-        // Extract the x and y values from the data
-        const xValues = data.map((d) => d[0]);
-        const yValues = data.map((d) => d[1]);
-        const equation = result.equation;
-
-        // Format the equation for display
-        const formattedEquation = `y = ${equation[0]}x + ${equation[1]}`;
-
-        // Display the equation
-        console.log("Regression Equation:", formattedEquation);
-        // Create the regression line data
-        return (regressionLineData = xValues.map((x) => result.predict(x)[1]));
-      }
-      //}
       function calculate() {
         const startTime = performance.now();
         document.getElementById("numberTrue").innerHTML = "";
@@ -132,14 +118,17 @@
         let piFunc=[];
         let piFunc2=[]
         let piFunc3=[]
+        let twinPrimesArray=[]
         for (let p = Number(minInterval); p <= Number(endInterval); p++) {
           let result = addition(p);
+          let colorException;
           piFunc.push(p/Math.log(p)/6)
           piFunc2.push(p/Math.log(p)/3)
           piFunc3.push(p/Math.log(p)/2)
           labels.push(p);
           primeCount.push(result[0]);
           primeCountMinusOneEquation.push(result[3]);
+          twinPrimesArray.push(result[1])
           let color = "";
           let background = "";
           if (isPrime(p)) {
@@ -167,6 +156,18 @@
                     backgroundColor = "blue";
                     n4color = "white";
                 }*/
+            if(p%6==0){
+              backgroundColor="green";
+              n4color="white"
+            }
+            if(p%30==0){
+              backgroundColor="blue";
+              n4color="white"
+            }
+            if(p%210==0){
+              backgroundColor="red";
+              n4color="white"
+            }
           contentTable +=
             "<tr style='color:" +
             n4color +
@@ -197,11 +198,7 @@
         //console.log(regressionData);
         table.innerHTML=contentTable
         console.log(primeCache.size);
-        const regressionLineData = returnRegression(regressionData, "linear");
-        const regressionLineDataPrimes = returnRegression(
-          regressionPrimes,
-          "linear"
-        );
+
         let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
           return a - b;
         });
@@ -237,13 +234,6 @@
                   "rgba(241, 196, 15,1.0)",
                   "rgba(142, 68, 173,1.0)",
                 ],
-                borderWidth: 1,
-              },
-              {
-                label: "pi Function",
-                data: piFunc,
-                backgroundColor: "black",
-                borderColor: "black",
                 borderWidth: 1,
               },
               
@@ -299,11 +289,11 @@
         const myChartPrimes = new Chart(ctxPrimes, {
           type: "scatter",
           data: {
-            labels: primes,
+            labels: labels,
             datasets: [
               {
-                label: "# of primes equation +1",
-                data: primesData,
+                label: "Twin primes",
+                data: twinPrimesArray,
                 backgroundColor: [
                   "rgba(26, 188, 156,1.0)",
                   "rgba(192, 57, 43,1.0)",

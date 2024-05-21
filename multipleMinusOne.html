@@ -33,10 +33,31 @@
     <div id="result_primes_found"></div>
     <script src="chart.js"></script>
     <script>
+      const primeCache = new Map();
+      const primesFound = new Set();
+      const table = document.getElementById("numberTrue");
       function isPrime(num) {
-        for (let i = 2, s = Math.sqrt(num); i <= s; i++)
-          if (num % i === 0) return false;
-        return num > 1;
+        if (primeCache.size >= Math.pow(10, 7)) {
+          primeCache.clear();
+        }
+        if (primeCache.has(num)) {
+          return primeCache.get(num);
+        }
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) {
+          primeCache.set(num, false);
+          return false;
+        }
+
+        for (let i = 5; i * i <= num; i += 6) {
+          if (num % i === 0 || num % (i + 2) === 0) {
+            primeCache.set(num, false);
+            return false;
+          }
+        }
+        primeCache.set(num, true);
+        return true;
       }
       function addition(numberToGeneratePrimes) {
         console.log(numberToGeneratePrimes);
