@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Factorization Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prime Factorization Table</h1>
+    <div>
+        <input type="number" name="min" id="min" />
+        <input type="number" name="max" id="max" />
+        <input type="button" value="calculate" id="calculateBtn" />
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Composite Number</th>
+                <th>Prime Factorization</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- JavaScript will populate this section -->
+        </tbody>
+    </table>
+
+    <script>
+        const minVal = document.getElementById("min");
+        const maxVal = document.getElementById("max");
+        // Function to find prime factors of a number
+        function primeFactors(n) {
+            const factors = [];
+            let divisor = 2;
+            while (n >= 2) {
+                if (n % divisor === 0) {
+                    factors.push(divisor);
+                    n = n / divisor;
+                } else {
+                    divisor++;
+                }
+            }
+            return factors;
+        }
+
+        // Check if a number is prime
+        const primeCache = new Map();
+      function isPrime(num) {
+        if (primeCache.size >= Math.pow(10, 7)) {
+          primeCache.clear();
+        }
+        if (primeCache.has(num)) {
+          return primeCache.get(num);
+        }
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) {
+          primeCache.set(num, false);
+          return false;
+        }
+
+        for (let i = 5; i * i <= num; i += 6) {
+          if (num % i === 0 || num % (i + 2) === 0) {
+            primeCache.set(num, false);
+            return false;
+          }
+        }
+        primeCache.set(num, true);
+        return true;
+      }
+
+        // Generate prime factorizations for composite numbers between twin primes
+        function factorTwin() {
+            const n = parseInt(minVal.value);
+            const m = parseInt(maxVal.value);
+
+            // Find twin primes and extract composite numbers between them
+            for (let num = n + 1; num < m; num++) {
+                if (isPrime(num) && isPrime(num + 2)) {
+                    const compositeNum = num + 1;
+                    const factors = primeFactors(compositeNum);
+                    if (factors.length > 1) {
+                        // Only consider composite numbers
+                        const factorization = factors.join(" × ");
+                        const row = `<tr><td>${compositeNum}</td><td>${factorization}</td></tr>`;
+                        document.querySelector("tbody").insertAdjacentHTML("beforeend", row);
+                    }
+                }
+            }
+        }
+
+        // Attach event listener to the button
+        document.getElementById("calculateBtn").addEventListener("click", factorTwin);
+    </script>
+</body>
+</html>

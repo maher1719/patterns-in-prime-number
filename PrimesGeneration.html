@@ -14,8 +14,18 @@
     <canvas id="myChartPrimes" width="400px" height="300px"></canvas>
     myChartPrimes
     <div>
-      <input class="form-control" placeholder="type a min number" type="number" id="minInterval" />
-      <input class="form-control" placeholder="type a max number" type="number" id="endInterval" />
+      <input
+        class="form-control"
+        placeholder="type a min number"
+        type="number"
+        id="minInterval"
+      />
+      <input
+        class="form-control"
+        placeholder="type a max number"
+        type="number"
+        id="endInterval"
+      />
 
       <button class="btn btn-primary" onclick="calculate()">calculate!</button>
     </div>
@@ -28,6 +38,7 @@
           <th>Primes generated from expression - 1</th>
           <th>Twin primes</th>
           <th>IsPrime</th>
+          <th>factorization</th>
         </tr>
       </thead>
       <tbody id="numberTrue"></tbody>
@@ -64,42 +75,64 @@
       }
 
       function addition(num) {
-
         var quotient = num;
         let secondmult = 0;
         let thirdmult = 0;
         let primes = [];
         let multipleMinusOne = 0;
-        twinsNumber=0;
+        twinsNumber = 0;
 
         for (let index = 2; index <= quotient; index++) {
           let possibleTwin1, possibleTwin2;
-            let primePlusOne = index * quotient + 1;
-            let primeMinusOne = index * quotient - 1;
-            if (isPrime(primePlusOne)) {
-              secondmult++;
-              possibleTwin1=primePlusOne;
-              if (index > 2) {
-                primes.push(primePlusOne);
-              }
+          let primePlusOne = index * quotient + 1;
+          let primeMinusOne = index * quotient - 1;
+          if (isPrime(primePlusOne)) {
+            secondmult++;
+            possibleTwin1 = primePlusOne;
+            if (index > 2) {
+              primes.push(primePlusOne);
             }
-            if (isPrime(primeMinusOne)) {
-              multipleMinusOne++;
-              possibleTwin2=primeMinusOne;
-              primes.push(primeMinusOne);
-              /*console.log(
+          }
+          if (isPrime(primeMinusOne)) {
+            multipleMinusOne++;
+            possibleTwin2 = primeMinusOne;
+            primes.push(primeMinusOne);
+            /*console.log(
                 index + " * " + quotient + " - 1 = " + (index * quotient - 1)
               );*/
-            }
-            if (possibleTwin1 - possibleTwin2 == 2) {
-              twinsNumber++;
-            }
-          
+          }
+          if (possibleTwin1 - possibleTwin2 == 2) {
+            twinsNumber++;
+          }
         }
 
         return [secondmult, twinsNumber, primes, multipleMinusOne];
       }
 
+      function primeFactorization(n) {
+        const factors = [];
+        while (n % 2 === 0) {
+          factors.push(2);
+          n /= 2;
+        }
+        for (let i = 3; i <= Math.sqrt(n); i += 2) {
+          while (n % i === 0) {
+            factors.push(i);
+            n /= i;
+          }
+        }
+        if (n > 2) {
+          factors.push(n);
+        }
+        return factors;
+      }
+
+      // Example usage:
+      const numberToFactorize = 72;
+      const result = primeFactorization(numberToFactorize);
+      console.log(
+        `Prime factorization of ${numberToFactorize}: ${result.join(" * ")}`
+      );
 
       function calculate() {
         const startTime = performance.now();
@@ -115,20 +148,20 @@
         let primes = [];
         let primesData = [];
         let contentTable = "";
-        let piFunc=[];
-        let piFunc2=[]
-        let piFunc3=[]
-        let twinPrimesArray=[]
+        let piFunc = [];
+        let piFunc2 = [];
+        let piFunc3 = [];
+        let twinPrimesArray = [];
         for (let p = Number(minInterval); p <= Number(endInterval); p++) {
           let result = addition(p);
           let colorException;
-          piFunc.push(p/Math.log(p)/6)
-          piFunc2.push(p/Math.log(p)/3)
-          piFunc3.push(p/Math.log(p)/2)
+          piFunc.push(p / Math.log(p) / 6);
+          piFunc2.push(p / Math.log(p) / 3);
+          piFunc3.push(p / Math.log(p) / 2);
           labels.push(p);
           primeCount.push(result[0]);
           primeCountMinusOneEquation.push(result[3]);
-          twinPrimesArray.push(result[1])
+          twinPrimesArray.push(result[1]);
           let color = "";
           let background = "";
           if (isPrime(p)) {
@@ -156,18 +189,18 @@
                     backgroundColor = "blue";
                     n4color = "white";
                 }*/
-            if(p%6==0){
-              backgroundColor="green";
-              n4color="white"
-            }
-            if(p%30==0){
-              backgroundColor="blue";
-              n4color="white"
-            }
-            if(p%210==0){
-              backgroundColor="red";
-              n4color="white"
-            }
+          if (p % 6 == 0) {
+            backgroundColor = "green";
+            n4color = "white";
+          }
+          if (p % 30 == 0) {
+            backgroundColor = "blue";
+            n4color = "white";
+          }
+          if (p % 210 == 0) {
+            backgroundColor = "red";
+            n4color = "white";
+          }
           contentTable +=
             "<tr style='color:" +
             n4color +
@@ -193,10 +226,13 @@
             "<td>" +
             isPrime(p) +
             "</td>" +
+            "<td>" +
+              primeFactorization(p).join(" * ") +
+            "</td>" +
             "</tr>";
         }
         //console.log(regressionData);
-        table.innerHTML=contentTable
+        table.innerHTML = contentTable;
         console.log(primeCache.size);
 
         let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
@@ -210,7 +246,8 @@
             content += "<br/>";
           }
         }*/
-        document.getElementById("result_primes_found").innerHTML = uniquePrimes2.length;
+        document.getElementById("result_primes_found").innerHTML =
+          uniquePrimes2.length;
         document.getElementById("myChart").innerHTML = "";
         const ctx = document.getElementById("myChart");
 
@@ -236,7 +273,6 @@
                 ],
                 borderWidth: 1,
               },
-              
             ],
           },
           options: {
@@ -272,7 +308,6 @@
                 ],
                 borderWidth: 1,
               },
-
             ],
           },
           options: {
