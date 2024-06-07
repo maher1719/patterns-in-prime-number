@@ -141,6 +141,12 @@
         let equationTwinMax = [];
         let equationTwinMax2 = [];
         let contentHtml = [];
+        let lnFunc =[]
+        let lnFunc2=[]
+        let lnFunc3=[]
+        let lnFunc4=[];
+        let ln=[];
+        const sqrt2=Math.sqrt(2)
         for (
           let number = Number(minInterval);
           number <= Number(endInterval);
@@ -162,7 +168,8 @@
           lnFunc4.push(Math.round(number / Math.log(number)) * 2*sqrt2);
           const logNumber=Math.log(number) - sqrt2
           let ResultLogTwinPrimeRatio=logNumber
-          
+          let ReciprocLnForMultipleOf3=[]
+          let ReciprocLn=[]
           ln.push(ResultLogTwinPrimeRatio);
           ReciprocLnForMultipleOf3.push(ResultLogTwinPrimeRatio-2)
           ReciprocLn.push(1/ResultLogTwinPrimeRatio)

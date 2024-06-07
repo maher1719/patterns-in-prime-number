@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prime Number Analysis</title>
+</head>
+<body>
+    <h1>Primes Generated from Even Numbers</h1>
+    <canvas id="myChart" width="400" height="300"></canvas>
+    <canvas id="myChart2" width="400" height="300"></canvas>
+    <canvas id="myChart3" width="400" height="300"></canvas>
+    <canvas id="myChart4" width="400" height="300"></canvas>
+    <canvas id="myChart5" width="400" height="300"></canvas>
+    <canvas id="myChart7" width="400" height="300"></canvas>
+    <canvas id="myChart8" width="400" height="300"></canvas>
+
+    <div>
+        <input placeholder="type a min number" type="number" id="minInterval" />
+        <input placeholder="type a max number" type="number" id="endInterval" />
+        <button onclick="calculate()">Calculate!</button>
+    </div>
+    <div id="ratio"></div>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>One Number is Prime</th>
+                <th>Primes Minus One</th>
+                <th>Number of Twin Primes Generated</th>
+                <th>Is Prime</th>
+            </tr>
+        </thead>
+        <tbody id="numberTrue"></tbody>
+    </table>
+
+    <div id="result_primes_found"></div>
+
+    <script src="chart.js"></script>
+    <script src="primeFactors.js"></script>
+    <script>
+        // Global Variables
+        const minIntervalInput = document.getElementById("minInterval");
+        const endIntervalInput = document.getElementById("endInterval");
+        const numberTrueTable = document.getElementById("numberTrue");
+        const primeCache = new Map();
+
+        // Function to check if a number is prime
+        function isPrime(num) {
+            if (primeCache.size > Math.pow(10, 7)) {
+                primeCache.clear();
+            }
+            if (primeCache.size >= Math.pow(2, 6)) {
+                primeCache.clear();
+            }
+            if (primeCache.has(num)) {
+                return primeCache.get(num);
+            }
+            if (num <= 1) return false;
+            if (num <= 3) return true;
+            if (num % 2 === 0 || num % 3 === 0) return false;
+            for (let i = 5; i * i <= num; i += 6) {
+                if (num % i === 0 || num % (i + 2) === 0) {
+                    primeCache.set(num, false);
+                    return false;
+                }
+            }
+            primeCache.set(num, true);
+            return true;
+        }
+
+        // Function to generate primes from even numbers
+        function addition(numberToGeneratePrimes) {
+            const quotient = Math.floor(numberToGeneratePrimes / 2);
+            let primes = [];
+            let multipleMinusOne = 0;
+            let twinsNumber = 0;
+
+            for (let index = 2; index <= numberToGeneratePrimes; index++) {
+                let possibleTwin1, possibleTwin2;
+                let primePlusOne = index * quotient + 1;
+                let primeMinusOne = index * quotient - 1;
+
+                if (isPrime(primePlusOne)) {
+                    possibleTwin1 = primePlusOne;
+                    primes.push(primePlusOne);
+                }
+                if (isPrime(primeMinusOne)) {
+                    multipleMinusOne++;
+                    possibleTwin2 = primeMinusOne;
+                    primes.push(primeMinusOne);
+                }
+                if (possibleTwin1 - possibleTwin2 === 2) {
+                    twinsNumber++;
+                }
+            }
+
+            return [primes.length, 0, primes, multipleMinusOne, twinsNumber];
+        }
+
+        // Function to perform calculations and render results
+        function calculate() {
+            const startTime = performance.now();
+            document.getElementById("numberTrue").innerHTML = "";
+            const minInterval = Number(minIntervalInput.value);
+            const endInterval = Number(endIntervalInput.value);
+
+            let uniquePrimes = [];
+            let labels = [];
+            let primeCount = [];
+            let primesCountPlus = 0;
+            let primesCountMinus = 0;
+            let primeCountMinusOneEquation = [];
+            let primeTwinsCount = [];
+            let contentHtml = [];
+            const sqrt2 = Math.sqrt(2);
+            const lnFunc = [];
+            const ln = [];
+
+            for (let number = minInterval; number <= endInterval; number += 2) {
+                const result = addition(number);
+                const primeCheck = isPrime(number);
+
+                labels.push(number);
+                primeCount.push(result[0]);
+                primesCountPlus += result[0];
+                primesCountMinus += result[3];
+                primeCountMinusOneEquation.push(result[3]);
+                primeTwinsCount.push(result[4]);
+                
+                lnFunc.push(Math.round(number / Math.log(number)));
+                ln.push(Math.log(number) - sqrt2);
+
+                contentHtml.push(generateTableRow(number, result, primeCheck));
+                uniquePrimes.push(...result[2]);
+            }
+
+            renderResults(uniquePrimes, primesCountPlus, primesCountMinus, primeCount, primeCountMinusOneEquation, primeTwinsCount, lnFunc, ln);
+            renderCharts(labels, primeCount, primeCountMinusOneEquation, primeTwinsCount, lnFunc, ln);
+        }
+
+        // Function to generate a table row HTML
+        function generateTableRow(number, result, primeCheck) {
+            const color = primeCheck ? "white" : "black";
+            const background = primeCheck ? "black" : "white";
+            return `
+                <tr style="color:${color};background-color:${background};">
+                    <td>${number}</td>
+                    <td>${result[0]}</td>
+                    <td>${result[3]}</td>
+                    <td>${result[4]}</td>
+                    <td>${primeCheck}</td>
+                </tr>`;
+        }
+
+        // Function to render results in the DOM
+        function renderResults(uniquePrimes, primesCountPlus, primesCountMinus, primeCount, primeCountMinusOneEquation, primeTwinsCount, lnFunc, ln) {
+            const uniquePrimes2 = [...new Set(uniquePrimes)].sort((a, b) => a - b);
+            const twinPrimes = findTwinPrimes(uniquePrimes2);
+
+            document.getElementById("numberTrue").innerHTML = generateTableContent(uniquePrimes2, primeCount, primeCountMinusOneEquation, primeTwinsCount, lnFunc, ln);
+            document.getElementById("ratio").innerHTML = generateRatioContent(uniquePrimes2, twinPrimes, primesCountPlus, primesCountMinus);
+            document.getElementById("result_primes_found").innerHTML = generatePrimesContent(uniquePrimes2, twinPrimes);
+        }
+
+        // Function to find twin primes
+        function findTwinPrimes(uniquePrimes) {
+            const twinPrimes = [];
+            uniquePrimes.forEach((prime, index) => {
+                if (prime - uniquePrimes[index - 1] === 2) {
+                    twinPrimes.push(uniquePrimes[index - 1], prime);
+                }
+            });
+            return twinPrimes;
+        }
+
+        // Function to generate table content
+        function generateTableContent(uniquePrimes, primeCount, primeCountMinusOneEquation, primeTwinsCount, lnFunc, ln) {
+            return uniquePrimes.map((prime, index) => {
+                const isPrimeFlag = isPrime(prime);
+                return generateTableRow(prime, [primeCount[index], primeCountMinusOneEquation[index], [], primeTwinsCount[index]], isPrimeFlag);
+            }).join("");
+        }
+
+        // Function to generate ratio content
+        function generateRatioContent(uniquePrimes, twinPrimes, primesCountPlus, primesCountMinus) {
+            return `
+                <div>Ratio unique primes / twin primes: ${uniquePrimes.length} / ${twinPrimes.length} = ${uniquePrimes.length / twinPrimes.length}</div>
+                <div>Primes plus 1 = ${primesCountPlus}, Primes minus 1 = ${primesCountMinus}</div>
+                <div>Ratio primes plus / primes minus = ${primesCountPlus / primesCountMinus}</div>`;
+        }
+
+        // Function to generate primes content
+        function generatePrimesContent(uniquePrimes, twinPrimes) {
+            return `
+                <div>${uniquePrimes.length} unique primes found:</div>
+                <div>${uniquePrimes.join(", ")}</div>
+                <div>${twinPrimes.length} twin primes found:</div>
+                <div>${twinPrimes.join(", ")}</div>`;
+        }
+
+        // Function to render charts using Chart.js
+        function renderCharts(labels, primeCount, primeCountMinusOneEquation, primeTwinsCount, lnFunc, ln) {
+            const config = (id, label, data) => ({
+                type: "line",
+                data: {
+                    labels,
+                    datasets: [{
+                        label,
+                        data,
+                        borderColor: "rgb(75, 192, 192)",
+                        tension: 0.1,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: "top" },
+                        title: { display: true, text: label },
+                    },
+                },
+            });
+
+            new Chart(document.getElementById("myChart"), config("myChart", "Prime Count", primeCount));
+            new Chart(document.getElementById("myChart2"), config("myChart2", "Prime Count Minus One Equation", primeCountMinusOneEquation));
+            new Chart(document.getElementById("myChart3"), config("myChart3", "Prime Twins Count", primeTwinsCount));
+            new Chart(document.getElementById("myChart4"), config("myChart4", "Natural Logarithm Approximation", lnFunc));
+            new Chart(document.getElementById("myChart5"), config("myChart5", "Natural Logarithm", ln));
+        }
+    </script>
+</body>
+</html>
