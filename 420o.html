@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="primeFactors.js"></script>
+</head>
+<body>
+  <canvas id="myChart" width="400" height="300"></canvas>
+  <canvas id="myChart2" width="400" height="300"></canvas>
+  <canvas id="myChart3" width="400" height="300"></canvas>
+  <canvas id="myChart4" width="400" height="300"></canvas>
+  <canvas id="myChart5" width="400" height="300"></canvas>
+  <canvas id="myChart7" width="400" height="300"></canvas>
+  <canvas id="myChart8" width="400" height="300"></canvas>
+  <div>
+    <input placeholder="type a min number" type="number" id="minInterval">
+    <input placeholder="type a max number" type="number" id="endInterval">
+    <button onclick="calculate()">calculate!</button>
+  </div>
+  <div id="ratio"></div>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>number</th>
+        <th>one number is prime</th>
+        <th>primes minus One</th>
+        <th>number of twin primes generated</th>
+        <th>Factors of number</th>
+        <th>Number/twin</th>
+      </tr>
+    </thead>
+    <tbody id="numberTrue"></tbody>
+  </table>
+  <div id="result_primes_found"></div>
+
+  <script>
+    const primeCache = new Map();
+
+    function isPrime(num) {
+      if (num <= 1) return false;
+      if (num <= 3) return true;
+      if (num % 2 === 0 || num % 3 === 0) return false;
+
+      if (primeCache.has(num)) {
+        return primeCache.get(num);
+      }
+
+      for (let i = 5; i * i <= num; i += 6) {
+        if (num % i === 0 || num % (i + 2) === 0) {
+          primeCache.set(num, false);
+          return false;
+        }
+      }
+
+      primeCache.set(num, true);
+      return true;
+    }
+
+    function addition(numberToGeneratePrimes) {
+      const quotient = Math.floor(numberToGeneratePrimes / 1);
+      let secondmult = 0;
+      let multipleMinusOne = 0;
+      let primes = [];
+      let twinsNumber = 0;
+
+      for (let index = 2; index <= numberToGeneratePrimes; index++) {
+        const primePlusOne = index * quotient + 1;
+        const primeMinusOne = index * quotient - 1;
+        let possibleTwin1, possibleTwin2;
+
+        if (isPrime(primePlusOne)) {
+          secondmult++;
+          possibleTwin1 = primePlusOne;
+          primes.push(primePlusOne);
+        }
+
+        if (isPrime(primeMinusOne)) {
+          multipleMinusOne++;
+          possibleTwin2 = primeMinusOne;
+          primes.push(primeMinusOne);
+        }
+
+        if (possibleTwin1 - possibleTwin2 === 2) {
+          twinsNumber++;
+        }
+      }
+
+      return [secondmult, primes, multipleMinusOne, twinsNumber];
+    }
+
+    function calculate() {
+      const startTime = performance.now();
+      const numberTrueElem = document.getElementById("numberTrue");
+      numberTrueElem.innerHTML = "";
+
+      const minInterval = Number(document.getElementById("minInterval").value) * 210;
+      const endInterval = Number(document.getElementById("endInterval").value) * 210;
+
+      let uniquePrimes = new Set();
+      let labels = [], primeCount = [], primeCountMinusOneEquation = [], primeTwinsCount = [];
+      let labels2 = [], primeTwinsException = [];
+      let labels3 = [], primeTwinsException3 = [];
+      let labels4 = [], primeTwinsException4 = [], equationLn = [];
+
+      for (let number = minInterval; number <= endInterval; number += 210) {
+        const result = addition(number);
+        const [secondmult, primes, multipleMinusOne, twinsNumber] = result;
+
+        labels.push(number);
+        primeCount.push(secondmult);
+        primeCountMinusOneEquation.push(multipleMinusOne);
+        primeTwinsCount.push(twinsNumber);
+        
+        if (number % 210 === 0 && twinsNumber > 0) {
+          labels2.push(number);
+          primeTwinsException.push(twinsNumber);
+        }
+
+        if (number % (210 * 2) === 0 && twinsNumber > 0) {
+          labels3.push(number);
+          primeTwinsException3.push(twinsNumber);
+        }
+
+        if (number % (210 * 3) === 0 && twinsNumber > 0) {
+          labels4.push(number);
+          primeTwinsException4.push(twinsNumber);
+          equationLn.push((0.0425 * Math.log(number)) - 3.33333);
+        }
+
+        primes.forEach(prime => uniquePrimes.add(prime));
+
+        let row = `<tr>
+          <td>${number}</td>
+          <td>${secondmult}</td>
+          <td>${multipleMinusOne}</td>
+          <td>${twinsNumber}</td>
+          <td>${primeFactors(number)}</td>
+          <td>${number / 210}</td>
+        </tr>`;
+        numberTrueElem.innerHTML += row;
+      }
+
+      const endTime = performance.now();
+      const timeElapsed = endTime - startTime;
+
+      const uniquePrimesArray = [...uniquePrimes].sort((a, b) => a - b);
+      const twinPrimes = uniquePrimesArray.filter((prime, index, arr) => arr[index + 1] - prime === 2);
+
+      let content = uniquePrimesArray.map(prime => twinPrimes.includes(prime) ? `<span style='color:red'>${prime}</span>` : prime).join(", ");
+      let twinPrimesContent = twinPrimes.join(", ");
+
+      document.getElementById("ratio").innerHTML = `
+        ratio unique primes / twin primes: ${uniquePrimesArray.length} / ${twinPrimes.length} = ${uniquePrimesArray.length / twinPrimes.length}
+        <br>ratio (unique primes - twin primes) / twin primes: ${(uniquePrimesArray.length - twinPrimes.length)} / ${twinPrimes.length} = ${(uniquePrimesArray.length - twinPrimes.length) / twinPrimes.length}
+        <br>ratio primes plus / primes minus: ${primeCount.reduce((a, b) => a + b, 0)} / ${primeCountMinusOneEquation.reduce((a, b) => a + b, 0)}
+        <br>Time elapsed: ${timeElapsed.toFixed(2)} ms
+      `;
+
+      document.getElementById("result_primes_found").innerHTML = `<div>${content}</div><div>${twinPrimesContent}</div>`;
+
+      createChart("myChart", "scatter", labels, "# of primes equation +1", primeCount, 'rgba(26, 188, 156,1.0)');
+      createChart("myChart2", "scatter", labels, "# of primes equation -1", primeCountMinusOneEquation, 'rgba(46, 204, 113,1.0)');
+      createChart("myChart3", "scatter", labels2, "# twins", primeTwinsException, 'rgba(52, 152, 219,1.0)');
+      createChart("myChart4", "scatter", labels3, "# twins", primeTwinsException3, 'rgba(155, 89, 182,1.0)');
+      createChart("myChart5", "scatter", labels4, "# twins", primeTwinsException4, 'rgba(241, 196, 15,1.0)', equationLn, 'rgba(231, 76, 60,1.0)');
+    }
+
+    function createChart(canvasId, type, labels, label, data, color, equationLn = [], equationColor = 'rgba(0,0,0,1.0)') {
+      const ctx = document.getElementById(canvasId);
+      const datasets = [{
+        label: label,
+        data: data,
+        backgroundColor: color,
+        borderColor: color,
+        borderWidth: 1
+      }];
+      if (equationLn.length) {
+        datasets.push({
+          label: "equation",
+          data: equationLn,
+          type: "line",
+          borderColor: equationColor,
+          fill: false
+        });
+      }
+      new Chart(ctx, {
+        type: type,
+        data: {
+          labels: labels,
+          datasets: datasets
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

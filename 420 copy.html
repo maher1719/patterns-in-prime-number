@@ -40,10 +40,15 @@
 
     <div id="result_primes_found"></div>
     <script src="chart.js"></script>
+    <script src="primeFactors.js"></script>
     <script>
-      const primeCache = new Map();
-      function isPrime(num) {
-        if (primeCache.size > Math.pow(2, 22)) {
+
+const primeCache1 = new Map();
+      function isPrime1(num) {
+        if (primeCache.size > Math.pow(10, 7)) {
+          primeCache.clear();
+        }
+        if (primeCache.size >= Math.pow(2, 6)) {
           primeCache.clear();
         }
         if (primeCache.has(num)) {
@@ -62,23 +67,68 @@
         primeCache.set(num, true);
         return true;
       }
-      function primeFactors(n) {
-        const factors = [];
-        let divisor = 2;
-
-        while (n > 1 && divisor <= n) {
-          if (isPrime(divisor) && n % divisor === 0) {
-            factors.push(divisor);
-            n = n / divisor;
-          } else {
-            divisor++;
-          }
+      function sieveOfEratosthenes(limit) {
+    let sieve = new Array(limit + 1).fill(true);
+    sieve[0] = sieve[1] = false; // 0 and 1 are not prime
+    for (let p = 2; p * p <= limit; p++) {
+        if (sieve[p]) {
+            for (let i = p * p; i <= limit; i += p) {
+                sieve[i] = false;
+            }
         }
+    }
+    return sieve;
+}
 
-        return factors;
+// Initialize the prime cache with precomputed primes
+const LIMIT = 100000000; // Adjust the limit as needed
+const primeCache = sieveOfEratosthenes(LIMIT);
+
+// Modified isPrime function using the sieve
+function isPrime(n) {
+    if (n <= LIMIT) {
+        return primeCache[n];
+    }
+    // For numbers beyond the LIMIT, perform a direct primality test
+    if (n < 2 || (n % 2 === 0 && n !== 2)) return false;
+    for (let i = 3; i * i <= n; i += 2) {
+        if (n % i === 0) return false;
+    }
+    return true;
+}
+      /**
+       * Performs the AKS primality test for a given number.
+       * @param {number} n - The number to test for primality.
+       * @returns {boolean} - True if the number is prime, false if the number is composite.
+       */
+
+      /**
+       * Performs modular exponentiation using the square-and-multiply algorithm.
+       * @param {number} base - The base number.
+       * @param {number} exponent - The exponent.
+       * @param {number} modulus - The modulus.
+       * @returns {number} The result of (base ^ exponent) % modulus.
+       */
+      function modularExponentiation(base, exponent, modulus) {
+        let result = 1;
+        while (exponent > 0) {
+          if (exponent % 2 === 1) {
+            result = (result * base) % modulus;
+          }
+          exponent >>= 1;
+          base = (base * base) % modulus;
+        }
+        return result;
       }
 
-      
+      /**
+       * Performs modular exponentiation using the square-and-multiply algorithm.
+       * @param {number} base - The base number.
+       * @param {number} exponent - The exponent.
+       * @param {number} modulus - The modulus.
+       * @returns {number} The result of (base ^ exponent) % modulus.
+       */
+
       function addition(numberToGeneratePrimes) {
         //console.log(numberToGeneratePrimes)
         var quotient = Math.floor(numberToGeneratePrimes / 1);
@@ -140,26 +190,17 @@
         let primeTwinsException4 = [];
         let primeTwinsRatioPlusOne = [];
         let primeReverseTwinsRatioPlusOne = [];
-        let equationLn = [];
-        let numberPlusTwinRatio = [];
-        let numberLn = [];
-        let numberLnMiddle = [];
-        let ReciprocMiddleLn = [];
-        let approximationMin=[]
-        let approximationMiddle=[]
-        let approximationMax=[]
+        let equationLn=[]
+        let numberPlusTwinRatio=[]
+        let numberLn=[]
+        let numberLnMiddle=[]
+        let ReciprocMiddleLn=[]
         for (
           let number = Number(minInterval) * 210;
           number <= Number(endInterval) * 210;
           number += 210
         ) {
-          //(2.3/ln(number))*(number)
-          
-          const lnNumber=Math.log(number)
-          approximationMin.push((2.3/lnNumber)*number)
-          approximationMiddle.push((2.4/lnNumber)*number)
-          approximationMax.push((2.6/lnNumber)*number)
-          let MiddleLn = lnNumber / 2.3;
+          let MiddleLn=Math.log(number)/2.3
           let result = addition(number);
           labels.push(number);
           primeCount.push(result[0]);
@@ -167,10 +208,10 @@
           primesCountMinus += result[3];
           primeCountMinusOneEquation.push(result[3]);
           primeTwinsCount.push(result[4]);
-          numberLn.push(lnNumber / 2.4);
-          numberLnMiddle.push(MiddleLn);
-          ReciprocMiddleLn.push(1 / MiddleLn);
-          numberPlusTwinRatio.push(result[3] / result[4]);
+          numberLn.push((Math.log(number)/2.5))
+          numberLnMiddle.push((Math.log(number)/2.3))
+          ReciprocMiddleLn.push(1/MiddleLn)
+          numberPlusTwinRatio.push(result[3]/result[4])
           primeTwinsRatioPlusOne.push(result[0] / result[4]);
           primeReverseTwinsRatioPlusOne.push(result[4] / result[0]);
           if (number % 210 == 0 && result[4] > 0) {
@@ -186,7 +227,7 @@
             primeTwinsException4.push(result[4]);
             //equationLn.push(3.357*Math.log(number)+0.000004*(number))
             //equationLn.push(140.31+125.77*Math.log(number))
-            equationLn.push(0.0425 * Math.log(number) - 3.33333);
+            equationLn.push((0.0425*Math.log(number))-3.33333)
           }
           let color = "";
           let background = "";
@@ -253,8 +294,8 @@
             "<td>" +
             primeFactors(number) +
             "</td>" +
-            "<td> 210 * " +
-            number / 210 +
+            "<td>" +
+            number/210 +
             "</td>" +
             /*"<td>" +
             primeFactors(result[3]) +
@@ -368,23 +409,6 @@
                   "rgba(11, 70, 173,1.0)",
                 ],
                 borderWidth: 1,
-              },
-              {
-                label: "equation",
-                data: approximationMin,
-                type: "line",
-              },
-              {
-                label: "equation",
-                data: approximationMiddle,
-                backgroundColor:"black",
-                type: "line",
-              },
-              {
-                label: "equation",
-                data: approximationMax,
-                backgroundColor:"black",
-                type: "line",
               },
             ],
           },
@@ -573,10 +597,10 @@
                 borderWidth: 1,
               },
               {
-                label: "equation",
-                data: equationLn,
-                type: "line",
-              },
+                label:"equation",
+                data:equationLn,
+                type:"line"
+              }
             ],
           },
           options: {
@@ -622,13 +646,13 @@
                 borderWidth: 1,
               },
               {
-                type: "line",
+                type:"line",
                 label: "pi Function",
                 data: numberLn,
                 borderWidth: 1,
               },
               {
-                type: "line",
+                type:"line",
                 label: "pi Function",
                 data: numberLnMiddle,
                 borderWidth: 1,
@@ -669,9 +693,9 @@
                 borderWidth: 1,
               },
               {
-                type: "line",
+                type:"line",
                 label: "pi Function",
-                backgroundColor: "black",
+                backgroundColor:"black",
                 data: ReciprocMiddleLn,
                 borderWidth: 1,
               },
