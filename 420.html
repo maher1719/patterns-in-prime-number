@@ -77,6 +77,23 @@
 
         return factors;
       }
+      function li(x) {
+            if (x < 2) return 0; // Li(0) = Li(1) = 0
+            let sum = 0;
+            for (let n = 2; n <= x; n++) {
+                sum += 1 / Math.log(n);
+            }
+            return sum;
+        }
+        function li2(x) {
+            if (x < 2) return 0; // Li(0) = Li(1) = 0
+            let sum = 0;
+            for (let n = 2; n <= x; n++) {
+                sum += 1 / Math.pow(Math.log(n),2);
+            }
+            return sum;
+        }
+        
 
       
       function addition(numberToGeneratePrimes) {
@@ -148,19 +165,22 @@
         let approximationMin=[]
         let approximationMiddle=[]
         let approximationMax=[]
+        let liList=[]
         for (
           let number = Number(minInterval) * 210;
           number <= Number(endInterval) * 210;
           number += 210
         ) {
-          //(2.3/ln(number))*(number)
-          
+          //(2.4/ln(number))*(number)
+          // (2.4/ln(x))(x)(2.4/ln(x) twin 5.76x/ln(x)^2
           const lnNumber=Math.log(number)
           approximationMin.push((2.3/lnNumber)*number)
           approximationMiddle.push((2.4/lnNumber)*number)
           approximationMax.push((2.6/lnNumber)*number)
           let MiddleLn = lnNumber / 2.3;
           let result = addition(number);
+          let liResult=2.1*li(number)
+          liList.push(2.1*li(number))
           labels.push(number);
           primeCount.push(result[0]);
           primesCountPlus += result[0];
@@ -169,7 +189,7 @@
           primeTwinsCount.push(result[4]);
           numberLn.push(lnNumber / 2.4);
           numberLnMiddle.push(MiddleLn);
-          ReciprocMiddleLn.push(1 / MiddleLn);
+          ReciprocMiddleLn.push(1/MiddleLn );
           numberPlusTwinRatio.push(result[3] / result[4]);
           primeTwinsRatioPlusOne.push(result[0] / result[4]);
           primeReverseTwinsRatioPlusOne.push(result[4] / result[0]);
@@ -370,8 +390,8 @@
                 borderWidth: 1,
               },
               {
-                label: "equation",
-                data: approximationMin,
+                label: "Li function",
+                data: liList,
                 type: "line",
               },
               {
