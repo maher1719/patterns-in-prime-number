@@ -20,13 +20,13 @@
       <button class="btn btn-primary" onclick="calculate()">calculate!</button>
     </div>
 
-    <table class="table table-bordered" border="1">
+    <table id="table" class="table table-bordered" border="1">
       <thead>
         <tr>
           <th>number</th>
-          <th>one number is prime</th>
+          <th>prime plus one</th>
           <th>primes minus One</th>
-          <th>both two numbers are primes</th>
+          <th>twin primes</th>
           <th>isPrime</th>
         </tr>
       </thead>
@@ -35,6 +35,9 @@
     <div id="result_primes_found"></div>
     <script src="chart.js"></script>
     <script src="regression.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js" integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+      </script>
+      <script src="tableToCSV.js"></script>
     <script>
       const primeCache = new Map();
       const primesFound = new Set();
@@ -201,6 +204,7 @@
         }
         //console.log(regressionData);
         table.innerHTML=contentTable
+        download_table_as_csv("table")
         console.log(primeCache.size);
 
         let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
