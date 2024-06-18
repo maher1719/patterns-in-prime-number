@@ -13,6 +13,7 @@
     <input type="number" id="end" name="end" value="100">
     <button onclick="updateChart()">Update Chart</button>
     <canvas id="myChart" width="800" height="400"></canvas>
+    <script src="chart.js"></script>
 
     <script>
         // Function to calculate Li(x)
@@ -58,7 +59,7 @@
             for (let x = start; x <= end; x++) {
                 labels.push(x);
                 //liData.push(li(x)-Math.log(x));
-                liData.push(Math.round(li(x)))
+                liData.push(Math.round(li(x)-3*Math.log(x)))
                 piData.push(pi(x));
                 x_ln_xData.push(x / Math.log(x));
             }

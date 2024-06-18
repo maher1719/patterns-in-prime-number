@@ -119,13 +119,17 @@
         let piFunc2=[]
         let piFunc3=[]
         let twinPrimesArray=[]
+        let lnPrime=[]
         for (let p = Number(minInterval); p <= Number(endInterval); p++) {
+          //5.76x/ln(x)^2
+          const divide=(Math.log(p))
           let result = addition(p);
           let colorException;
           piFunc.push(p/Math.log(p)/6)
           piFunc2.push(p/Math.log(p)/3)
           piFunc3.push(p/Math.log(p)/2)
           labels.push(p);
+          lnPrime.push(Math.round(p/(4*divide)))
           primeCount.push(result[0]);
           primeCountMinusOneEquation.push(result[3]);
           twinPrimesArray.push(result[1])
@@ -307,6 +311,11 @@
                   "rgba(142, 68, 173,1.0)",
                 ],
                 borderWidth: 1,
+              },
+              {
+                label:"Ln twins",
+                data:lnPrime,
+                type:'line'
               },
             ],
           },
