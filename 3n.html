@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="number" name="" id="idNumber1" /><input
+      type="number"
+      name=""
+      id="idNumber2"
+    /><button onclick="calc()" type="button" id="calc">calculate</button>
+    <div id="div"></div>
+
+    <script>
+      const primeCache = new Map();
+      function isPrime(num) {
+        if (primeCache.size > Math.pow(2, 22)) {
+          primeCache.clear();
+        }
+        if (primeCache.has(num)) {
+          return primeCache.get(num);
+        }
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) return false;
+
+        for (let i = 5; i * i <= num; i += 6) {
+          if (num % i === 0 || num % (i + 2) === 0) {
+            primeCache.set(num, false);
+            return false;
+          }
+        }
+        primeCache.set(num, true);
+        return true;
+      }
+      function calc() {
+        let content = "";
+        const n1 = document.getElementById("idNumber1").value;
+        const n2 = document.getElementById("idNumber2").value;
+        const div = document.getElementById("div");
+        for (let number = n1; number <= n2; number++) {
+          if (number % 2 != 0) {
+            let quotient = (number * 3 + 1) / 2;
+            console.log(quotient);
+            if (isPrime(quotient)) {
+              content += number + "=" + quotient + "<br/>";
+            }
+          }
+        }
+        div.innerHTML = content;
+      }
+    </script>
+  </body>
+</html>

@@ -17,13 +17,24 @@ def prime_counting_function(x):
     return np.sum(sieve)
 
 # Lire le fichier CSV
-df = pd.read_csv('prime5.csv')
+df = pd.read_csv('prime_data2.csv')
 getcontext().prec = 50
 print(f"Nombre total de lignes dans le fichier : {len(df)}")
-df = df[df['Number'] % 6 == 0]
+df = df[(df['Number'] > 10) & (df['Number'] < 100)]
+#df = df[(df['Number'] % 6 == 0) & (df['Number']<20000) ]
 # Calculer pi(x) pour chaque valeur de x
+# 
 #df['pi_x'] = df['Number'].apply(prime_counting_function)*(math.pi/2)
-df['pi_x'] = df['Number'].apply(lambda x: 1.675 * x / math.log(x))
+number = df['Number']
+
+# Calculate 'pi_x' based on the condition
+df['pi_x'] = np.where(
+    number < 10**3,
+    df['Number'].apply(prime_counting_function)-(np.log(number)-np.log(np.log(number))),
+    df['Number'].apply(prime_counting_function) - (np.e * np.log(number))#10^3
+)
+
+#df['pi_x'] = df['Number'].apply(lambda x: 1.675 * x / math.log(x))
 
 
 # Créer le graphique
@@ -42,8 +53,9 @@ plt.grid(True)
 plt.xscale('log')
 plt.yscale('log')
 
+
 plt.savefig('prime_pi_comparison.png')
-#plt.show()
+plt.show()
 
 # Calculer les ratios
 df['ratio_plus_1'] = df['Primes +1'] / df['pi_x']
