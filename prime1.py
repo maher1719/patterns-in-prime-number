@@ -20,28 +20,45 @@ def prime_counting_function(x):
 df = pd.read_csv('prime_data2.csv')
 getcontext().prec = 50
 print(f"Nombre total de lignes dans le fichier : {len(df)}")
-df = df[(df['Number'] > 10) & (df['Number'] < 100)]
-#df = df[(df['Number'] % 6 == 0) & (df['Number']<20000) ]
-# Calculer pi(x) pour chaque valeur de x
-# 
-#df['pi_x'] = df['Number'].apply(prime_counting_function)*(math.pi/2)
+
+
+
+#df = df[ (df['Number'] >= 10) & (df['Number'] < 100)]
+
 number = df['Number']
 
-# Calculate 'pi_x' based on the condition
-df['pi_x'] = np.where(
-    number < 10**3,
-    df['Number'].apply(prime_counting_function)-(np.log(number)-np.log(np.log(number))),
-    df['Number'].apply(prime_counting_function) - (np.e * np.log(number))#10^3
-)
+# Define conditions
+conditions = [
+    (number < 10),
+    (number >= 10) & (number < 10**2),
+    (number >= 10**2) & (number < 10**3),
+    number >= 10**3
+]
 
-#df['pi_x'] = df['Number'].apply(lambda x: 1.675 * x / math.log(x))
+# Define corresponding values for each condition
+values = [
+    df['Number'].apply(prime_counting_function),  # For numbers < 10
+    df['Number'].apply(prime_counting_function)-(np.log(number)-np.log(np.log(number))),#For 10 <= numbers < 100
+    df['Number'].apply(prime_counting_function) - (np.e * np.log(number)),  # For 100 <= numbers < 1000
+    df['Number'].apply(prime_counting_function)  # For numbers >= 1000 (example logic)
+]
+
+# Apply conditions
+df['pi_x'] = np.select(conditions, values)
+
+
+
+
+
+
+
 
 
 # Créer le graphique
 plt.figure(figsize=(12, 8))
 plt.plot(df['Number'], df['pi_x'], label='pi(x)', color='red')
-plt.plot(df['Number'], df['Primes +1'], label='Primes +1', color='blue', alpha=0.5)
-plt.plot(df['Number'], df['Primes -1'], label='Primes -1', color='green', alpha=0.5)
+plt.scatter(df['Number'], df['Primes +1'], label='Primes +1', color='blue', alpha=0.5)
+plt.scatter(df['Number'], df['Primes -1'], label='Primes -1', color='green', alpha=0.5)
 
 plt.xlabel('x')
 plt.ylabel('Valeur')
@@ -55,7 +72,7 @@ plt.yscale('log')
 
 
 plt.savefig('prime_pi_comparison.png')
-plt.show()
+
 
 # Calculer les ratios
 df['ratio_plus_1'] = df['Primes +1'] / df['pi_x']
@@ -68,8 +85,8 @@ print("\nStatistiques pour le ratio (Primes -1) / pi(x):")
 print(df['ratio_minus_1'].describe())
 
 # Vérifier la convergence
-last_1000_plus = df['ratio_plus_1'].tail(1000).mean()
-last_1000_minus = df['ratio_minus_1'].tail(1000).mean()
+last_1000_plus = df['ratio_plus_1'].tail(10).mean()
+last_1000_minus = df['ratio_minus_1'].tail(10).mean()
 
 print(f"\nMoyenne du ratio pour les 1000 dernières valeurs (Primes +1): {last_1000_plus:.20f}")
 print(f"Moyenne du ratio pour les 1000 dernières valeurs (Primes -1): {last_1000_minus:.20f}")
@@ -127,3 +144,4 @@ levene_stat, levene_p_value = levene(df['Primes -1'], df['pi_x'])
 print(f"Levene's test for variances:")
 print(f"Levene Statistic: {levene_stat:.4f}, P-value: {levene_p_value:.4f}")
 
+plt.show()
