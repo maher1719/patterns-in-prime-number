@@ -14,6 +14,7 @@
     <canvas id="myChartPrimes" width="400px" height="300px"></canvas>
     myChartPrimes
     <div>
+<<<<<<< HEAD
       <input
         class="form-control"
         placeholder="type a min number"
@@ -26,6 +27,10 @@
         type="number"
         id="endInterval"
       />
+=======
+      <input class="form-control" placeholder="type a min number" type="number" id="minInterval" />
+      <input class="form-control" placeholder="type a max number" type="number" id="endInterval" />
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
 
       <button class="btn btn-primary" onclick="calculate()">calculate!</button>
     </div>
@@ -45,6 +50,7 @@
     <div id="result_primes_found"></div>
     <script src="chart.js"></script>
     <script src="regression.js"></script>
+<<<<<<< HEAD
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js"
       integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg=="
@@ -56,6 +62,14 @@
       const primeCache = new Map();
       const primesFound = new Set();
       const Data = [];
+=======
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/5.2.0/js/tableexport.min.js" integrity="sha512-XmZS54be9JGMZjf+zk61JZaLZyjTRgs41JLSmx5QlIP5F+sSGIyzD2eJyxD4K6kGGr7AsVhaitzZ2WTfzpsQzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+      </script>
+      <script src="tableToCSV.js"></script>
+    <script>
+      const primeCache = new Map();
+      const primesFound = new Set();
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
       const table = document.getElementById("numberTrue");
       function isPrime(num) {
         if (primeCache.size >= Math.pow(10, 7)) {
@@ -82,11 +96,16 @@
       }
 
       function addition(num) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
         var quotient = num;
         let secondmult = 0;
         let thirdmult = 0;
         let primes = [];
         let multipleMinusOne = 0;
+<<<<<<< HEAD
         twinsNumber = 0;
 
         for (let index = 2; index <= quotient; index++) {
@@ -123,11 +142,42 @@
           if (possibleTwin1 - possibleTwin2 == 2) {
             twinsNumber++;
           }
+=======
+        twinsNumber=0;
+
+        for (let index = 2; index <= quotient; index++) {
+          let possibleTwin1, possibleTwin2;
+            let primePlusOne = index * quotient + 1;
+            let primeMinusOne = index * quotient - 1;
+            if (isPrime(primePlusOne)) {
+              secondmult++;
+              possibleTwin1=primePlusOne;
+              if (index > 2) {
+                primes.push(primePlusOne);
+              }
+            }
+            if (isPrime(primeMinusOne)) {
+              multipleMinusOne++;
+              possibleTwin2=primeMinusOne;
+              primes.push(primeMinusOne);
+              /*console.log(
+                index + " * " + quotient + " - 1 = " + (index * quotient - 1)
+              );*/
+            }
+            if (possibleTwin1 - possibleTwin2 == 2) {
+              twinsNumber++;
+            }
+          
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
         }
 
         return [secondmult, twinsNumber, primes, multipleMinusOne];
       }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
       function calculate() {
         const startTime = performance.now();
         document.getElementById("numberTrue").innerHTML = "";
@@ -142,6 +192,7 @@
         let primes = [];
         let primesData = [];
         let contentTable = "";
+<<<<<<< HEAD
         let piFunc = [];
         let piFunc2 = [];
         let piFunc3 = [];
@@ -160,6 +211,26 @@
           primeCount.push(result[0]);
           primeCountMinusOneEquation.push(result[3]);
           twinPrimesArray.push(result[1]);
+=======
+        let piFunc=[];
+        let piFunc2=[]
+        let piFunc3=[]
+        let twinPrimesArray=[]
+        let lnPrime=[]
+        for (let p = Number(minInterval); p <= Number(endInterval); p++) {
+          //5.76x/ln(x)^2
+          const divide=(Math.log(p))
+          let result = addition(p);
+          let colorException;
+          piFunc.push(p/Math.log(p)/6)
+          piFunc2.push(p/Math.log(p)/3)
+          piFunc3.push(p/Math.log(p)/2)
+          labels.push(p);
+          lnPrime.push(Math.round(p/(4*divide)))
+          primeCount.push(result[0]);
+          primeCountMinusOneEquation.push(result[3]);
+          twinPrimesArray.push(result[1])
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
           let color = "";
           let background = "";
           if (isPrime(p)) {
@@ -187,6 +258,7 @@
                     backgroundColor = "blue";
                     n4color = "white";
                 }*/
+<<<<<<< HEAD
           if (p % 6 == 0) {
             backgroundColor = "green";
             n4color = "white";
@@ -199,6 +271,20 @@
             backgroundColor = "red";
             n4color = "white";
           }
+=======
+            if(p%6==0){
+              backgroundColor="green";
+              n4color="white"
+            }
+            if(p%30==0){
+              backgroundColor="blue";
+              n4color="white"
+            }
+            if(p%210==0){
+              backgroundColor="red";
+              n4color="white"
+            }
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
           contentTable +=
             "<tr style='color:" +
             n4color +
@@ -227,6 +313,7 @@
             "</tr>";
         }
         //console.log(regressionData);
+<<<<<<< HEAD
         const csvData = [
           Object.keys(Data[0]).join(","), // Header row
           ...Data.map((row) => Object.values(row).join(",")), // Data rows
@@ -234,6 +321,10 @@
         downloadCSV('output'+minInterval+' To '+endInterval +'.csv', csvData);
         table.innerHTML = contentTable;
         download_table_as_csv("table");
+=======
+        table.innerHTML=contentTable
+        download_table_as_csv("table")
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
         console.log(primeCache.size);
 
         let uniquePrimes2 = [...new Set(uniquePrimes)].sort(function (a, b) {
@@ -247,8 +338,12 @@
             content += "<br/>";
           }
         }*/
+<<<<<<< HEAD
         document.getElementById("result_primes_found").innerHTML =
           uniquePrimes2.length;
+=======
+        document.getElementById("result_primes_found").innerHTML = uniquePrimes2.length;
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
         document.getElementById("myChart").innerHTML = "";
         const ctx = document.getElementById("myChart");
 
@@ -274,6 +369,10 @@
                 ],
                 borderWidth: 1,
               },
+<<<<<<< HEAD
+=======
+              
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
             ],
           },
           options: {
@@ -309,6 +408,10 @@
                 ],
                 borderWidth: 1,
               },
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
             ],
           },
           options: {
@@ -345,9 +448,15 @@
                 borderWidth: 1,
               },
               {
+<<<<<<< HEAD
                 label: "Ln twins",
                 data: lnPrime,
                 type: "line",
+=======
+                label:"Ln twins",
+                data:lnPrime,
+                type:'line'
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
               },
             ],
           },
@@ -366,6 +475,7 @@
         console.log("Elapsed time:", elapsedTime / 1000, "secondes");
         console.log(primeCache);
       }
+<<<<<<< HEAD
       function downloadCSV(filename, data) {
         const blob = new Blob([data], { type: "text/csv;charset=utf-8;" });
         const url = URL.createObjectURL(blob);
@@ -378,6 +488,8 @@
         link.click();
         document.body.removeChild(link);
       }
+=======
+>>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
 
       /*var image = ctx.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream")
         window.location.href = image;*/
