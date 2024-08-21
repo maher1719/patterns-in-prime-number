@@ -53,7 +53,6 @@ df['pi_x'] = np.select(conditions, values)
 
 
 
-
 # Créer le graphique
 plt.figure(figsize=(12, 8))
 plt.plot(df['Number'], df['pi_x'], label='pi(x)', color='red')
