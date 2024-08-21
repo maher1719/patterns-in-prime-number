@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Data Regression</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="logScaleChart"></canvas>
+    <canvas id="linearScaleChart"></canvas>
+    <canvas id="base6ScaleChart"></canvas>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const filePath = 'http://127.0.0.1:8000/prime_data2.csv';
+    const segmentSizes = [2, 6, 30, 210, 2310];
+
+    fetch(filePath)
+        .then(response => response.text())
+        .then(text => {
+            const data = processCSVData(text);
+            const filteredData = data.filter(d => d.Number >= 6);
+
+            const xOriginal = filteredData.map(d => d.Number);
+            const yOriginal = filteredData.map(d => (d['Primes +1'] + d['Primes -1']) / 2);
+
+            createChart(xOriginal, yOriginal, filteredData, segmentSizes);
+        });
+
+    function processCSVData(text) {
+        const rows = text.trim().split('\n');
+        const headers = rows[0].split(',');
+
+        return rows.slice(1).map(row => {
+            const values = row.split(',');
+            return headers.reduce((obj, header, index) => {
+                obj[header] = parseFloat(values[index]);
+                return obj;
+            }, {});
+        });
+    }
+
+    function createChart(xOriginal, yOriginal, filteredData, segmentSizes) {
+        const logScaleChart = document.getElementById('logScaleChart').getContext('2d');
+        const linearScaleChart = document.getElementById('linearScaleChart').getContext('2d');
+        const base6ScaleChart = document.getElementById('base6ScaleChart').getContext('2d');
+
+        const datasetsLog = [];
+        const datasetsLinear = [];
+        const datasetsBase6 = [];
+
+        segmentSizes.forEach(segmentSize => {
+            const numSegments = Math.floor(filteredData.length / segmentSize);
+
+            let meanValues = [];
+            let xValues = [];
+
+            for (let i = 0; i < numSegments; i++) {
+                const startIdx = i * segmentSize;
+                const endIdx = startIdx + segmentSize;
+                const segment = filteredData.slice(startIdx, endIdx);
+
+                const meanValue = (segment.reduce((sum, d) => sum + d['Primes +1'], 0) / segment.length +
+                                   segment.reduce((sum, d) => sum + d['Primes -1'], 0) / segment.length) / 2;
+                meanValues.push(meanValue);
+
+                const xValue = (filteredData[startIdx].Number + filteredData[endIdx - 1].Number) / 2;
+                xValues.push(xValue);
+            }
+
+            // Logarithmic regression (base 10)
+            const logX = xValues.map(x => Math.log10(x));
+            const logY = meanValues.map(y => Math.log10(y));
+
+            const regressionCoefficients = performLinearRegression(logX, logY);
+            const yPred = logX.map(x => Math.pow(10, regressionCoefficients[0] * x + regressionCoefficients[1]));
+
+            // Base-6 logarithmic regression
+            const logXBase6 = xValues.map(x => Math.log(x) / Math.log(6));
+            const logYBase6 = meanValues.map(y => Math.log(y) / Math.log(6));
+
+            const regressionCoefficientsBase6 = performLinearRegression(logXBase6, logYBase6);
+            const yPredBase6 = logXBase6.map(x => Math.pow(6, regressionCoefficientsBase6[0] * x + regressionCoefficientsBase6[1]));
+
+            // Datasets for charts
+            datasetsLog.push({
+                label: `Logarithmic Regression (${segmentSize} steps)`,
+                data: xValues.map((x, index) => ({ x, y: yPred[index] })),
+                borderColor: getRandomColor(),
+                fill: false,
+                borderWidth: 2
+            });
+
+            datasetsLinear.push({
+                label: `Linear Regression (${segmentSize} steps)`,
+                data: xValues.map((x, index) => ({ x, y: yPred[index] })),
+                borderColor: getRandomColor(),
+                fill: false,
+                borderWidth: 2
+            });
+
+            datasetsBase6.push({
+                label: `Base-6 Logarithmic Regression (${segmentSize} steps)`,
+                data: xValues.map((x, index) => ({ x, y: yPredBase6[index] })),
+                borderColor: getRandomColor(),
+                fill: false,
+                borderWidth: 2
+            });
+        });
+
+        // Original Data
+        datasetsLog.unshift({
+            label: 'Original Data',
+            data: xOriginal.map((x, index) => ({ x, y: yOriginal[index] })),
+            backgroundColor: 'blue',
+            borderColor: 'blue',
+            fill: false,
+            borderWidth: 1
+        });
+
+        datasetsLinear.unshift({
+            label: 'Original Data',
+            data: xOriginal.map((x, index) => ({ x, y: yOriginal[index] })),
+            backgroundColor: 'blue',
+            borderColor: 'blue',
+            fill: false,
+            borderWidth: 1
+        });
+
+        datasetsBase6.unshift({
+            label: 'Original Data',
+            data: xOriginal.map((x, index) => ({ x, y: yOriginal[index] })),
+            backgroundColor: 'blue',
+            borderColor: 'blue',
+            fill: false,
+            borderWidth: 1
+        });
+
+        // Create charts
+        new Chart(logScaleChart, {
+            type: 'scatter',
+            data: { datasets: datasetsLog },
+            options: {
+                scales: {
+                    x: {
+                        type: 'logarithmic',
+                        title: { display: true, text: 'Number (log scale)' }
+                    },
+                    y: {
+                        type: 'logarithmic',
+                        title: { display: true, text: 'Mean of Primes +1 and Primes -1 (log scale)' }
+                    }
+                },
+                plugins: {
+                    title: { display: true, text: 'Logarithmic Regression on Mean Values of Primes Data by Different Segment Sizes' }
+                }
+            }
+        });
+
+        new Chart(linearScaleChart, {
+            type: 'scatter',
+            data: { datasets: datasetsLinear },
+            options: {
+                scales: {
+                    x: { title: { display: true, text: 'Number' } },
+                    y: { title: { display: true, text: 'Mean of Primes +1 and Primes -1' } }
+                },
+                plugins: {
+                    title: { display: true, text: 'Linear Regression on Mean Values of Primes Data by Different Segment Sizes' }
+                }
+            }
+        });
+
+        new Chart(base6ScaleChart, {
+            type: 'scatter',
+            data: { datasets: datasetsBase6 },
+            options: {
+                scales: {
+                    x: {
+                        type: 'logarithmic',
+                        title: { display: true, text: 'Number (base-6 log scale)' },
+                        ticks: {
+                            callback: function (value) {
+                                return Math.pow(6, value).toLocaleString(); // Convert back from log6 scale to original
+                            }
+                        }
+                    },
+                    y: {
+                        type: 'logarithmic',
+                        title: { display: true, text: 'Mean of Primes +1 and Primes -1 (base-6 log scale)' },
+                        ticks: {
+                            callback: function (value) {
+                                return Math.pow(6, value).toLocaleString(); // Convert back from log6 scale to original
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    title: { display: true, text: 'Base-6 Logarithmic Regression on Mean Values of Primes Data by Different Segment Sizes' }
+                }
+            }
+        });
+    }
+
+    function performLinearRegression(x, y) {
+        const n = x.length;
+        const xMean = x.reduce((sum, xi) => sum + xi, 0) / n;
+        const yMean = y.reduce((sum, yi) => sum + yi, 0) / n;
+        const xy = x.map((xi, i) => xi * y[i]);
+        const xx = x.map(xi => xi * xi);
+
+        const slope = (n * xy.reduce((sum, xi) => sum + xi, 0) - x.reduce((sum, xi) => sum + xi, 0) * y.reduce((sum, yi) => sum + yi, 0)) /
+            (n * xx.reduce((sum, xi) => sum + xi, 0) - x.reduce((sum, xi) => sum + xi, 0) * x.reduce((sum, xi) => sum + xi, 0));
+
+        const intercept = yMean - slope * xMean;
+
+        return [slope, intercept];
+    }
+
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+});
+
+    </script>
+</body>
+</html>

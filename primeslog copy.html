@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Line on Scatter Plot</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="800" height="400"></canvas>
+    <script>
+        // Helper function to calculate logarithmic regression
+        function calculateLogRegression(x, y) {
+            const logX = x.map(v => Math.log10(v));
+            const logY = y.map(v => Math.log10(v));
+
+            const n = logX.length;
+            const sumLogX = logX.reduce((a, b) => a + b, 0);
+            const sumLogY = logY.reduce((a, b) => a + b, 0);
+            const sumLogX2 = logX.reduce((a, b) => a + b * b, 0);
+            const sumLogXY = logX.reduce((a, b, i) => a + b * logY[i], 0);
+
+            const slope = (n * sumLogXY - sumLogX * sumLogY) / (n * sumLogX2 - sumLogX * sumLogX);
+            const intercept = (sumLogY - slope * sumLogX) / n;
+
+            return { slope, intercept };
+        }
+
+        function createRegressionLine(x, { slope, intercept }) {
+            return x.map(v => Math.pow(10, intercept + slope * Math.log10(v)));
+        }
+
+        // Fetch CSV data
+        fetch('http://localhost:8000/prime_data2.csv')
+            .then(response => response.text())
+            .then(csvData => {
+                const rows = csvData.split('\n').slice(1).filter(row => row).map(row => row.split(','));
+                const data = {
+                    Number: rows.map(row => +row[0]),
+                    PrimesPlus1: rows.map(row => +row[1]),
+                    PrimesMinus1: rows.map(row => +row[2])
+                };
+
+                // Process data
+                const x = data.Number;
+                const y = data.PrimesPlus1.map((val, i) => (val + data.PrimesMinus1[i]) / 2);
+
+                // Define different segment sizes and calculate regression for each
+                const segmentSizes = [1, ];
+                const colors = ['red'];
+
+                const datasets = [];
+                segmentSizes.forEach((size, index) => {
+                    const xSegmented = [];
+                    const ySegmented = [];
+
+                    for (let i = 0; i < x.length; i += size) {
+                        const xSlice = x.slice(i, i + size);
+                        const ySlice = y.slice(i, i + size);
+                        const avgX = (xSlice[0] + xSlice[xSlice.length - 1]) / 2;
+                        const avgY = ySlice.reduce((a, b) => a + b, 0) / ySlice.length;
+                        xSegmented.push(avgX);
+                        ySegmented.push(avgY);²
+                    }
+
+                    const regressionParams = calculateLogRegression(xSegmented, ySegmented);
+                    const regressionLine = createRegressionLine(xSegmented, regressionParams);
+
+                    datasets.push({
+                        label: `Segment Size ${size}`,
+                        data: xSegmented.map((val, i) => ({ x: val, y: ySegmented[i] })),
+                        borderColor: colors[index],
+                        backgroundColor: 'transparent',
+                        type: 'scatter',
+                        showLine: true,
+                        fill: false,
+                        borderWidth: 2,
+                        pointRadius: 5
+                    });
+
+                    datasets.push({
+                        label: `Log Regression ${size}`,
+                        data: xSegmented.map((val, i) => ({ x: val, y: regressionLine[i] })),
+                        borderColor: colors[index],
+                        backgroundColor: 'transparent',
+                        type: 'scatter',
+                        borderWidth: 2,
+                        fill: false
+                    });
+                });
+
+                // Create Chart.js chart
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: datasets.concat([{
+                            label: 'Original Data',
+                            data: x.map((val, i) => ({ x: val, y: y[i] })),
+                            backgroundColor: 'blue',
+                            borderColor: 'blue',
+                            type:"scatter",
+                            borderWidth: 1,
+                            pointRadius: 3,
+                            showLine: false
+                        }])
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'logarithmic',
+                                title: {
+                                    display: true,
+                                    text: 'Number'
+                                }
+                            },
+                            y: {
+                                type: 'logarithmic',
+                                title: {
+                                    display: true,
+                                    text: 'Mean of Primes +1 and Primes -1'
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading the CSV data:', error));
+    </script>
+</body>
+</html>

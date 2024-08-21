@@ -81,7 +81,7 @@
       function addition(numberToGeneratePrimes) {
         //console.log(numberToGeneratePrimes)
 
-        var quotient = Math.floor(numberToGeneratePrimes / 2);
+        var quotient = Math.floor(numberToGeneratePrimes);
         let secondmult = 0;
         let thirdmult = 0;
         let primes = [];
@@ -146,11 +146,13 @@
         let lnFunc3=[]
         let lnFunc4=[];
         let ln=[];
+        let ReciprocLnForMultipleOf3=[]
+          let ReciprocLn=[]
         const sqrt2=Math.sqrt(2)
         for (
           let number = Number(minInterval);
           number <= Number(endInterval);
-          number += 2
+          number ++
         ) {
           let result = addition(number);
           let primeCheck = isPrime(number);
@@ -168,8 +170,7 @@
           lnFunc4.push(Math.round(number / Math.log(number)) * 2*sqrt2);
           const logNumber=Math.log(number) - sqrt2
           let ResultLogTwinPrimeRatio=logNumber
-          let ReciprocLnForMultipleOf3=[]
-          let ReciprocLn=[]
+          
           ln.push(ResultLogTwinPrimeRatio);
           ReciprocLnForMultipleOf3.push(ResultLogTwinPrimeRatio-2)
           ReciprocLn.push(1/ResultLogTwinPrimeRatio)
@@ -322,28 +323,28 @@
           "gba(64, 224, 208, 1.0)",
         ];
         function getBackgroundColor(label) {
-          const remainder420 = label % 420;
+          const remainder420 = label % 210;
           if (remainder420 == 0) {
             return backgroundColorChartSpecial[1];
           }
-          const remainder60 = label % 60;
+          const remainder60 = label % 30;
           if (remainder60 == 0) {
             return backgroundColorChartSpecial[0];
           }
-          const remainder = label % 12;
+          const remainder = label % 6;
 
           if (remainder === 2) {
-            return backgroundColorChart[0]; // black for 6n+1
+            return backgroundColorChart[0]; // black for 12n+2
           } else if (remainder === 4) {
-            return backgroundColorChart[1]; // Green for 6n+2
+            return backgroundColorChart[1]; // Green for 12n+4
           } else if (remainder === 6) {
-            return backgroundColorChart[2]; // Red for 6n+3
+            return backgroundColorChart[2]; // Red for 12n+6
           } else if (remainder === 8) {
-            return backgroundColorChart[3]; // Blue for 6n+4
+            return backgroundColorChart[3]; // Blue for 12n+8
           } else if (remainder === 10) {
-            return backgroundColorChart[4]; // Magenta for 6n+5
+            return backgroundColorChart[4]; // Magenta for 12n+10
           } else if (remainder === 0) {
-            return backgroundColorChart[5]; // Yellow for 6n
+            return backgroundColorChart[5]; // Yellow for 12n
           }
         }
 
@@ -363,7 +364,7 @@
                 backgroundColor: backgroundColors,
                 borderWidth: 1,
               },
-              /*{
+              {
                 label: "# of primes equation +1",
                 type: "line",
                 data: lnFunc,
@@ -371,26 +372,26 @@
                 borderWidth: 1,
               },
               {
-                label: "# of primes equation +1",
+                label: "# of primes equation +1 *sqrt",
                 type: "line",
                 data: lnFunc2,
-                backgroundColor: "black",
+                backgroundColor: "green",
                 borderWidth: 1,
               },
               {
-                label: "# of primes equation +1",
+                label: "# of primes equation +1 /sqrt",
                 type: "line",
                 data: lnFunc3,
-                backgroundColor: "black",
+                backgroundColor: "yellow",
                 borderWidth: 1,
               },
               {
-                label: "# of primes equation +1",
+                label: "# of primes equation +1 *2sqrt",
                 type: "line",
                 data: lnFunc4,
-                backgroundColor: "black",
+                backgroundColor: "blue",
                 borderWidth: 1,
-              },*/
+              },
             ],
           },
           options: {
@@ -600,27 +601,13 @@
                 borderColor: backgroundColors,
                 borderWidth: 1,
               },
-              /*{
+              {
                 label: "# of primes equation +1",
                 type: "line",
                 data: ln,
                 backgroundColor: "black",
                 borderWidth: 1,
               },
-              {
-                label: "# of primes equation +1",
-                type: "line",
-                data: ln3,
-                backgroundColor: "black",
-                borderWidth: 1,
-              },
-              {
-                label: "# of primes equation +1",
-                type: "line",
-                data: ln3,
-                backgroundColor: "black",
-                borderWidth: 1,
-              },*/
             ],
           },
 

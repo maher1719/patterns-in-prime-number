@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Comparison</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script> <!-- For p-value calculation -->
+</head>
+<body>
+    <canvas id="myChart" width="800" height="600"></canvas>
+    <script>
+        function calculateLogRegression(x, y) {
+            const logX = x.map(v => Math.log10(v));
+            const logY = y.map(v => Math.log10(v));
+
+            const n = logX.length;
+            const sumLogX = logX.reduce((a, b) => a + b, 0);
+            const sumLogY = logY.reduce((a, b) => a + b, 0);
+            const sumLogX2 = logX.reduce((a, b) => a + b * b, 0);
+            const sumLogXY = logX.reduce((a, b, i) => a + b * logY[i], 0);
+
+            const slope = (n * sumLogXY - sumLogX * sumLogY) / (n * sumLogX2 - sumLogX * sumLogX);
+            const intercept = (sumLogY - slope * sumLogX) / n;
+
+            return { slope, intercept };
+        }
+
+        function calculateRSquared(x, y, { slope, intercept }) {
+            const logX = x.map(v => Math.log10(v));
+            const logY = y.map(v => Math.log10(v));
+            const yPred = logX.map(v => intercept + slope * v);
+
+            const yMean = logY.reduce((a, b) => a + b, 0) / logY.length;
+            const ssTotal = logY.reduce((acc, curr) => acc + Math.pow(curr - yMean, 2), 0);
+            const ssRes = logY.reduce((acc, curr, i) => acc + Math.pow(curr - yPred[i], 2), 0);
+
+            return 1 - (ssRes / ssTotal);
+        }
+
+        function evaluateModel(x, y, { slope, intercept }) {
+            const logX = x.map(v => Math.log10(v));
+            const logY = y.map(v => Math.log10(v));
+            const yPred = logX.map(v => Math.pow(10, intercept + slope * v));
+
+            const yMean = y.reduce((a, b) => a + b, 0) / y.length;
+            const ssTotal = y.reduce((acc, curr) => acc + Math.pow(curr - yMean, 2), 0);
+            const ssRes = y.reduce((acc, curr, i) => acc + Math.pow(curr - yPred[i], 2), 0);
+
+            return 1 - (ssRes / ssTotal);
+        }
+
+        function fetchDataAndEvaluate() {
+            // Fetch trained data
+            fetch('http://localhost:8000/prime_data2.csv')
+                .then(response => response.text())
+                .then(csvData => {
+                    const rows = csvData.split('\n').slice(1).filter(row => row).map(row => row.split(','));
+                    const data = {
+                        Number: rows.map(row => +row[0]),
+                        PrimesPlus1: rows.map(row => +row[1]),
+                        PrimesMinus1: rows.map(row => +row[2])
+                    };
+
+                    const x = data.Number;
+                    const y = data.PrimesPlus1.map((val, i) => (val + data.PrimesMinus1[i]) / 2);
+
+                    const segmentSizes = [10000, 15000];
+                    const colors = ['red', 'green'];
+                    const equations = [];
+
+                    const datasets = [];
+                    segmentSizes.forEach((size, index) => {
+                        const xSegmented = [];
+                        const ySegmented = [];
+                        const regressionLine = [];
+
+                        for (let i = 0; i < x.length; i += size) {
+                            const xSlice = x.slice(i, i + size);
+                            const ySlice = y.slice(i, i + size);
+                            const avgX = (xSlice[0] + xSlice[xSlice.length - 1]) / 2;
+                            const avgY = ySlice.reduce((a, b) => a + b, 0) / ySlice.length;
+                            xSegmented.push(avgX);
+                            ySegmented.push(avgY);
+                        }
+
+                        const regressionParams = calculateLogRegression(xSegmented, ySegmented);
+                        const regressionLineData = xSegmented.map(v => Math.pow(10, regressionParams.intercept + regressionParams.slope * Math.log10(v)));
+
+                        const { slope, intercept } = regressionParams;
+                        const rSquared = calculateRSquared(xSegmented, ySegmented, regressionParams);
+                        const equation = `y = 10^(${intercept.toFixed(2)}) * x^(${slope.toFixed(2)})\nR^2 = ${rSquared.toFixed(2)}`;
+
+                        equations.push({ slope, intercept, color: colors[index], equation });
+                        datasets.push({
+                            label: `Segment Data ${size}`,
+                            data: xSegmented.map((val, i) => ({ x: val, y: ySegmented[i] })),
+                            borderColor: colors[index],
+                            backgroundColor: colors[index],
+                            type: 'scatter'
+                        }, {
+                            label: `Regression Line ${size}`,
+                            data: regressionLineData.map((val, i) => ({ x: xSegmented[i], y: val })),
+                            borderColor: colors[index],
+                            type: 'line',
+                            borderDash: [5, 5]
+                        });
+
+                        // Log the regression statistics for this segment size
+                        console.log(`Trained Data - Segment Size: ${size}`);
+                        console.log(equation);
+                    });
+
+                    // Fetch new data
+                    fetch('http://localhost:8000/prime5.csv')
+                        .then(response => response.text())
+                        .then(newCsvData => {
+                            const newRows = newCsvData.split('\n').slice(1).filter(row => row).map(row => row.split(','));
+                            const newData = {
+                                Number: newRows.map(row => +row[0]),
+                                PrimesPlus1: newRows.map(row => +row[1]),
+                                PrimesMinus1: newRows.map(row => +row[2])
+                            };
+
+                            const newX = newData.Number;
+                            const newY = newData.PrimesPlus1.map((val, i) => (val + newData.PrimesMinus1[i]) / 2);
+
+                            // Evaluate new data against existing equations
+                            equations.forEach(({ slope, intercept, color, equation }) => {
+                                const rSquared = evaluateModel(newX, newY, { slope, intercept });
+                                console.log(`New Data - Equation Color: ${color} - R^2 on New Data: ${rSquared.toFixed(2)}\nEquation: ${equation}`);
+                            });
+
+                            // Create the chart
+                            new Chart(document.getElementById('myChart').getContext('2d'), {
+                                type: 'scatter',
+                                data: {
+                                    datasets: [...datasets, {
+                                        label: 'New Data',
+                                        data: newX.map((val, i) => ({ x: val, y: newY[i] })),
+                                        borderColor: 'blue',
+                                        backgroundColor: 'blue'
+                                    }]
+                                },
+                                options: {
+                                    scales: {
+                                        x: { type: 'logarithmic', title: { display: true, text: 'Number' } },
+                                        y: { type: 'logarithmic', title: { display: true, text: 'Primes (average)' } }
+                                    },
+                                    plugins: {
+                                        legend: { position: 'top' }
+                                    }
+                                }
+                            });
+                        })
+                        .catch(error => console.error('Error fetching new data:', error));
+                })
+                .catch(error => console.error('Error fetching trained data:', error));
+        }
+
+        // Call the function to fetch data and evaluate
+        fetchDataAndEvaluate();
+    </script>
+</body>
+</html>

@@ -16,7 +16,7 @@ start_value = 6
 filtered_data = data[data['Number'] >= start_value]
 
 # Define the size of the segments
-segment_size = 6
+segment_size = 1
 
 # Calculate the number of segments
 num_segments = len(filtered_data) // segment_size

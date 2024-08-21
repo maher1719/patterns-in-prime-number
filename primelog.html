@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart"></canvas>
+    <script>
+        // script.js
+
+// Function to calculate y = 10^(-0.4779) * x^0.8819
+function calculateY(x) {
+    return Math.pow(10, -0.50913483) * Math.pow(x, 0.9);
+}
+
+// Generate data points
+let dataPoints = [];
+for (let x = 1; x <= 31000; x++) {  // Adjust range as needed
+    let y = calculateY(x);
+    dataPoints.push({x: x, y: y});
+}
+
+// Create the chart
+const ctx = document.getElementById('myChart').getContext('2d');
+const myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        datasets: [{
+            label: 'y = 10^(-0.4779) * x^0.8819',
+            data: dataPoints,
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderWidth: 2,
+            fill: false,
+            tension: 0.1
+        }]
+    },
+    options: {
+        scales: {
+            x: {
+                type: 'linear',
+                position: 'bottom',
+                title: {
+                    display: true,
+                    text: 'x'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'y'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
+            }
+        }
+    }
+});
+
+
+    </script>
+</body>
+</html>

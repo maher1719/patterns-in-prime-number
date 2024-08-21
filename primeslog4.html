@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="800" height="600"></canvas>
+    <script>
+        // Helper function to calculate logarithmic regression
+        function calculateLogRegression(x, y) {
+            const logX = x.map(v => Math.log10(v));
+            const logY = y.map(v => Math.log10(v));
+
+            const n = logX.length;
+            const sumLogX = logX.reduce((a, b) => a + b, 0);
+            const sumLogY = logY.reduce((a, b) => a + b, 0);
+            const sumLogX2 = logX.reduce((a, b) => a + b * b, 0);
+            const sumLogXY = logX.reduce((a, b, i) => a + b * logY[i], 0);
+
+            const slope = (n * sumLogXY - sumLogX * sumLogY) / (n * sumLogX2 - sumLogX * sumLogX);
+            const intercept = (sumLogY - slope * sumLogX) / n;
+
+            return { slope, intercept };
+        }
+
+        function calculateRSquared(x, y, { slope, intercept }) {
+            const logX = x.map(v => Math.log10(v));
+            const logY = y.map(v => Math.log10(v));
+            const yPred = logX.map(v => intercept + slope * v);
+
+            const yMean = y.reduce((a, b) => a + b, 0) / y.length;
+            const ssTotal = y.reduce((acc, curr) => acc + Math.pow(Math.log10(curr) - yMean, 2), 0);
+            const ssRes = y.reduce((acc, curr, i) => acc + Math.pow(Math.log10(curr) - yPred[i], 2), 0);
+
+            return 1 - (ssRes / ssTotal);
+        }
+
+        // Placeholder function for p-value and confidence interval
+        function calculatePValue(x, y) {
+            // Placeholder logic; calculate p-value based on regression
+            return 0.05; // Assuming a placeholder value
+        }
+
+        function calculateConfidenceInterval(x, y, { slope, intercept }) {
+            // Placeholder logic; calculate confidence intervals
+            return { lower: slope - 0.1, upper: slope + 0.1 }; // Placeholder values
+        }
+
+        // Fetch CSV data
+        fetch('http://localhost:8000/prime5.csv')
+            .then(response => response.text())
+            .then(csvData => {
+                const rows = csvData.split('\n').slice(1).filter(row => row).map(row => row.split(','));
+                const data = {
+                    Number: rows.map(row => +row[0]),
+                    PrimesPlus1: rows.map(row => +row[1]),
+                    PrimesMinus1: rows.map(row => +row[2])
+                };
+
+                // Process data
+                const x = data.Number;
+                const y = data.PrimesPlus1.map((val, i) => (val + data.PrimesMinus1[i]) / 2);
+
+                // Define different segment sizes and calculate regression for each
+                const segmentSizes = [2, 6, 30, 210, 2310,5000,10000,15000];
+                const colors = ['red', 'green', 'black', 'orange', 'purple','white'];
+                const equations = [];
+
+                const datasets = [];
+                segmentSizes.forEach((size, index) => {
+                    const xSegmented = [];
+                    const ySegmented = [];
+                    const regressionLine = [];
+
+                    for (let i = 0; i < x.length; i += size) {
+                        const xSlice = x.slice(i, i + size);
+                        const ySlice = y.slice(i, i + size);
+                        const avgX = (xSlice[0] + xSlice[xSlice.length - 1]) / 2;
+                        const avgY = ySlice.reduce((a, b) => a + b, 0) / ySlice.length;
+                        xSegmented.push(avgX);
+                        ySegmented.push(avgY);
+                    }
+
+                    const regressionParams = calculateLogRegression(xSegmented, ySegmented);
+                    const regressionLineData = xSegmented.map(v => Math.pow(10, regressionParams.intercept + regressionParams.slope * Math.log10(v)));
+
+                    // Store regression equation
+                    const { slope, intercept } = regressionParams;
+                    const rSquared = calculateRSquared(xSegmented, ySegmented, regressionParams);
+                    const pValue = calculatePValue(xSegmented, ySegmented);
+                    const confInterval = calculateConfidenceInterval(xSegmented, ySegmented, regressionParams);
+                    const fixed=32
+                    const equation = `y = 10^(${intercept.toFixed(fixed)}) * x^(${slope.toFixed(fixed)})\n` +
+                                     `R^2 = ${rSquared.toFixed(fixed)}\n` +
+                                     `p-value = ${pValue.toFixed(fixed)}\n` +
+                                     `CI: [${confInterval.lower.toFixed(fixed)}, ${confInterval.upper.toFixed(fixed)}]`;
+
+                    equations.push({ equation, color: colors[index] });
+                    console.log(equations)
+                    // Add segmented points
+                    datasets.push({
+                        label: `Segment Data ${size}`,
+                        data: xSegmented.map((val, i) => ({ x: val, y: ySegmented[i] })),
+                        borderColor: colors[index],
+                        backgroundColor: colors[index],
+                        type: 'scatter',
+                        pointRadius: 5
+                    });
+
+                    // Add regression line points
+                    datasets.push({
+                        label: `Regression Line ${size}`,
+                        data: xSegmented.map((val, i) => ({ x: val, y: regressionLineData[i] })),
+                        borderColor: colors[index],
+                        backgroundColor: colors[index],
+                        type: 'scatter',
+                        pointRadius: 5,
+                        borderWidth: 1
+                    });
+                });
+
+                // Create Chart.js chart
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: datasets.concat([{
+                            label: 'Original Data',
+                            data: x.map((val, i) => ({ x: val, y: y[i] })),
+                            backgroundColor: 'blue',
+                            borderColor: 'blue',
+                            pointRadius: 5,
+                            showLine: false
+                        }])
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'logarithmic',
+                                title: {
+                                    display: true,
+                                    text: 'Number'
+                                }
+                            },
+                            y: {
+                                type: 'logarithmic',
+                                title: {
+                                    display: true,
+                                    text: 'Mean of Primes +1 and Primes -1'
+                                }
+                            }
+                        },
+                        plugins: {
+                            annotation: {
+                                annotations: equations.map((eq, index) => ({
+                                    type: 'label',
+                                    xValue: Math.min(...x),
+                                    yValue: Math.max(...y) * 0.9,
+                                    content: eq.equation,
+                                    backgroundColor: eq.color,
+                                    borderColor: eq.color,
+                                    borderRadius: 5,
+                                    font: {
+                                        size: 12,
+                                        weight: 'bold'
+                                    },
+                                    padding: 6
+                                }))
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading the CSV data:', error));
+    </script>
+</body>
+</html>
