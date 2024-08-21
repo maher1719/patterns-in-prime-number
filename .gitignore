@@ -1,6 +1,5 @@
 *.pdf
 *.png
-<<<<<<< HEAD
 *.jpg
 /venvKnot
 *.csv
@@ -8,6 +7,3 @@ parse.html
 primes/
 *#
 *grouped_count*
-=======
-*.jpg
->>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
