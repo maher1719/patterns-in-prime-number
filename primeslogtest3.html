@@ -91,6 +91,7 @@
                         const rSquared = calculateRSquared(xSegmented, ySegmented, regressionParams);
                         const equation = `y = 10^(${intercept.toFixed(2)}) * x^(${slope.toFixed(2)})\nR^2 = ${rSquared.toFixed(2)}`;
 
+                        
                         equations.push({ slope, intercept, color: colors[index], equation });
                         datasets.push({
                             label: `Segment Data ${size}`,

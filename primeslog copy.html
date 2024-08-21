@@ -60,7 +60,7 @@
                         const avgX = (xSlice[0] + xSlice[xSlice.length - 1]) / 2;
                         const avgY = ySlice.reduce((a, b) => a + b, 0) / ySlice.length;
                         xSegmented.push(avgX);
-                        ySegmented.push(avgY);²
+                        ySegmented.push(avgY);
                     }
 
                     const regressionParams = calculateLogRegression(xSegmented, ySegmented);
