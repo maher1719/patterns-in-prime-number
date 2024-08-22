@@ -17,7 +17,6 @@ def prime_counting_function(x):
     return np.sum(sieve)
 
 # Lire le fichier CSV
-<<<<<<< HEAD
 df = pd.read_csv('prime_data2.csv')
 getcontext().prec = 50
 print(f"Nombre total de lignes dans le fichier : {len(df)}")
@@ -52,27 +51,13 @@ df['pi_x'] = np.select(conditions, values)
 
 
 
-=======
-df = pd.read_csv('prime5.csv')
-getcontext().prec = 50
-print(f"Nombre total de lignes dans le fichier : {len(df)}")
-df = df[df['Number'] % 6 == 0]
-# Calculer pi(x) pour chaque valeur de x
-#df['pi_x'] = df['Number'].apply(prime_counting_function)*(math.pi/2)
-df['pi_x'] = df['Number'].apply(lambda x: 1.675 * x / math.log(x))
->>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
 
 
 # Créer le graphique
 plt.figure(figsize=(12, 8))
 plt.plot(df['Number'], df['pi_x'], label='pi(x)', color='red')
-<<<<<<< HEAD
 plt.scatter(df['Number'], df['Primes +1'], label='Primes +1', color='blue', alpha=0.5)
 plt.scatter(df['Number'], df['Primes -1'], label='Primes -1', color='green', alpha=0.5)
-=======
-plt.plot(df['Number'], df['Primes +1'], label='Primes +1', color='blue', alpha=0.5)
-plt.plot(df['Number'], df['Primes -1'], label='Primes -1', color='green', alpha=0.5)
->>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
 
 plt.xlabel('x')
 plt.ylabel('Valeur')
@@ -84,14 +69,9 @@ plt.grid(True)
 plt.xscale('log')
 plt.yscale('log')
 
-<<<<<<< HEAD
 
 plt.savefig('prime_pi_comparison.png')
 
-=======
-plt.savefig('prime_pi_comparison.png')
-#plt.show()
->>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
 
 # Calculer les ratios
 df['ratio_plus_1'] = df['Primes +1'] / df['pi_x']
@@ -104,13 +84,8 @@ print("\nStatistiques pour le ratio (Primes -1) / pi(x):")
 print(df['ratio_minus_1'].describe())
 
 # Vérifier la convergence
-<<<<<<< HEAD
 last_1000_plus = df['ratio_plus_1'].tail(10).mean()
 last_1000_minus = df['ratio_minus_1'].tail(10).mean()
-=======
-last_1000_plus = df['ratio_plus_1'].tail(1000).mean()
-last_1000_minus = df['ratio_minus_1'].tail(1000).mean()
->>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d
 
 print(f"\nMoyenne du ratio pour les 1000 dernières valeurs (Primes +1): {last_1000_plus:.20f}")
 print(f"Moyenne du ratio pour les 1000 dernières valeurs (Primes -1): {last_1000_minus:.20f}")
@@ -168,7 +143,4 @@ levene_stat, levene_p_value = levene(df['Primes -1'], df['pi_x'])
 print(f"Levene's test for variances:")
 print(f"Levene Statistic: {levene_stat:.4f}, P-value: {levene_p_value:.4f}")
 
-<<<<<<< HEAD
 plt.show()
-=======
->>>>>>> 0bbc5413f0443b707f986bb5cc1da34805a2be1d

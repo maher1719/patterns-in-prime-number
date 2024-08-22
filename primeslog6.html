@@ -10,6 +10,9 @@
 <body>
     <canvas id="myChart" width="800" height="600"></canvas>
     <script>
+        const equations = [];
+        const aValues=[]
+        const bValues=[]
         function calculateLogRegression(x, y) {
             const logX = x.map(v => Math.log10(v));
             const logY = y.map(v => Math.log10(v));
@@ -87,18 +90,23 @@
 
                 const x = data.Number;
                 const y = data.PrimesPlus1.map((val, i) => (val + data.PrimesMinus1[i]) / 2);
-
-                const segmentSizes = [2, 6, 30, 210, 2310, 5000, 10000, 15000];
+                const segmentSizes =[]
+                
+                for (let index = 6; index < 31000; index+=6) {
+                    segmentSizes.push(index)
+                    
+                }
+                //const segmentSizes = [ 6, 30, 210,300,400,500,600,700,800,900,1000,1100,1200, 2310,3000,4000, 5000,6000,8000, 10000,12000,14000, 15000];
                 const colors = ['red', 'green', 'black', 'orange', 'purple', 'white'];
-                const equations = [];
+                
 
                 const datasets = [];
                 segmentSizes.forEach((size, index) => {
                     const xSegmented = [];
                     const ySegmented = [];
                     const regressionLine = [];
-
-                    for (let i = 0; i < x.length; i += size) {
+                    
+                    for (let i = 0; i < x.length-1; i += size) {
                         const xSlice = x.slice(i, i + size);
                         const ySlice = y.slice(i, i + size);
                         const avgX = (xSlice[0] + xSlice[xSlice.length - 1]) / 2;
@@ -114,14 +122,16 @@
                     const rSquared = calculateRSquared(xSegmented, ySegmented, regressionParams);
                     const pValue = calculatePValue(xSegmented, ySegmented, regressionParams);
                     const confInterval = calculateConfidenceInterval(xSegmented, ySegmented, regressionParams);
-                    const fixed = 25;
+                    const fixed = 32;
                     const equation = `y = 10^(${intercept.toFixed(fixed)}) * x^(${slope.toFixed(fixed)})\n` +
                                      `R^2 = ${rSquared.toFixed(fixed)}\n` +
                                      `p-value = ${pValue.toFixed(fixed)}\n` +
                                      `CI: [${confInterval.lower.toFixed(fixed)}, ${confInterval.upper.toFixed(fixed)}]`;
+                    aValues.push(intercept.toFixed(fixed))
+                    bValues.push(slope.toFixed(fixed))
 
                     equations.push({ equation, color: colors[index] });
-                    console.log(equations)
+                    
                     datasets.push({
                         label: `Segment Data ${size}`,
                         data: xSegmented.map((val, i) => ({ x: val, y: ySegmented[i] })),
@@ -131,7 +141,7 @@
                         pointRadius: 5
                     });
 
-                    /*datasets.push({
+                    datasets.push({
                         label: `Regression Line ${size}`,
                         data: xSegmented.map((val, i) => ({ x: val, y: regressionLineData[i] })),
                         borderColor: colors[index],
@@ -139,10 +149,10 @@
                         type: 'scatter',
                         pointRadius: 5,
                         borderWidth: 1
-                    });*/
+                    });
                 });
 
-                const ctx = document.getElementById('myChart').getContext('2d');
+                /*const ctx = document.getElementById('myChart').getContext('2d');
                 new Chart(ctx, {
                     type: 'scatter',
                     data: {
@@ -191,9 +201,14 @@
                             }
                         }
                     }
-                });
+                });*/
+                console.log(equations.map(str => parseFloat(str)))
+                
+                console.log( aValues.map(str => parseFloat(str)))
+                console.log( bValues.map(str => parseFloat(str)))
             })
             .catch(error => console.error('Error loading the CSV data:', error));
+            
     </script>
 </body>
 </html>
