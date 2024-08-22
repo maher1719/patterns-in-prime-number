@@ -8,17 +8,30 @@
 <body>
     <script>
         // Function to check if a number is prime
-        function isPrime(n) {
-            if (n <= 1) return false;
-            if (n <= 3) return true;
-            if (n % 2 === 0 || n % 3 === 0) return false;
-
-            for (let i = 5; i * i <= n; i += 6) {
-                if (n % i === 0 || n % (i + 2) === 0) return false;
-            }
-
-            return true;
+        const primeCache = new Map();
+      function isPrime(num) {
+        if (primeCache.size > Math.pow(10, 7)) {
+          primeCache.clear();
         }
+        if (primeCache.size >= Math.pow(2, 6)) {
+          primeCache.clear();
+        }
+        if (primeCache.has(num)) {
+          return primeCache.get(num);
+        }
+        if (num <= 1) return false;
+        if (num <= 3) return true;
+        if (num % 2 === 0 || num % 3 === 0) return false;
+
+        for (let i = 5; i * i <= num; i += 6) {
+          if (num % i === 0 || num % (i + 2) === 0) {
+            primeCache.set(num, false);
+            return false;
+          }
+        }
+        primeCache.set(num, true);
+        return true;
+      }
 
         // Function to count primes less than or equal to x
         function primeCountingFunction(x) {
@@ -44,7 +57,7 @@
 
           //log10(x) * (c * ln(gx+1) / ln(e) + d) + e * ln(hx+1) + f
 
-          return Math.pow(10,-0.12561902695267929131 * Math.log(0.00010950265943190852 * x + 1) + -0.45484002702484066516) * Math.pow(x,(0.02632241048982214907 * Math.log(0.00013012456216974363 * x + 1) + 0.87653080036123776075));
+          return Math.round(Math.pow(10,-0.12561902695267929131 * Math.log(0.00010950265943190852 * x + 1) + -0.45484002702484066516) * Math.pow(x,(0.02632241048982214907 * Math.log(0.00013012456216974363 * x + 1) + 0.87653080036123776075)));
           //return (c*log10(g*x+1)+d)*log10(x)+(e*log10(h*x+1)+f)
           //return Math.pow(10,f)*(Math.pow(x,(c*(log10(g*x+1))+d+e*(Math.log(h*x*+1)))   ))
             //return log10(Math.pow(g * x + 1, c) * Math.pow(x, d) * Math.pow(h * x + 1, e)) + f;
@@ -71,6 +84,7 @@
                 x: x,
                 piX: piX,
                 modelY: modelY,
+                liX:liX,
                 modelRatio: modelY / piX,
                 logXRatio: approxLogX / piX,
                 liXRatio: liX / piX
@@ -87,7 +101,7 @@
 
         // Example usage: Compare for values of x
         let results = [];
-        for (let x = 1000; x <= 60000; x += 1000) {
+        for (let x = 1000; x <= 31000; x += 1000) {
             const result = compareApproximations(x, g, c, d, h, e, f);
             results.push(result);
         }
