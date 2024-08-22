@@ -11,6 +11,8 @@ step = 6
 # Create the array of multiples of 6
 segment_sizes = np.arange(start, end, step)
 indices = segment_sizes
+
+x_data =  indices[:-100]  # Example x values
 a_values_not_clean = np.array([
     -0.43349545837141884,
     -0.4333510271864173,
@@ -10346,7 +10348,7 @@ b_values = np.array([
     0.9381212969625005,
     0.9419597975956367,
     1.0214399401342125
-])
+]) 
 
 #a => Fitted equation: y = -0.12561902695267929131 * log(0.00010950265943190852 * x + 1) + -0.45484002702484066516
 # b=> Fitted equation: y = 0.02632241048982214907 * log(0.00013012456216974363 * x + 1) + 0.87653080036123776075
@@ -10380,148 +10382,53 @@ print(outlier_indices,a_values[17])
 # Transform the indices for logarithmic regression
 
 
-log_indices = np.log(indices)
 
-# Fit polynomial trendlines
-coeff_a = np.polyfit(log_indices, a_values, 2)  # 2nd degree polynomial
-coeff_b = np.polyfit(log_indices, b_values, 2)  # 2nd degree polynomial
+# Example data (replace with your actual data)
+# Replace with your actual b values
 
-# Create polynomial functions
-poly_a = np.poly1d(coeff_a)
-poly_b = np.poly1d(coeff_b)
+# Define the logarithmic model
+def log_model(x, a, b):
+    return a * np.log(x) + b
 
-# Generate predictions for large indices
-large_indices = np.linspace(1, 31000, 100)
-log_large_indices = np.log(large_indices)
-pred_a = poly_a(log_large_indices)
-pred_b = poly_b(log_large_indices)
+# Fit the logarithmic model for a
+params_a, _ = curve_fit(log_model, x_data, a_values, p0=[1, 1])
+a_fit_a, b_fit_a = params_a
+
+# Fit the logarithmic model for b
+params_b, _ = curve_fit(log_model, x_data, b_values, p0=[1, 1])
+a_fit_b, b_fit_b = params_b
+
+# Generate fitted values for plotting
+x_fit = np.linspace(min(x_data), max(x_data), 100)
+a_fit_curve = log_model(x_fit, a_fit_a, b_fit_a)
+b_fit_curve = log_model(x_fit, a_fit_b, b_fit_b)
 
 # Plot the results
-plt.figure(figsize=(12, 6))
-
+plt.figure(figsize=(12, 12))
 
 # Plot for a values
-plt.subplot(1, 2, 1)
-plt.scatter(indices, a_values, color='blue', label='Actual a values')
-plt.plot(large_indices, pred_a, color='red', label='Polynomial Trendline for a')
-plt.xlabel('Segmentation Index')
+plt.subplot(2, 1, 1)
+plt.scatter(x_data, a_values, color='blue', label='Actual a values')
+plt.plot(x_fit, a_fit_curve, color='red', linestyle='--', label='Logarithmic Fit for a')
+plt.xlabel('X')
 plt.ylabel('a values')
-plt.title('Polynomial Fit for a Values')
+plt.title('Logarithmic Fit for a Values')
 plt.legend()
+plt.grid(True)
 
 # Plot for b values
-plt.subplot(1, 2, 2)
-plt.scatter(indices, b_values, color='green', label='Actual b values')
-plt.plot(large_indices, pred_b, color='orange', label='Polynomial Trendline for b')
-plt.xlabel('Segmentation Index')
+plt.subplot(2, 1, 2)
+plt.scatter(x_data, b_values, color='green', label='Actual b values')
+plt.plot(x_fit, b_fit_curve, color='orange', linestyle='--', label='Logarithmic Fit for b')
+plt.xlabel('X')
 plt.ylabel('b values')
-plt.title('Polynomial Fit for b Values')
-plt.legend()
-
-plt.tight_layout()
-#plt.show()
-
-X=indices
-Y=a_values
-def log_model(x, a, b, c):
-    return a * np.log(b * x + 1 ) + c
-def log_model_plus_e(x, a, b, c):
-    return a * np.log(b * x +1 ) + c
-
-# Fit the model to the data
-params, covariance = curve_fit(log_model, X, Y)
-
-# Extract the parameters
-a, b, c = params
-
-# Generate values for the fitted curve
-x_fit = np.linspace(min(X), max(X), 100)
-y_fit = log_model(x_fit, a, b, c)
-
-# Plot the data and the fitted curve
-plt.figure(figsize=(10, 6))
-plt.scatter(X, Y, color='blue', label='Data')
-plt.plot(x_fit, y_fit, color='red', linestyle='--', label='Logarithmic Fit')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('Logarithmic Regression')
+plt.title('Logarithmic Fit for b Values')
 plt.legend()
 plt.grid(True)
-print(f"Fitted equation: y = {a:.20f} * log({b:.20f} * x + 1) + {c:.20f}")
-Y=b_values
-# Fit the model to the data
-params, covariance = curve_fit(log_model, X, Y)
-
-# Extract the parameters
-a, b, c = params
-
-# Generate values for the fitted curve
-x_fit = np.linspace(min(X), max(X), 100)
-y_fit = log_model(x_fit, a, b, c)
-
-# Plot the data and the fitted curve
-plt.figure(figsize=(10, 6))
-plt.scatter(X, Y, color='blue', label='Data')
-plt.plot(x_fit, y_fit, color='red', linestyle='--', label='Logarithmic Fit')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('Logarithmic Regression')
-plt.legend()
-plt.grid(True)
-print(f"Fitted equation: y = {a:.20f} * log({b:.20f} * x + 1) + {c:.20f}")
-
-
-
-
-Y=a_values
-params, covariance = curve_fit(log_model, X, Y)
-
-# Extract the parameters
-a, b, c = params
-
-# Generate values for the fitted curve
-x_fit = np.linspace(min(X), max(X), 100)
-y_fit = log_model(x_fit, a, b, c)
-
-# Generate predictions for the training data
-y_pred = log_model(X, a, b, c)
-
-# Calculate residuals
-residuals = Y - y_pred
-
-# Calculate R-squared
-ss_res = np.sum(residuals**2)  # Sum of squares of residuals
-ss_tot = np.sum((Y - np.mean(Y))**2)  # Total sum of squares
-r_squared = 1 - (ss_res / ss_tot)
-
-# Plot the data and the fitted curve
-plt.figure(figsize=(12, 6))
-
-# Plot data and fit
-plt.subplot(1, 2, 1)
-plt.scatter(X, Y, color='blue', label='Data')
-plt.plot(x_fit, y_fit, color='red', linestyle='--', label='Logarithmic Fit')
-plt.xlabel('X')
-plt.ylabel('Y')
-plt.title('Logarithmic Regression')
-plt.legend()
-plt.grid(True)
-
-# Plot residuals
-plt.subplot(1, 2, 2)
-plt.scatter(X, residuals, color='green', label='Residuals')
-plt.axhline(0, color='black', linestyle='--')
-plt.xlabel('X')
-plt.ylabel('Residuals')
-plt.title('Residuals Plot')
-plt.legend()
-plt.grid(True)
-
-print(f'Fitted equation: y = {a:.20f} * log({b:.20f} * x + 1) + {c:.20f}')
-print(f'R-squared: {r_squared:.4f}')
 
 plt.tight_layout()
 plt.show()
 
-# Print the R-squared value and fitted equation
-
+# Print the fitted parameters
+print(f"Fitted parameters for a model: a = {a_fit_a:.4f}, b = {b_fit_a:.4f}")
+print(f"Fitted parameters for b model: a = {a_fit_b:.4f}, b = {b_fit_b:.4f}")

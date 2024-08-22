@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Approximations Comparison</title>
+</head>
+<body>
+    <script>
+        // Function to check if a number is prime
+        function isPrime(n) {
+            if (n <= 1) return false;
+            if (n <= 3) return true;
+            if (n % 2 === 0 || n % 3 === 0) return false;
+
+            for (let i = 5; i * i <= n; i += 6) {
+                if (n % i === 0 || n % (i + 2) === 0) return false;
+            }
+
+            return true;
+        }
+
+        // Function to count primes less than or equal to x
+        function primeCountingFunction(x) {
+            let count = 0;
+            for (let i = 2; i <= x; i++) {
+                if (isPrime(i)) {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        // Function to compute log base 10
+        function log10(x) {
+            return Math.log(x) / Math.log(10);
+        }
+
+        // Function to calculate the model's Y value
+        function calculateModelY(x, g, c, d, h, e, f) {
+          //y=log10((gx+1)^c * x^d * (hx+1)^e) + f
+          //10^f * x^(c * log10(gx+1) + d + e * log10(hx+1))
+          //(clog10(gx+1) + d)log10(x) + (elog(hx+1) + f)
+
+          //log10(x) * (c * ln(gx+1) / ln(e) + d) + e * ln(hx+1) + f
+
+          return Math.pow(10,-0.12561902695267929131 * Math.log(0.00010950265943190852 * x + 1) + -0.45484002702484066516) * Math.pow(x,(0.02632241048982214907 * Math.log(0.00013012456216974363 * x + 1) + 0.87653080036123776075));
+          //return (c*log10(g*x+1)+d)*log10(x)+(e*log10(h*x+1)+f)
+          //return Math.pow(10,f)*(Math.pow(x,(c*(log10(g*x+1))+d+e*(Math.log(h*x*+1)))   ))
+            //return log10(Math.pow(g * x + 1, c) * Math.pow(x, d) * Math.pow(h * x + 1, e)) + f;
+        }
+
+        // Function to compute the logarithmic integral approximation
+        function calculateLi(x) {
+            let sum = 0;
+            const dx = 0.001;
+            for (let i = 2; i <= x; i += dx) {
+                sum += dx / Math.log(i);
+            }
+            return sum;
+        }
+
+        // Function to compare model predictions with actual prime counting function
+        function compareApproximations(x, g, c, d, h, e, f) {
+            const piX = primeCountingFunction(x);
+            const modelY = calculateModelY(x, g, c, d, h, e, f);
+            const approxLogX = x / Math.log(x);
+            const liX = calculateLi(x);
+
+            return {
+                x: x,
+                piX: piX,
+                modelY: modelY,
+                modelRatio: modelY / piX,
+                logXRatio: approxLogX / piX,
+                liXRatio: liX / piX
+            };
+        }
+
+        // Coefficients for your model
+        const g = 0.00010950265943190852;
+        const c = -0.12561902695267929131;
+        const d = -0.45484002702484066516;
+        const h = 0.00013012456216974363;
+        const e = 0.02632241048982214907;
+        const f = 0.87653080036123776075;
+
+        // Example usage: Compare for values of x
+        let results = [];
+        for (let x = 1000; x <= 60000; x += 1000) {
+            const result = compareApproximations(x, g, c, d, h, e, f);
+            results.push(result);
+        }
+
+        // Output the results
+        console.log("x, pi(x), Model Y, Model Ratio, log(x) Ratio, li(x) Ratio");
+        results.forEach(result => {
+            console.log(`${result.x}, ${result.piX}, ${result.modelY.toFixed(5)}, ${result.modelRatio.toFixed(5)}, ${result.logXRatio.toFixed(5)}, ${result.liXRatio.toFixed(5)}`);
+        });
+    </script>
+</body>
+</html>

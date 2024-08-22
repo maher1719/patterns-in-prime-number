@@ -90,13 +90,13 @@
 
                 const x = data.Number;
                 const y = data.PrimesPlus1.map((val, i) => (val + data.PrimesMinus1[i]) / 2);
-                const segmentSizes =[]
+                //const segmentSizes =[]
                 
-                for (let index = 6; index < 31000; index+=6) {
+                /*for (let index = 6; index < 31000; index+=6) {
                     segmentSizes.push(index)
                     
-                }
-                //const segmentSizes = [ 6, 30, 210,300,400,500,600,700,800,900,1000,1100,1200, 2310,3000,4000, 5000,6000,8000, 10000,12000,14000, 15000];
+                }*/
+                const segmentSizes = [ 6, 30, 210, 2310];
                 const colors = ['red', 'green', 'black', 'orange', 'purple', 'white'];
                 
 
@@ -202,7 +202,7 @@
                         }
                     }
                 });*/
-                console.log(equations.map(str => parseFloat(str)))
+                console.log(equations)
                 
                 console.log( aValues.map(str => parseFloat(str)))
                 console.log( bValues.map(str => parseFloat(str)))
