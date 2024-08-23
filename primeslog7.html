@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regression Statistics</title>
+    <script src="jslib/chart.js"></script>
+    <script src="jslib/jstat.js"></script>
+    <script src="https://unpkg.com/simple-statistics@7.8.3/dist/simple-statistics.min.js"></script>
+  </head>
+  <body>
+    <canvas id="myChart" width="800" height="600"></canvas>
+    <div id="resultsDiv"></div>
+    <script>
+      const equations = [];
+      const aValues = [];
+      const bValues = [];
+
+      function calculateLogRegression(x, y) {
+        const logX = x.map((v) => Math.log10(v));
+        const logY = y.map((v) => Math.log10(v));
+
+        const n = logX.length;
+        const sumLogX = logX.reduce((a, b) => a + b, 0);
+        const sumLogY = logY.reduce((a, b) => a + b, 0);
+        const sumLogX2 = logX.reduce((a, b) => a + b * b, 0);
+        const sumLogXY = logX.reduce((a, b, i) => a + b * logY[i], 0);
+
+        const slope =
+          (n * sumLogXY - sumLogX * sumLogY) /
+          (n * sumLogX2 - sumLogX * sumLogX);
+        const intercept = (sumLogY - slope * sumLogX) / n;
+
+        return { slope, intercept };
+      }
+
+      function calculateRSquared(x, y, { slope, intercept }) {
+        const logX = x.map((v) => Math.log10(v));
+        const logY = y.map((v) => Math.log10(v));
+        const yPred = logX.map((v) => intercept + slope * v);
+
+        const yMean = logY.reduce((a, b) => a + b, 0) / logY.length;
+        const ssTotal = logY.reduce(
+          (acc, curr) => acc + Math.pow(curr - yMean, 2),
+          0
+        );
+        const ssRes = logY.reduce(
+          (acc, curr, i) => acc + Math.pow(curr - yPred[i], 2),
+          0
+        );
+
+        return 1 - ssRes / ssTotal;
+      }
+
+      function calculatePValue(x, y, { slope, intercept }) {
+        const logX = x.map((v) => Math.log10(v));
+        const logY = y.map((v) => Math.log10(v));
+        const yPred = logX.map((v) => intercept + slope * v);
+        const residuals = logY.map((val, i) => val - yPred[i]);
+
+        const sumSquaredResiduals = residuals.reduce((a, b) => a + b * b, 0);
+        const meanX = x.reduce((a, b) => a + b, 0) / x.length;
+        const sumSquaredX = x.reduce((a, b) => a + Math.pow(b - meanX, 2), 0);
+        const standardError = Math.sqrt(sumSquaredResiduals / (x.length - 2));
+
+        const tStat = slope / (standardError / Math.sqrt(sumSquaredX));
+        const pValue =
+          2 * (1 - jStat.studentt.cdf(Math.abs(tStat), x.length - 2)); // Two-tailed p-value
+        return pValue;
+      }
+
+      function calculateConfidenceInterval(x, y, { slope, intercept }) {
+        const logX = x.map((v) => Math.log10(v));
+        const logY = y.map((v) => Math.log10(v));
+        const yPred = logX.map((v) => intercept + slope * v);
+        const residuals = logY.map((val, i) => val - yPred[i]);
+
+        const sumSquaredResiduals = residuals.reduce((a, b) => a + b * b, 0);
+        const meanX = x.reduce((a, b) => a + b, 0) / x.length;
+        const sumSquaredX = x.reduce((a, b) => a + Math.pow(b - meanX, 2), 0);
+
+        const standardError = Math.sqrt(sumSquaredResiduals / (x.length - 2));
+        const tScore = jStat.studentt.inv(0.975, x.length - 2); // t-score for 95% confidence interval
+
+        const marginOfError = (tScore * standardError) / Math.sqrt(sumSquaredX);
+
+        return {
+          lower: slope - marginOfError,
+          upper: slope + marginOfError,
+        };
+      }
+
+      // New function to calculate additional statistics using simple-statistics library
+      function calculateRegression(x, y) {
+        const logX = x.map((val) => Math.log(val));
+        const logY = y.map((val) => Math.log(val));
+        const regression = ss.linearRegression(
+          logX.map((x, i) => [x, logY[i]])
+        );
+        const slope = regression.m;
+        const intercept = regression.b;
+        const equation = `y = ${slope.toFixed(4)}x + ${intercept.toFixed(4)}`;
+        return { slope, intercept, equation, logX, logY };
+      }
+
+      // Function to calculate additional statistics
+      function calculateAdditionalStats(logX, logY, slope, intercept) {
+        const predictedY = logX.map((x) => slope * x + intercept);
+
+        // Calculate the Pearson correlation and handle possible errors
+        let pearsonCorrelation = ss.sampleCorrelation(logX, logY);
+        if (
+          isNaN(pearsonCorrelation) ||
+          typeof pearsonCorrelation !== "number"
+        ) {
+          pearsonCorrelation = "N/A";
+        } else {
+          pearsonCorrelation = pearsonCorrelation.toFixed(4);
+        }
+
+        // Calculate residuals and standard error and handle possible errors
+        const residuals = logY.map((y, i) => y - predictedY[i]);
+        let standardError = ss.standardDeviation(residuals);
+        if (isNaN(standardError) || typeof standardError !== "number") {
+          standardError = "N/A";
+        } else {
+          standardError = standardError.toFixed(4);
+        }
+
+        return {
+          pearsonCorrelation,
+          standardError,
+        };
+      }
+
+      fetch("http://localhost:8000/prime_data2.csv")
+        .then((response) => response.text())
+        .then((csvData) => {
+          const rows = csvData
+            .split("\n")
+            .slice(1)
+            .filter((row) => row)
+            .map((row) => row.split(","));
+          const data = {
+            Number: rows.map((row) => +row[0]),
+            PrimesPlus1: rows.map((row) => +row[1]),
+            PrimesMinus1: rows.map((row) => +row[2]),
+          };
+
+          const x = data.Number;
+          const y = data.PrimesPlus1.map(
+            (val, i) => (val + data.PrimesMinus1[i]) / 2
+          );
+          const segmentSizes = [2, 6, 30, 210, 2310];
+          const colors = ["red", "green", "black", "orange", "purple", "white"];
+
+          const datasets = [];
+          segmentSizes.forEach((size, index) => {
+            const xSegmented = [];
+            const ySegmented = [];
+
+            for (let i = 0; i < x.length - 1; i += size) {
+              const xSlice = x.slice(i, i + size);
+              const ySlice = y.slice(i, i + size);
+              const avgX = (xSlice[0] + xSlice[xSlice.length - 1]) / 2;
+              const avgY = ySlice.reduce((a, b) => a + b, 0) / ySlice.length;
+              xSegmented.push(avgX);
+              ySegmented.push(avgY);
+            }
+
+            const regressionParams = calculateLogRegression(
+              xSegmented,
+              ySegmented
+            );
+            const regressionLineData = xSegmented.map((v) =>
+              Math.pow(
+                10,
+                regressionParams.intercept +
+                  regressionParams.slope * Math.log10(v)
+              )
+            );
+
+            const { slope, intercept } = regressionParams;
+            const rSquared = calculateRSquared(
+              xSegmented,
+              ySegmented,
+              regressionParams
+            );
+            const pValue = calculatePValue(
+              xSegmented,
+              ySegmented,
+              regressionParams
+            );
+            const confInterval = calculateConfidenceInterval(
+              xSegmented,
+              ySegmented,
+              regressionParams
+            );
+
+            // Calculate additional statistics
+            const { pearsonCorrelation, standardError } =
+              calculateAdditionalStats(
+                xSegmented,
+                ySegmented,
+                regressionParams
+              );
+
+            const fixed = 32;
+            const equation =
+              `y = 10^(${intercept.toFixed(fixed)}) * x^(${slope.toFixed(
+                fixed
+              )})\n` +
+              `R^2 = ${rSquared.toFixed(fixed)}\n` +
+              `p-value = ${pValue.toFixed(fixed)}\n` +
+              `CI: [${confInterval.lower.toFixed(
+                fixed
+              )}, ${confInterval.upper.toFixed(fixed)}]\n` +
+              `Pearson r = ${pearsonCorrelation}\n` +
+              `Standard Error = ${standardError}`;
+
+            aValues.push(intercept.toFixed(fixed));
+            bValues.push(slope.toFixed(fixed));
+            equations.push({ equation, color: colors[index] });
+
+            datasets.push({
+              label: `Segment Data ${size}`,
+              data: xSegmented.map((val, i) => ({ x: val, y: ySegmented[i] })),
+              borderColor: colors[index],
+              backgroundColor: colors[index],
+              type: "scatter",
+              pointRadius: 5,
+            });
+
+            datasets.push({
+              label: `Regression Line ${size}`,
+              data: xSegmented.map((val, i) => ({
+                x: val,
+                y: regressionLineData[i],
+              })),
+              borderColor: colors[index],
+              backgroundColor: colors[index],
+              type: "scatter",
+              pointRadius: 5,
+              borderWidth: 1,
+            });
+          });
+
+          /*const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    data: {
+                        datasets
+                    },
+                    options: {
+                        scales: {
+                            x: {
+                                type: 'linear',
+                                position: 'bottom',
+                                title: {
+                                    display: true,
+                                    text: 'Number'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Average Primes ± 1'
+                                }
+                            }
+                        }
+                    }
+                });*/
+
+          const resultsDiv = document.createElement("div");
+          equations.forEach(({ equation, color }) => {
+            const result = document.createElement("pre");
+            result.textContent = equation;
+            result.style.color = color;
+            resultsDiv.appendChild(result);
+          });
+          document.body.appendChild(resultsDiv);
+          console.log(equations)
+        })
+        .catch((error) => console.error("Error loading CSV:", error));
+    </script>
+  </body>
+</html>

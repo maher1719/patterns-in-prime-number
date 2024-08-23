@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regression Statistics</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script> <!-- For p-value calculation -->
+    <script src="jslib/chart.js"></script>
+    <script src="jslib/jstat.js"></script> 
+    <script src="jslib/simple_stats.js"></script> <!-- For p-value calculation -->
 </head>
 <body>
     <canvas id="myChart" width="800" height="600"></canvas>
@@ -78,7 +79,7 @@
             };
         }
 
-        fetch('http://localhost:8000/prime_data2.csv')
+        fetch('http://localhost:8000/prime5.csv')
             .then(response => response.text())
             .then(csvData => {
                 const rows = csvData.split('\n').slice(1).filter(row => row).map(row => row.split(','));
@@ -96,7 +97,7 @@
                     segmentSizes.push(index)
                     
                 }*/
-                const segmentSizes = [ 6, 30, 210, 2310];
+                const segmentSizes = [100,200,300,400,500,600,5000];
                 const colors = ['red', 'green', 'black', 'orange', 'purple', 'white'];
                 
 
