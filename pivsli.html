@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart.js with Functions and Regression</title>
+    <script src="chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-statistics@7.7.5/dist/simple-statistics.min.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Chart.js with Functions and Linear Regression</h1>
+      <canvas id="myChart"></canvas>
+      <p id="equation"></p>
+    </div>
+
+    <script>
+      function isPrime(x) {
+        if (x <= 1) return false;
+        if (x <= 3) return true;
+        if (x % 2 === 0 || x % 3 === 0) return false;
+
+        // Check up to the square root of x
+        const sqrtX = Math.sqrt(x);
+
+        // Use 6k ± 1 optimization
+        for (let i = 5; i <= sqrtX; i += 6) {
+          if (x % i === 0 || x % (i + 2) === 0) return false;
+        }
+
+        return true;
+      }
+      // Function to calculate the prime counting function pi(x)
+      function primeCountingFunction(x) {
+        // A very simplified version; in practice, use a more accurate method
+        let count = 0;
+        for (let i = 2; i <= x; i++) {
+          let isPrime = isPrime(i)
+          if (isPrime) count++;
+          }
+          
+        
+        return count;
+      }
+
+      // Function to calculate the logarithmic integral Li(x)
+      function logarithmicIntegral(x) {
+        // A very simplified version; in practice, use a more accurate method
+        let integral = 0;
+        for (let i = 2; i <= x; i += 0.01) {
+          integral += 1 / (Math.log(i) * 100);
+        }
+        return integral;
+      }
+
+      // Sample data
+      const xValues = Array.from({ length: 10000 }, (_, i) => i + 1);
+      const liValues = xValues.map(logarithmicIntegral);
+      const piValues = xValues.map(primeCountingFunction);
+      const diffValues = liValues.map((li, i) => li - piValues[i]);
+
+      // Linear regression calculation
+      const regression = ss.linearRegression(
+        xValues.map((x, i) => [x, diffValues[i]])
+      );
+      const regressionLine = (x) => regression.m * x + regression.b;
+
+      // Format the equation
+      const equationText = `y = ${regression.m.toFixed(
+        32
+      )}x + ${regression.b.toFixed(32)}`;
+
+      // Create the chart
+      const ctx = document.getElementById("myChart").getContext("2d");
+      /*new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: 'li(x) - pi(x)',
+                        data: xValues.map((x, i) => ({ x, y: diffValues[i] })),
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        showLine: false
+                    },
+                    {
+                        label: 'Logarithmic Integral Li(x)',
+                        data: xValues.map((x, i) => ({ x, y: liValues[i] })),
+                        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        type: 'line'
+                    },
+                    {
+                        label: 'Prime Counting Function pi(x)',
+                        data: xValues.map((x, i) => ({ x, y: piValues[i] })),
+                        backgroundColor: 'rgba(255, 159, 64, 0.6)',
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        type: 'line'
+                    },
+                    {
+                        label: 'Regression Line',
+                        data: xValues.map(x => ({ x, y: regressionLine(x) })),
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        type: 'line'
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'x'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Value'
+                        }
+                    }
+                }
+            }
+        });
+*/
+      // Display the equation
+      document.getElementById(
+        "equation"
+      ).innerText = `Regression Line: ${equationText}`;
+    </script>
+  </body>
+</html>

@@ -92,9 +92,21 @@
 
       // New function to calculate custom regression
       function calculateCustomRegression(x) {
-        return x.map((xVal) => 
-          Math.round(Math.pow(10, -0.12561902695267929131 * Math.log(0.00010950265943190852 * xVal + 1) + -0.45484002702484066516) *
-            Math.pow(xVal, (0.02632241048982214907 * Math.log(0.00013012456216974363 * xVal + 1) + 0.87653080036123776075)))
+        return x.map((xVal) =>
+          Math.round(
+            Math.pow(
+              10,
+              -0.11965567430226974055 *
+                Math.log(0.0001161592420724066 * xVal + 1) +
+                -0.45585474750657567489
+            ) *
+              Math.pow(
+                xVal,
+                0.02529117055287140661 *
+                  Math.log(0.00013632733523073599 * xVal + 1) +
+                  0.87674840855285307573
+              )
+          )
         );
       }
 
@@ -160,7 +172,8 @@
         const standardError = Math.sqrt(sumSquaredResiduals / (x.length - 2));
 
         const tStat = standardError / Math.sqrt(sumSquaredX);
-        const pValue = 2 * (1 - jStat.studentt.cdf(Math.abs(tStat), x.length - 2));
+        const pValue =
+          2 * (1 - jStat.studentt.cdf(Math.abs(tStat), x.length - 2));
         return pValue;
       }
 
@@ -219,7 +232,7 @@
       }
 
       // Fetch data and process it
-      fetch("http://localhost:8000/prime_data2.csv")
+      fetch("http://localhost:8000/prime5.csv")
         .then((response) => response.text())
         .then((csvData) => {
           const rows = csvData
@@ -237,7 +250,7 @@
           const y = data.PrimesPlus1.map(
             (val, i) => (val + data.PrimesMinus1[i]) / 2
           );
-          const segmentSizes = [2, 6, 30, 210, 2310];
+          const segmentSizes = [60];
           const colors = ["red", "green", "black", "orange", "purple", "white"];
 
           const datasets = [];
@@ -293,7 +306,9 @@
               );
 
             equations.push({
-              equation: `y = 10^(${intercept.toFixed(3)} + ${slope.toFixed(3)} * log10(x))`,
+              equation: `y = 10^(${intercept.toFixed(3)} + ${slope.toFixed(
+                3
+              )} * log10(x))`,
               rSquared,
               pValue,
               confInterval,
@@ -365,12 +380,29 @@
             backgroundColor: "transparent",
             borderWidth: 1,
             showLine: true,
-            fill: false,
+            fill: true,
             lineTension: 0,
+            pointRadius: 3,
             type: "line",
           });
-
-          /*const ctx = document.getElementById("myChart").getContext("2d");
+          function displayResults() {
+            const resultsDiv = document.getElementById("resultsDiv");
+            resultsDiv.innerHTML = "<h2>Regression Results</h2>";
+            equations.forEach((eq) => {
+              resultsDiv.innerHTML += `
+            <h3>${eq.equation}</h3>
+            <p>R²: ${eq.rSquared.toFixed(4)}</p>
+            <p>p-value: ${eq.pValue.toFixed(4)}</p>
+            <p>95% Confidence Interval for Slope: ${eq.confInterval.lower.toFixed(
+              4
+            )} to ${eq.confInterval.upper.toFixed(4)}</p>
+            <p>Pearson Correlation: ${eq.pearsonCorrelation}</p>
+            <p>Standard Error: ${eq.standardError}</p>
+            <hr />
+          `;
+            });
+          }
+          const ctx = document.getElementById("myChart").getContext("2d");
           new Chart(ctx, {
             type: "scatter",
             data: {
@@ -400,11 +432,15 @@
                 },
               },
             },
-          });*/
+          });
 
-          console.log("Equations and Statistics:", equations,customRSquared);
+          console.log(
+            "Equations and Statistics:",
+            equations,
+            customRSquared,
+            customPValue
+          );
         });
-
     </script>
   </body>
 </html>

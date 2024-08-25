@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Functions Plot</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <canvas id="primeChart" width="800" height="400"></canvas>
+    <script>
+        const ctx = document.getElementById('primeChart').getContext('2d');
+
+// Helper function to calculate log base e (natural logarithm)
+function log(x) {
+    return Math.log(x);
+}
+
+// Function to generate primes using a simple sieve (for smaller values of x)
+function generatePrimes(limit) {
+    const sieve = new Array(limit + 1).fill(true);
+    sieve[0] = sieve[1] = false;
+    for (let i = 2; i <= Math.sqrt(limit); i++) {
+        if (sieve[i]) {
+            for (let j = i * i; j <= limit; j += i) {
+                sieve[j] = false;
+            }
+        }
+    }
+    return sieve.map((isPrime, index) => isPrime ? index : null).filter(n => n);
+}
+
+// Function to calculate pi(x) (number of primes less than or equal to x)
+function pi(x, primes) {
+    return primes.filter(p => p <= x).length;
+}
+
+// Generate primes up to the maximum x value
+const maxX = 5000;
+const minX=6000
+const primes = generatePrimes(maxX);
+
+// Prepare data for plotting
+const labels = [];
+const piData = [];
+const xOverLogXData = [];
+const xOverLogXSquaredData = [];
+
+for (let x = minX; x <= maxX; x++) {
+    labels.push(x);
+    const piValue = pi(x, primes);
+    piData.push(piValue);
+    const xOverLogX = x / log(x);
+    xOverLogXData.push(xOverLogX);
+    const newlog=0.6613894682*x + -71.7182205244
+    
+    xOverLogXSquaredData.push(x/log(x-newlog));
+}
+
+// Plot the chart
+const primeChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'π(x)',
+                data: piData,
+                borderColor: 'red',
+                fill: false,
+            },
+            {
+                label: 'x/log(x)',
+                data: xOverLogXData,
+                borderColor: 'blue',
+                fill: false,
+            },
+            /*{
+                label: 'x/log(x) - x/log^2(x)',
+                data: xOverLogXSquaredData,
+                borderColor: 'green',
+                fill: false,
+            }*/
+        ]
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Prime Number Functions'
+        },
+        scales: {
+            x: {
+                type: 'linear',
+                position: 'bottom'
+            }
+        }
+    }
+});
+
+    </script>
+</body>
+</html>

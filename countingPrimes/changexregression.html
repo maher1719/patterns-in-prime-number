@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plotting a vs x with Logarithmic Regression</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<canvas id="solutionChart"></canvas>
+
+<script>
+// Helper function to count primes up to x (pi(x))
+function pi(x, primes) {
+    return primes.filter(p => p <= x).length;
+}
+function calculateLogRegression(xValues, yValues) {
+    // Ensure we have valid data
+    if (xValues.length !== yValues.length || xValues.length < 2) {
+        throw new Error('Invalid data for regression.');
+    }
+
+    // Calculate the necessary sums
+    const n = xValues.length;
+    let sumX = 0, sumY = 0, sumXY = 0, sumLogX = 0, sumLogX2 = 0;
+
+    for (let i = 0; i < n; i++) {
+        const logX = Math.log(xValues[i]);
+        sumX += xValues[i];
+        sumY += yValues[i];
+        sumXY += logX * yValues[i];
+        sumLogX += logX;
+        sumLogX2 += logX * logX;
+    }
+
+    // Calculate the coefficients
+    const denominator = (n * sumLogX2 - sumLogX * sumLogX);
+    if (denominator === 0) {
+        throw new Error('Denominator for regression calculation is zero.');
+    }
+
+    const b = (sumY * sumLogX2 - sumLogX * sumXY) / denominator;
+    const a = (n * sumXY - sumLogX * sumY) / denominator;
+
+    return { a, b };
+}
+function generateLogRegressionData(xValues, a, b) {
+    return xValues.map(x => a * Math.log(x) + b);
+}
+
+
+// Function to generate primes using the Sieve of Eratosthenes
+function generatePrimes(maxX) {
+    const sieve = Array(maxX + 1).fill(true);
+    sieve[0] = sieve[1] = false;
+    for (let i = 2; i <= Math.sqrt(maxX); i++) {
+        if (sieve[i]) {
+            for (let j = i * i; j <= maxX; j += i) {
+                sieve[j] = false;
+            }
+        }
+    }
+    return sieve.map((isPrime, index) => isPrime ? index : null).filter(n => n);
+}
+
+// Define the range for x
+const minX = 2;
+const maxX = 30000; // Adjust this as needed
+
+// Generate primes up to maxX
+const primes = generatePrimes(maxX);
+
+// Arrays to hold data for plotting
+const labels = [];
+const aValues = [];
+const xValues = [];
+const ratioValues = [];
+
+for (let x = minX; x <= maxX; x++) {
+    labels.push(x);
+    xValues.push(x);
+    const piValue = pi(x, primes);
+
+    // Solve for a: a = exp(x / pi(x)) - x
+    const a = Math.exp(x / piValue) - x;
+
+    aValues.push(Math.abs(a));
+    ratioValues.push(x / Math.abs(a));
+    console.log(`x: ${x}, a: ${a}`); // Debugging: Check if values are generated
+}
+
+// Calculate logarithmic regression coefficients
+const { a: regA, b: regB } = calculateLogRegression(xValues, aValues);
+
+// Generate regression line data
+const regressionValues = generateLogRegressionData(xValues, regA, regB);
+
+// Plotting the data with Chart.js
+const ctx = document.getElementById('solutionChart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'a where pi(x) intersects x/log(x+a)',
+                data: aValues,
+                borderColor: 'blue',
+                fill: false,
+                borderWidth: 2,
+                pointRadius: 2,
+            },
+            {
+                label: 'Logarithmic Regression',
+                data: regressionValues,
+                borderColor: 'red',
+                fill: false,
+                borderWidth: 2,
+                borderDash: [5, 5],
+            }
+        ]
+    },
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'x'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'a'
+                }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Intersection with a</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<canvas id="intersectionChart"></canvas>
+
+<script>
+// Helper function to count primes up to x (pi(x))
+function pi(x, primes) {
+    return primes.filter(p => p <= x).length;
+}
+
+// Function to generate primes using the Sieve of Eratosthenes
+function generatePrimes(maxX) {
+    const sieve = Array(maxX + 1).fill(true);
+    sieve[0] = sieve[1] = false;
+    for (let i = 2; i <= Math.sqrt(maxX); i++) {
+        if (sieve[i]) {
+            for (let j = i * i; j <= maxX; j += i) {
+                sieve[j] = false;
+            }
+        }
+    }
+    return sieve.map((isPrime, index) => isPrime ? index : null).filter(n => n);
+}
+
+// Define the range for x
+const minX = 2;
+const maxX = 1000; // Adjust this as needed
+
+// Generate primes up to maxX
+const primes = generatePrimes(maxX);
+
+// Arrays to hold data for plotting
+const labels = [];
+const aValues = [];
+
+for (let x = minX; x <= maxX; x++) {
+    labels.push(x);
+    const piValue = pi(x, primes);
+    const xOverLogX = x / Math.log(x);
+
+    // Find the value of a where pi(x) intersects with x/log(x) * (1 + a)
+    let a = 0.8;
+    let tolerance = 0.0001; // tolerance for approximation
+    let maxIterations = 10000; // Increase iterations for better precision
+    let iteration = 0;
+    let found = false;
+
+    while (iteration < maxIterations) {
+        const adjustedValue = xOverLogX * (1 + a);
+        if (Math.abs(adjustedValue - piValue) < tolerance) {
+            found = true;
+            break;
+        }
+        a += 0.01; // decrease increment for better precision
+        iteration++;
+    }
+
+    if (found) {
+        aValues.push(a);
+        console.log(`x: ${x}, a: ${a}`); // Debugging: Check if values are generated
+    } else {
+        aValues.push(null); // No intersection found within tolerance
+        console.log(`x: ${x}, No intersection found`); // Debugging
+    }
+}
+
+// Plotting the data with Chart.js
+const ctx = document.getElementById('intersectionChart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'a where pi(x) intersects x/log(x) * (1 + a)',
+                data: aValues,
+                borderColor: 'red',
+                fill: false,
+                borderWidth: 2,
+                pointRadius: 2,
+            }
+        ]
+    },
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'x'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'a'
+                }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

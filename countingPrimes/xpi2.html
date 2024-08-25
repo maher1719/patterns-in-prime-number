@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plotting x vs a</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<canvas id="solutionChart"></canvas>
+
+<script>
+// Helper function to count primes up to x (pi(x))
+function pi(x, primes) {
+    return primes.filter(p => p <= x).length;
+}
+
+// Function to generate primes using the Sieve of Eratosthenes
+function generatePrimes(maxX) {
+    const sieve = Array(maxX + 1).fill(true);
+    sieve[0] = sieve[1] = false;
+    for (let i = 2; i <= Math.sqrt(maxX); i++) {
+        if (sieve[i]) {
+            for (let j = i * i; j <= maxX; j += i) {
+                sieve[j] = false;
+            }
+        }
+    }
+    return sieve.map((isPrime, index) => isPrime ? index : null).filter(n => n);
+}
+
+// Function to solve for x given a using numerical methods
+function findXForA(a, tolerance = 0.0001, maxIterations = 10000) {
+    const piA = pi(a, primes);
+    let x = 1; // Initial guess
+    let increment = 0.1;
+
+    for (let i = 0; i < maxIterations; i++) {
+        let term = a - a / (x * Math.PI / 2);
+        if (term <= 0) {
+            x += increment;
+            continue;
+        }
+
+        let logTerm = Math.log(term);
+        let rightSide = a / logTerm;
+
+        if (Math.abs(piA - rightSide) < tolerance) {
+            return x;
+        }
+
+        x += increment;
+    }
+
+    return x; // Return the approximated value
+}
+
+// Define the range for a
+const minA = 2;
+const maxA = 10000; // Adjust this as needed
+const step = 500;   // Adjust step size as needed
+
+// Generate primes up to maxA
+const primes = generatePrimes(maxA);
+
+// Arrays to hold data for plotting
+const labels = [];
+const xValues = [];
+
+for (let a = minA; a <= maxA; a += step) {
+    const x = findXForA(a);
+    labels.push(a);
+    xValues.push(x);
+}
+
+// Plotting the data with Chart.js
+const ctx = document.getElementById('solutionChart').getContext('2d');
+const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Value of x for given a',
+                data: xValues,
+                borderColor: 'blue',
+                fill: false,
+                borderWidth: 2,
+                pointRadius: 2,
+            }
+        ]
+    },
+    options: {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'a'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'x'
+                }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>

@@ -56,8 +56,10 @@
           //(clog10(gx+1) + d)log10(x) + (elog(hx+1) + f)
 
           //log10(x) * (c * ln(gx+1) / ln(e) + d) + e * ln(hx+1) + f
-
-          return Math.round(Math.pow(10,-0.12561902695267929131 * Math.log(0.00010950265943190852 * x + 1) + -0.45484002702484066516) * Math.pow(x,(0.02632241048982214907 * Math.log(0.00013012456216974363 * x + 1) + 0.87653080036123776075)));
+          const xVal=x
+          const eq=Math.round(Math.pow(10, -0.11965567430226974055 * Math.log(0.00011615924207240660 * xVal + 1) + -0.45585474750657567489) *
+          Math.pow(xVal, (0.02529117055287140661 * Math.log(0.00013632733523073599 * xVal + 1) + 0.87674840855285307573)))
+          return eq//Math.round(Math.pow(10,-0.12561902695267929131 * Math.log(0.00010950265943190852 * x + 1) + -0.45484002702484066516) * Math.pow(x,(0.02632241048982214907 * Math.log(0.00013012456216974363 * x + 1) + 0.87653080036123776075)));
           //return (c*log10(g*x+1)+d)*log10(x)+(e*log10(h*x+1)+f)
           //return Math.pow(10,f)*(Math.pow(x,(c*(log10(g*x+1))+d+e*(Math.log(h*x*+1)))   ))
             //return log10(Math.pow(g * x + 1, c) * Math.pow(x, d) * Math.pow(h * x + 1, e)) + f;
@@ -101,7 +103,7 @@
 
         // Example usage: Compare for values of x
         let results = [];
-        for (let x = 50000; x <= 51000; x += 100) {
+        for (let x = 180850; x <= 180900; x += 5) {
             const result = compareApproximations(x, g, c, d, h, e, f);
             results.push(result);
         }
@@ -109,7 +111,7 @@
         // Output the results
         console.log("x, pi(x), Model Y, Model Ratio, log(x) Ratio, li(x) Ratio");
         results.forEach(result => {
-            console.log(`${result.x}, ${result.piX}, ${result.modelY.toFixed(5)}, ${result.modelRatio.toFixed(5)}, ${result.logXRatio.toFixed(5)}, ${result.liXRatio.toFixed(5)}`);
+            console.log(`${result.x}, ${result.piX}, ${result.modelY.toFixed(1)}, ${result.modelRatio.toFixed(10)}, ${result.logXRatio.toFixed(5)}, ${result.liXRatio.toFixed(5)}`);
         });
     </script>
 </body>
