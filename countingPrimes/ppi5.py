@@ -29,9 +29,9 @@ def equation(x, a, pi_a):
     return float(result)
 
 # Define the range and step size for a
-a_start = 100000
-a_end = 10000000
-a_step = 500000
+a_start = 1000000
+a_end = 100000000
+a_step = 50000
 
 # Generate values for a
 a_values = np.arange(a_start, a_end + a_step, a_step)
@@ -143,6 +143,23 @@ ss_res = np.sum(residuals_log ** 2)
 ss_tot = np.sum((np.array(x_solutions) - np.mean(x_solutions)) ** 2)
 f_statistic = (ss_tot - ss_res) / p / (ss_res / (n - p - 1))
 p_value = 1 - stats.f.cdf(f_statistic, p, n - p - 1)
+print(f"Logarithmic regression equation: x = {log_params[0]:.15f} + {log_params[1]:.15f} * log(a)")
+
+"""Compute R^2 for log predictions"""
+
+r2_log = r2_score(x_solutions, log_predictions)
+print(f"R-squared for Logarithmic Regression: {r2_log:.12f}")
+
+"""Compute Mean Squared Error for the logarithmic regression"""
+
+# Compute Mean Squared Error for the logarithmic regression
+mse_log = mean_squared_error(x_solutions, log_predictions)
+print(f"Mean Squared Error for Logarithmic Regression: {mse_log:.12f}")
+
+# Compute Root Mean Squared Error for the logarithmic regression
+rmse_log = np.sqrt(mse_log)
+print(f"Root Mean Squared Error for Logarithmic Regression: {rmse_log:.12f}")
+
 print(f"R-squared for Logarithmic Regression: {r2_log:.32}")
 print(f"Mean Squared Error for Logarithmic Regression: {mse_log:.32}")
 print(f"Root Mean Squared Error for Logarithmic Regression: {rmse_log:.32}")
@@ -238,41 +255,6 @@ for a, x in zip(a_values, x_solutions):
     print(a,x,rg,mod_x)
     li_errors.append(abs(pi_x - li_x))
     mod_errors.append(abs(pi_x - mod_x))
-
-
-
-
-"""for a, x in zip(a_values, x_solutions):
-    pi_x = primepi(a)
-    li_x = li(a)
-    rg = log_params[0] + log_params[1] * np.log(x)
-    mod_x = modified_function2(a, rg)
-    print(a, x, rg, mod_x)
-    
-    li_errors.append(abs(pi_x - li_x))
-    mod_errors.append(abs(pi_x - mod_x))"""
-
-# Convert mod_errors to a NumPy array of floats, filtering out NaNs
-"""m_error = np.array(mod_errors, dtype=np.float64)
-
-# Filter out NaN values from m_error and the corresponding a_values
-valid_indices = ~np.isnan(m_error)
-m_error = m_error[valid_indices]
-a_values = a_values[valid_indices]
-
-# Perform logarithmic regression on the modified error
-log_params_error = logarithmic_regression2(a_values, m_error)
-log_predictions_error = log_params_error[0] + log_params_error[1] * np.log(a_values)
-
-print(f"Logarithmic regression equation log_params_error: x = {log_params_error[0]:.15f} + {log_params_error[1]:.15f} * log(a)")
-
-
-m_error=np.array(mod_errors)
-m_error.put(m_error.size-1,abs(pi_x - mod_x))
-log_params_error = logarithmic_regression(a_values, m_error)
-log_predictions_error = log_params_error[0] + log_params_error[1] * np.log(a_values)
-print(f"Logarithmic regression equation log_params_error: x = {log_params_error[0]:.15f} + {log_params_error[1]:.15f} * log(a)")
-print(f"Logarithmic regression equation: x = {log_params_error[0]:.15f} + {log_params_error[1]:.15f} * log(a)")"""
 
 
 
