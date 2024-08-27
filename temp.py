@@ -10388,6 +10388,7 @@ print(outlier_indices,a_values[17])
 
 # Define the logarithmic model
 def log_model(x, a, b):
+    
     return a * np.log(x) + b
 
 # Fit the logarithmic model for a

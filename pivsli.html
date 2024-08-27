@@ -36,11 +36,15 @@
         // A very simplified version; in practice, use a more accurate method
         let count = 0;
         for (let i = 2; i <= x; i++) {
-          let isPrime = isPrime(i)
-          if (isPrime) count++;
+          let isPrime = true;
+          for (let j = 2; j <= Math.sqrt(i); j++) {
+            if (i % j === 0) {
+              isPrime = false;
+              break;
+            }
           }
-          
-        
+          if (isPrime) count++;
+        }
         return count;
       }
 

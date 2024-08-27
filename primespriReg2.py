@@ -62021,9 +62021,9 @@ points=[15488,10320,7737,7736,5163,5162,3870,3866,3570,3441,2580]
 indices=np.delete(indices,points)
 a_values=np.delete(a_values,points)
 b_values=np.delete(b_values,points)
-a_values=a_values[:-15000]
-indices=indices[:-15000]
-b_values=b_values[:-15000]
+a_values=a_values[:-p]
+indices=indices[:-350]
+b_values=b_values[:-350]
 
 print(len(indices),len(a_values),len(b_values))
 diff = np.diff(a_values)
@@ -62066,7 +62066,7 @@ poly_a = np.poly1d(coeff_a)
 poly_b = np.poly1d(coeff_b)
 
 # Generate predictions for large indices
-large_indices = np.linspace(1, 16000, 10)
+large_indices = np.linspace(1, 31000, 100)
 log_large_indices = np.log(large_indices)
 pred_a = poly_a(log_large_indices)
 pred_b = poly_b(log_large_indices)

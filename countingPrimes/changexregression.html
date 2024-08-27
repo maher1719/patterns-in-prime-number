@@ -15,6 +15,38 @@
 function pi(x, primes) {
     return primes.filter(p => p <= x).length;
 }
+function calculateLinearRegression(xValues, yValues) {
+    // Ensure we have valid data
+    if (xValues.length !== yValues.length || xValues.length < 2) {
+        throw new Error('Invalid data for regression.');
+    }
+
+    // Calculate the necessary sums
+    const n = xValues.length;
+    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;
+
+    for (let i = 0; i < n; i++) {
+        sumX += xValues[i];
+        sumY += yValues[i];
+        sumXY += xValues[i] * yValues[i];
+        sumX2 += xValues[i] * xValues[i];
+    }
+
+    // Calculate the coefficients
+    const denominator = (n * sumX2 - sumX * sumX);
+    if (denominator === 0) {
+        throw new Error('Denominator for regression calculation is zero.');
+    }
+
+    const m = (n * sumXY - sumX * sumY) / denominator;
+    const b = (sumY * sumX2 - sumX * sumXY) / denominator;
+
+    return { m, b };
+}
+function generateLinearRegressionData(xValues, m, b) {
+    return xValues.map(x => m * x + b);
+}
+
 function calculateLogRegression(xValues, yValues) {
     // Ensure we have valid data
     if (xValues.length !== yValues.length || xValues.length < 2) {

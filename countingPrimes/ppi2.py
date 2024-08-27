@@ -15,14 +15,11 @@ def equation(x, a, pi_a):
     return float(result)
 
 # Define the range and step size for a
-#a_start = 1000000000
-#a_end = 20000000000
-#a_step = 5000000000
+a_start = 1000000000
+a_end = 20000000000
+a_step = 5000000000
 
 
-a_start = 10000000000
-a_end = 100000000000
-a_step = 10000000000
 
 
 # Generate values for a
