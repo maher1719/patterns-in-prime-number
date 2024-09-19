@@ -6,6 +6,7 @@ from collections import defaultdict
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import time
 import argparse
+from mpmath import li
 
 # Prime cache
 prime_cache = {}
@@ -93,18 +94,21 @@ def get_background_color(label):
         return background_color_chart_special[0]
     remainder = label % 6
 
-    if remainder == 2:
+    if remainder == 1:
         return background_color_chart[0]  # black for 12n+2
-    elif remainder == 4:
+    elif remainder == 2:
         return background_color_chart[1]  # Green for 12n+4
-    elif remainder == 6:
+    elif remainder == 3:
         return background_color_chart[2]  # Red for 12n+6
-    elif remainder == 8:
+    elif remainder == 4:
         return background_color_chart[3]  # Blue for 12n+8
-    elif remainder == 10:
+    elif remainder == 5:
         return background_color_chart[4]  # Magenta for 12n+10
     elif remainder == 0:
         return background_color_chart[5]  # Yellow for 12n
+
+    # Default color for any unexpected cases
+    return "rgba(128, 128, 128, 1.0)"  # Gray
 
 def calculate_range(start, end):
     """Calculate prime-related data for a range of numbers."""
@@ -166,7 +170,6 @@ def calculate(min_interval, end_interval):
                     ln_func4.append(round(number / math.log(number)) * 2 * sqrt2)
                     log_number = math.log(number) - sqrt2
                     result_log_twin_prime_ratio = log_number
-
                     ln.append(result_log_twin_prime_ratio)
                     reciproc_ln_for_multiple_of_3.append(result_log_twin_prime_ratio - 2)
                     reciproc_ln.append(1 / result_log_twin_prime_ratio)
@@ -217,7 +220,7 @@ def calculate(min_interval, end_interval):
 
     # Plotting
     fig = go.Figure()
-    labels= range(min_interval,end_interval)
+
     # Add scatter plot for prime count
     fig.add_trace(go.Scatter(
         x=labels,
@@ -324,7 +327,7 @@ def calculate(min_interval, end_interval):
     ))
     fig6.add_trace(go.Scatter(
         x=labels,
-        y=ln,
+        y=reciproc_ln,
         mode='lines',
         line=dict(color='black'),
         name='# of primes equation +1'
@@ -336,14 +339,14 @@ def calculate(min_interval, end_interval):
     fig7 = go.Figure()
     fig7.add_trace(go.Scatter(
         x=labels,
-        y=prime_reverse_twins_ratio_plus_one,
+        y= prime_reverse_twins_ratio_plus_one,
         mode='markers',
         marker=dict(color=[get_background_color(label) for label in labels]),
         name='# ratio'
     ))
     fig7.add_trace(go.Scatter(
         x=labels,
-        y=reciproc_ln,
+        y= ln,
         mode='lines',
         line=dict(color='red'),
         name='line average'
@@ -353,13 +356,14 @@ def calculate(min_interval, end_interval):
 
 def main():
     """Main function to parse command-line arguments and run the calculations."""
-    parser = argparse.ArgumentParser(description='Calculate and plot prime-related data.')
+    """parser = argparse.ArgumentParser(description='Calculate and plot prime-related data.')
     parser.add_argument('min_interval', type=int, help='Minimum interval value')
     parser.add_argument('end_interval', type=int, help='End interval value')
-    args = parser.parse_args()
-
+    args = parser.parse_args()"""
+    min_interval = int(input("Enter the minimum interval: "))
+    end_interval = int(input("Enter the maximum interval: "))
     start_time = time.time()
-    calculate(args.min_interval, args.end_interval)
+    calculate(min_interval, end_interval)
     end_time = time.time()
     print(f"Elapsed time: {end_time - start_time} seconds")
 
