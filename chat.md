@@ -359,7 +359,7 @@ To properly adapt the meta-analysis for the context of twin primes and the given
   - **Interpretation**: A significant result would suggest that the structure of twin prime ratios differs substantially between multiples and non-multiples of 3n.
 
 - **Cochran’s C Test**: This will be used to test for homogeneity of variances across different groups.
-  - **Interpretation**: Large values of Cochran’s C indicate strong heterogeneity, reinforcing the finding that the formulas produce different behaviors for multiples and non-multiples of 3n.
+  - **Interpretation**: Large values of Cochran’s C indicate strong , reinforcing the finding that the formulas produce different behaviors for multiples and non-multiples of 3n.
 
 ---
 
