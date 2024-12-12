@@ -9,3 +9,8 @@ primes/
 *grouped_count*
 *.zip
 .ipynb_checkpoints/
+*.mp4
+*.wav
+*.deb
+*.srt
+movie/
