@@ -135,12 +135,12 @@ def main():
         start_time = time.time()
         data1 = calculate(a, b)
         elapsed_time = time.time() - start_time
-        print(f"Elapsed time for ranges {a}-{b} and {c}-{d}: {elapsed_time:.2f} seconds")
+        print(f"Elapsed time for ranges {a}-{b} : {elapsed_time:.2f} seconds")
 
         # Merge new data with the original
-        data_series = [datatxt_original, data1, data2]
+        data_series = [datatxt_original, data1]
         combined_data = pd.concat(data_series).sort_values(by="Number").drop_duplicates()
-        combined_data.to_csv(f'primes_data_{d}.txt', index=False)
+        combined_data.to_csv(f'primes_data_{b}.txt', index=False)
 
 
 if __name__ == "__main__":
