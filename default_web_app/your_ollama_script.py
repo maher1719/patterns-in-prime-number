@@ -1,13 +1,15 @@
-# your_ollama_script.py (Ollama Logic Only - No Scraping)
+# your_ollama_script.py
 import nest_asyncio
 nest_asyncio.apply()
 
-import requests # Keep requests import for Ollama API fallback (if needed)
+import requests  # Keep requests import for Ollama API fallback (if needed)
 import json
 import asyncio
+import os
 
 # --- Configuration ---
-OLLAMA_MODEL = "llama3.2" # Or "llama3.2" if that's your model name in Ollama
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2")
+
 
 # --- Ollama Query Function ---
 
@@ -81,19 +83,18 @@ async def main(user_question):
     expanded_questions = expand_question_with_ollama(user_question)
 
     expanded_questions_and_answers = [] # List to store expanded questions and answers
-    answers=""
     for q in expanded_questions:
         print(f"\n--- Answering Expanded Question to llama: '{q}' ---")
         expanded_answer = query_ollama(f"Answer for question with extreme rigor and as long as you can {q}") # Get answer for each expanded question (NO SCRAPING)
         print(f"Answer for question with extreme rigor and as long as you can '{q}': {expanded_answer}")
         expanded_questions_and_answers.append({"question": q, "answer": expanded_answer}) # Store question and answer
-        answers= answers+expanded_answer+"\n"
-        print("------- concating answers ---------")
     print(f"length expanded {len(expanded_questions_and_answers)}----------------")
     if len(expanded_questions_and_answers)>0:
         print("making general answers from previous")
-        synthesis_answer=query_ollama(f" Synthesis on this provided answer rigorosly and answer comperhensivly as much as you can and elaborate on its compoponents as much as you can: {answers}")
+        all_answers = "\n".join([item["answer"] for item in expanded_questions_and_answers])  # Build answers string
+        synthesis_answer=query_ollama(f"Synthesis on this provided answer rigorously and answer comperhensivly as much as you can and elaborate on its compoponents as much as you can: {all_answers}")
         expanded_questions_and_answers.append({"question": "synthesise on previous responses", "answer": synthesis_answer})
+
     # For simplicity, for final answer, let's just use the answer to the original question (first in expanded list)
     llm_response = expanded_questions_and_answers[0]['answer'] if expanded_questions_and_answers else "No expanded answers generated." # Fallback if no expanded answers
 

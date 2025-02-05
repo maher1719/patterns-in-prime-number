@@ -1,18 +1,19 @@
+// static/script.js
 function askQuestion() {
     const questionInput = document.getElementById('question-input');
     const question = questionInput.value;
     if (!question.trim()) return;
 
     const chatArea = document.getElementById('chat-area');
-    const expandedQuestionsArea = document.getElementById('expanded-questions-area');
-    const expandedQuestionsList = document.getElementById('expanded-questions-list');
     const expandCheckbox = document.getElementById('expand-checkbox');
     const expandChecked = expandCheckbox.checked;
+    const downloadLinkContainer = document.getElementById('download-link-container');
 
-    // Add user message to chat
+
+    // Add user message to chat (using Markdown)
     chatArea.innerHTML += `
         <div class="message user-message">
-            <p>${question}</p>
+            <p>${marked.parse(question)}</p>
         </div>
     `;
     questionInput.value = '';
@@ -24,9 +25,8 @@ function askQuestion() {
         </div>
     `;
 
-    // Clear previous expanded questions and hide area initially
-    expandedQuestionsList.innerHTML += '';
-    //expandedQuestionsArea.classList.remove('show');
+    // Clear previous download link
+    downloadLinkContainer.innerHTML = '';
 
 
     fetch('/ask', {
@@ -36,43 +36,35 @@ function askQuestion() {
         },
         body: new URLSearchParams({
             question: question,
-            expand: expandChecked // Send checkbox state to backend
+            expand: expandChecked
         })
     })
     .then(response => response.json())
     .then(data => {
-        // Remove "Thinking..." message
         const thinkingMessage = document.getElementById('thinking-message');
         if (thinkingMessage) {
             thinkingMessage.remove();
         }
 
-        // --- Display Expanded Questions and Answers (if expand was checked) ---
-        if (data.is_expanded && data.expanded_questions_and_answers && data.expanded_questions_and_answers.length > 0) {
-            expandedQuestionsArea.classList.add('show'); // Show expanded questions area
-            data.expanded_questions_and_answers.forEach(item => {
-                console.log()
-                expandedQuestionsList.innerHTML += `
-                    <div class="expanded-question">
-                        <p><b>Question:</b> ${item.question}</p>
-                        <p><b>Answer:</b> ${marked.parse(item.answer)}</p>
-                    </div>
-                `;
-            });
-        }
+        // Display *all* messages in the chat area
+        data.messages.forEach(message => {
+          const messageClass = message.role === 'user' ? 'user-message' : 'bot-message';
+          chatArea.innerHTML += `
+              <div class="message ${messageClass}">
+                  <p>${marked.parse(message.content, { sanitize: false })}</p>
+              </div>
+          `;
+      });
 
-        // Add bot response to chat (Final Answer)
-        chatArea.innerHTML += `
-            <div class="message bot-message final-answer-message">
-                <p>${data.response}</p>
-            </div>
-        `;
         chatArea.scrollTop = chatArea.scrollHeight;
 
+        // Add download link (if filename is provided)
+        if (data.filename) {
+            downloadLinkContainer.innerHTML = `<a href="/download/${data.filename}" download>Download Conversation</a>`;
+        }
 
     })
     .catch(error => {
-        // Error handling (unchanged)
         const thinkingMessage = document.getElementById('thinking-message');
         if (thinkingMessage) {
             thinkingMessage.remove();
@@ -85,3 +77,20 @@ function askQuestion() {
         console.error('Error:', error);
     });
 }
+
+
+// --- Dark Mode Toggle ---
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggleButton = document.getElementById('theme-toggle');
+    const body = document.body;
+
+    // Check for saved theme preference
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    body.setAttribute('data-theme', currentTheme);
+
+    themeToggleButton.addEventListener('click', () => {
+        const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme); // Save preference
+    });
+});

@@ -1,28 +1,27 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Default Web App</title>
+    <title>Ollama Chat</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script defer src="{{ url_for('static', filename='marked.min.js') }}"></script>
-    
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 
-    
 </head>
-<body>
+<body data-theme="light">
     <div class="container">
+        <div class="header">
+            <h1>Ollama Chat</h1>
+            <button id="theme-toggle">Toggle Dark Mode</button>
+          </div>
         <div class="chat-area" id="chat-area">
             <div class="message bot-message">
                 <p>Welcome! Ask me anything.</p>
             </div>
         </div>
-        <div class="expanded-questions-area" id="expanded-questions-area">
-            <h3>Expanded Questions:</h3>
-            <div id="expanded-questions-list">
-                <!-- Expanded questions and answers will be displayed here by JavaScript -->
-            </div>
-        </div>
+
         <div class="input-area">
             <input type="text" id="question-input" placeholder="Type your question here...">
             <div class="checkbox-container">
@@ -31,8 +30,13 @@
             </div>
             <button onclick="askQuestion()">Ask</button>
         </div>
+
+        <div id="download-link-container">
+        <!-- Download link will be added here by JavaScript -->
+        </div>
+
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </body>
 </html>
