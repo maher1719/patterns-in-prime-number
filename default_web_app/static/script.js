@@ -25,8 +25,8 @@ function askQuestion() {
     `;
 
     // Clear previous expanded questions and hide area initially
-    expandedQuestionsList.innerHTML = '';
-    expandedQuestionsArea.classList.remove('show');
+    expandedQuestionsList.innerHTML += '';
+    //expandedQuestionsArea.classList.remove('show');
 
 
     fetch('/ask', {
@@ -51,10 +51,11 @@ function askQuestion() {
         if (data.is_expanded && data.expanded_questions_and_answers && data.expanded_questions_and_answers.length > 0) {
             expandedQuestionsArea.classList.add('show'); // Show expanded questions area
             data.expanded_questions_and_answers.forEach(item => {
+                console.log()
                 expandedQuestionsList.innerHTML += `
                     <div class="expanded-question">
                         <p><b>Question:</b> ${item.question}</p>
-                        <p><b>Answer:</b> ${item.answer}</p>
+                        <p><b>Answer:</b> ${marked.parse(item.answer)}</p>
                     </div>
                 `;
             });

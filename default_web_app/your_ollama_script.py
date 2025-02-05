@@ -37,17 +37,17 @@ def expand_question_with_ollama(question):
     """Expands the initial question using Ollama to generate related deeper questions."""
     expansion_prompt = f"""Please expand on the question: "{question}".
 Generate 5 additional questions that are meaningful, delve deeper into the subject incrementally, and are related to the original question.
-Ensure that each expanded question is a maximum of 6 words long, while preserving its meaning and relevance.
-Return the original question and the 5 expanded questions as a JSON array of strings.
+Return the original question and the 6 expanded questions as a JSON array of strings. make the last expansion of the original question to other subjects.
 
 Example JSON output:
 [
   "{question}",
-  "Question 1 (max 6 words)",
-  "Question 2 (max 6 words)",
-  "Question 3 (max 6 words)",
-  "Question 4 (max 6 words)",
-  "Question 5 (max 6 words)"
+  "Question 1",
+  "Question 2",
+  "Question 3",
+  "Question 4",
+  "Question 5",
+  "Question 6"
 ]
 
 Only output the JSON array."""
@@ -81,14 +81,19 @@ async def main(user_question):
     expanded_questions = expand_question_with_ollama(user_question)
 
     expanded_questions_and_answers = [] # List to store expanded questions and answers
-
+    answers=""
     for q in expanded_questions:
-        print(f"\n--- Answering Expanded Question: '{q}' ---")
-        expanded_answer = query_ollama(q) # Get answer for each expanded question (NO SCRAPING)
-        print(f"Answer for question '{q}': {expanded_answer}")
+        print(f"\n--- Answering Expanded Question to llama: '{q}' ---")
+        expanded_answer = query_ollama(f"Answer for question with extreme rigor and as long as you can {q}") # Get answer for each expanded question (NO SCRAPING)
+        print(f"Answer for question with extreme rigor and as long as you can '{q}': {expanded_answer}")
         expanded_questions_and_answers.append({"question": q, "answer": expanded_answer}) # Store question and answer
-
-
+        answers= answers+expanded_answer+"\n"
+        print("------- concating answers ---------")
+    print(f"length expanded {len(expanded_questions_and_answers)}----------------")
+    if len(expanded_questions_and_answers)>0:
+        print("making general answers from previous")
+        synthesis_answer=query_ollama(f" Synthesis on this provided answer rigorosly and answer comperhensivly as much as you can and elaborate on its compoponents as much as you can: {answers}")
+        expanded_questions_and_answers.append({"question": "synthesise on previous responses", "answer": synthesis_answer})
     # For simplicity, for final answer, let's just use the answer to the original question (first in expanded list)
     llm_response = expanded_questions_and_answers[0]['answer'] if expanded_questions_and_answers else "No expanded answers generated." # Fallback if no expanded answers
 
