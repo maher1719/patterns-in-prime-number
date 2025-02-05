@@ -1,4 +1,4 @@
-# your_ollama_script.py
+#your_ollama_script.py
 import nest_asyncio
 nest_asyncio.apply()
 
@@ -35,21 +35,18 @@ def query_ollama(prompt, model_name=OLLAMA_MODEL):
         return "Error communicating with Ollama."
 
 # --- Question Expansion Function ---
-def expand_question_with_ollama(question):
-    """Expands the initial question using Ollama to generate related deeper questions."""
+def expand_question_with_ollama(question, num_questions=5):
+    """Expands the initial question using Ollama, generating a specified number of related questions."""
     expansion_prompt = f"""Please expand on the question: "{question}".
-Generate 5 additional questions that are meaningful, delve deeper into the subject incrementally, and are related to the original question.
-Return the original question and the 6 expanded questions as a JSON array of strings. make the last expansion of the original question to other subjects.
+Generate {num_questions} additional questions that are meaningful, delve deeper into the subject incrementally, and are related to the original question.
+Return the original question and the {num_questions + 1} expanded questions as a JSON array of strings.
 
-Example JSON output:
+Example JSON output (if num_questions is 3):
 [
   "{question}",
   "Question 1",
   "Question 2",
-  "Question 3",
-  "Question 4",
-  "Question 5",
-  "Question 6"
+  "Question 3"
 ]
 
 Only output the JSON array."""
@@ -64,18 +61,18 @@ Only output the JSON array."""
                 print(f"Expanded Questions (Parsed as JSON array): {expanded_questions}")
                 return expanded_questions
             else:
-                print(f"Warning: Parsed JSON, but not a list (array). Unexpected format. Raw response: {json_response}")
+                print(f"Warning: Parsed JSON, but not a list. Unexpected format. Raw response: {json_response}")
                 return [question]
 
         except json.JSONDecodeError as json_err:
-            print(f"JSON Decode Error: {json_err}. Raw response was: {json_err}. Falling back to original question.")
+            print(f"JSON Decode Error: {json_err}.  Falling back to original question.")
             return [question]
 
     except Exception as e:
-        print(f"Error during question expansion with Ollama: {e}. Falling back to original question.")
+        print(f"Error during question expansion: {e}. Falling back to original question.")
         return [question]
 
-# --- Main Function ---
+# --- Main Function --- (For testing your_ollama_script.py independently) ---
 async def main(user_question):
     # user_question = input("Ask me anything: ") # No input here for web interface
 

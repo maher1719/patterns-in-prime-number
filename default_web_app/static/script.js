@@ -1,4 +1,4 @@
-// static/script.js
+// static/script.js (No changes needed)
 function askQuestion() {
     const questionInput = document.getElementById('question-input');
     const question = questionInput.value;
@@ -8,6 +8,13 @@ function askQuestion() {
     const expandCheckbox = document.getElementById('expand-checkbox');
     const expandChecked = expandCheckbox.checked;
     const downloadLinkContainer = document.getElementById('download-link-container');
+
+    // Get values from new input fields
+    const numQuestions = document.getElementById('num-questions').value;
+    const summarizeChecked = document.getElementById('summarize-checkbox').checked;
+    const textbooksChecked = document.getElementById('textbooks-checkbox').checked;
+    const moreQuestionsChecked = document.getElementById('more-questions-checkbox').checked;
+
 
 
     // Add user message to chat (using Markdown)
@@ -28,16 +35,22 @@ function askQuestion() {
     // Clear previous download link
     downloadLinkContainer.innerHTML = '';
 
+    // Construct form data
+    const formData = new URLSearchParams();
+    formData.append('question', question);
+    formData.append('expand', expandChecked);
+    formData.append('num_questions', numQuestions); // Add num_questions
+    formData.append('summarize', summarizeChecked); // Add summarize
+    formData.append('textbooks', textbooksChecked);   // Add textbooks
+    formData.append('more_questions', moreQuestionsChecked);
+
 
     fetch('/ask', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: new URLSearchParams({
-            question: question,
-            expand: expandChecked
-        })
+        body: formData  // Use the constructed formData
     })
     .then(response => response.json())
     .then(data => {
@@ -47,7 +60,7 @@ function askQuestion() {
         }
 
         // Display *all* messages in the chat area
-        data.messages.forEach(message => {
+        (data.messages || []).forEach(message => {
           const messageClass = message.role === 'user' ? 'user-message' : 'bot-message';
           chatArea.innerHTML += `
               <div class="message ${messageClass}">

@@ -8,35 +8,123 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script defer src="{{ url_for('static', filename='marked.min.js') }}"></script>
     <script defer src="{{ url_for('static', filename='script.js') }}"></script>
-
 </head>
 <body data-theme="light">
     <div class="container">
         <div class="header">
             <h1>Ollama Chat</h1>
-            <button id="theme-toggle">Toggle Dark Mode</button>
-          </div>
-        <div class="chat-area" id="chat-area">
-            <div class="message bot-message">
-                <p>Welcome! Ask me anything.</p>
+            <div class="header-buttons">
+                <button id="options-toggle" class="options-toggle" aria-label="Toggle Options">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </button>
+                <button id="theme-toggle" class="theme-toggle">Toggle Dark Mode</button>
             </div>
         </div>
 
-        <div class="input-area">
-            <input type="text" id="question-input" placeholder="Type your question here...">
-            <div class="checkbox-container">
-                <input type="checkbox" id="expand-checkbox">
-                <label for="expand-checkbox">Expand</label>
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="sidebar-header">
+                  <h3>Options</h3>
+                </div>
+                <div class="options-container">
+                    <div class="option-group">
+                        <input type="checkbox" id="expand-checkbox" class="option-checkbox">
+                        <label for="expand-checkbox" class="option-label">Expand Question</label>
+                    </div>
+
+                    <div class="option-group">
+                        <label for="num-questions" class="option-label">Number of Questions:</label>
+                        <input type="number" id="num-questions" name="num_questions" min="1" max="10" value="5" class="option-input" disabled>
+                    </div>
+
+                   <div class="option-group">
+                      <input type="checkbox" id="summarize-checkbox" name="summarize" class="option-checkbox visually-hidden">
+                      <label for="summarize-checkbox" class="option-button">Summarize Answers</label>
+                  </div>
+
+                  <div class="option-group">
+                      <input type="checkbox" id="textbooks-checkbox" name="textbooks" class="option-checkbox visually-hidden">
+                      <label for="textbooks-checkbox" class="option-button">Recommend Textbooks</label>
+                  </div>
+
+                  <div class="option-group">
+                      <input type="checkbox" id="more-questions-checkbox" name="more_questions" class="option-checkbox visually-hidden">
+                      <label for="more-questions-checkbox" class="option-button">Generate More Questions</label>
+                  </div>
+              </div>
             </div>
-            <button onclick="askQuestion()">Ask</button>
-        </div>
 
-        <div id="download-link-container">
-        <!-- Download link will be added here by JavaScript -->
-        </div>
+            <div class="chat-container">
+                <div class="chat-area" id="chat-area">
+                    <div class="message bot-message">
+                        <p>Welcome! Ask me anything.</p>
+                    </div>
+                </div>
 
+                <div class="input-area">
+                    <input type="text" id="question-input" placeholder="Type your question here..." class="question-input">
+                    <button onclick="askQuestion()" class="ask-button">Ask</button>
+                </div>
+
+                <div id="download-link-container">
+                    <!-- Download link will be added here by JavaScript -->
+                </div>
+            </div>
+        </div>
     </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const optionsToggle = document.getElementById('options-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const body = document.body;
+        const expandCheckbox = document.getElementById('expand-checkbox');
+        const numQuestionsInput = document.getElementById('num-questions');
+        const summarizeCheckbox = document.getElementById('summarize-checkbox');
+        const textbooksCheckbox = document.getElementById('textbooks-checkbox');
+        const moreQuestionsCheckbox = document.getElementById('more-questions-checkbox');
+        const optionButtons = document.querySelectorAll('.option-button');
 
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        body.setAttribute('data-theme', currentTheme);
 
+        // --- Options Toggle ---
+        optionsToggle.addEventListener('click', () => {
+          sidebar.classList.toggle('show');
+        });
+
+        themeToggleButton.addEventListener('click', () => {
+            const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // --- Enable/Disable Options based on Expand ---
+        function updateOptionStates() {
+            const isExpanded = expandCheckbox.checked;
+            numQuestionsInput.disabled = !isExpanded;
+
+            // Disable/Enable and style the option buttons
+            optionButtons.forEach(button => {
+                button.classList.toggle('disabled', !isExpanded);
+                //get checkbox
+                const checkbox = button.previousElementSibling;
+                if(!isExpanded){
+                    checkbox.checked = false;
+                }
+                checkbox.disabled = !isExpanded;// Disable the actual checkbox
+            });
+
+        }
+
+        // Initial state and event listener
+        updateOptionStates(); // Set initial state
+        expandCheckbox.addEventListener('change', updateOptionStates);
+    });
+
+    </script>
 </body>
 </html>
