@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Default Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="chat-area" id="chat-area">
+            <div class="message bot-message">
+                <p>Welcome! Ask me anything.</p>
+            </div>
+        </div>
+        <div class="expanded-questions-area" id="expanded-questions-area">
+            <h3>Expanded Questions:</h3>
+            <div id="expanded-questions-list">
+                <!-- Expanded questions and answers will be displayed here by JavaScript -->
+            </div>
+        </div>
+        <div class="input-area">
+            <input type="text" id="question-input" placeholder="Type your question here...">
+            <div class="checkbox-container">
+                <input type="checkbox" id="expand-checkbox">
+                <label for="expand-checkbox">Expand</label>
+            </div>
+            <button onclick="askQuestion()">Ask</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

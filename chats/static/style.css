@@ -1,0 +1,207 @@
+/* static/style.css (ChatGPT-like Chat Layout - Input Below Chat) */
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center; /* Center container horizontally in body */
+}
+
+.container {
+    display: flex;
+    max-width: 1400px;
+    width: 95%;
+    margin: 30px 0; /* Keep top margin, remove bottom margin */
+    margin-bottom: 20px; /* Add a bit of bottom margin to separate from input area */
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    flex-direction: row;
+    align-items: stretch;
+    flex: 1; /* Allow container to take remaining vertical space */
+}
+
+.chat-area {
+    flex: 2.5;
+    padding: 30px;
+    padding-bottom: 0; /* Keep no bottom padding for chat area */
+    overflow-y: scroll;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa #eee;
+}
+
+.chat-area::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chat-area::-webkit-scrollbar-track {
+    background: #eee;
+}
+
+.chat-area::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    border-radius: 4px;
+}
+
+.webpage-sidebar {
+    flex: 1;
+    padding: 30px;
+    background-color: #f7f7f7;
+    border-left: 1px solid #ddd;
+    overflow-y: auto;
+    max-height: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.webpage-sidebar h3 {
+    margin-top: 0;
+    color: #777;
+    font-size: 1em;
+    margin-bottom: 10px;
+    font-weight: normal;
+}
+
+.webpage-sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.webpage-sidebar li {
+    margin-bottom: 8px;
+    font-size: 0.9em;
+}
+
+.webpage-sidebar a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.2s ease-in-out;
+    display: block;
+    padding: 6px 0;
+}
+
+.webpage-sidebar a:hover {
+    color: #007bff;
+}
+
+/* --- Updated CSS for Input Area (Now Below Chat) --- */
+.input-area {
+    /* position: fixed;  Fixed positioning - can be used, but absolute is often better in flex layouts */
+    position: absolute; /* Absolute positioning relative to body */
+    bottom: 0; /* Stick to the bottom of the viewport */
+    left: 0;
+    width: 100%; /* Full width of the viewport */
+    padding: 20px 25px;
+    background-color: #fff; /* Match container background */
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.05); /* Subtle shadow at the top */
+    box-sizing: border-box; /* Include padding and border in width/height */
+    /* Make sure input area is BELOW other content */
+    z-index: 100; /* Ensure it's above other content if needed */
+    border-bottom-left-radius: 0; /* No bottom border radius */
+    border-bottom-right-radius: 0; /* No bottom border radius */
+}
+
+/* Keep the rest of the input area styles the same */
+.input-area input[type="text"] {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    outline: none;
+    box-shadow: none;
+}
+
+.input-area input[type="text"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 1.5px rgba(0, 123, 255, 0.25);
+}
+
+.input-area button {
+    padding: 10px 18px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: normal;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.input-area button:hover {
+    background-color: #0056b3;
+}
+
+
+.message {
+    padding: 12px 18px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    clear: both;
+    max-width: 85%;
+    word-wrap: break-word;
+    box-shadow: none;
+    line-height: 1.4;
+    font-size: 1em;
+}
+
+.user-message {
+    background-color: #e2f0ff;
+    color: #333;
+    text-align: right;
+    float: right;
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.bot-message {
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: left;
+    float: left;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.thinking-message {
+    background-color: #fff8e1;
+    font-style: italic;
+    color: #666;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #b71c1c;
+    border: 1px solid #ef9a9a;
+}
+
+.expanded-question-message {
+    background-color: #f8f8ff; /* Very light lavender background for expanded questions */
+    color: #444; /* Slightly lighter text color */
+    font-style: italic; /* Italic style to further distinguish them */
+    border-left: 3px solid #bbb; /* Add a left border to visually separate them */
+    padding-left: 17px; /* Adjust left padding to align text after border */
+    border-radius: 0 15px 15px 0; /* Only round right corners */
+    margin-left: 10px; /* Indent expanded questions slightly */
+}
+
+.expanded-question-message b {
+    font-weight: bold; /* Make "Expanded Question:" part bold */
+    font-style: normal; /* Revert to normal style for the bold part */
+}

@@ -1,0 +1,108 @@
+# your_ollama_script.py (Ollama Logic Only - No Scraping)
+import nest_asyncio
+nest_asyncio.apply()
+
+import requests # Keep requests import for Ollama API fallback (if needed)
+import json
+import asyncio
+
+# --- Configuration ---
+OLLAMA_MODEL = "llama3.2" # Or "llama3.2" if that's your model name in Ollama
+
+# --- Ollama Query Function ---
+
+def query_ollama(prompt, model_name=OLLAMA_MODEL):
+    """Queries a local Ollama model."""
+    try:
+        import ollama
+        response = ollama.chat(model=model_name, messages=[{'role': 'user', 'content': prompt}])
+        return response['message']['content']
+    except ImportError:
+        import requests
+        api_url = "http://localhost:11434/api/chat"
+        data = {
+            "model": model_name,
+            "messages": [{"role": "user", "content": prompt}]
+        }
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(api_url, json=data, headers=headers)
+        response.raise_for_status()
+        return response.json()['message']['content']
+    except requests.exceptions.RequestException as e:
+        print(f"Error querying Ollama: {e}")
+        return "Error communicating with Ollama."
+
+# --- Question Expansion Function ---
+def expand_question_with_ollama(question):
+    """Expands the initial question using Ollama to generate related deeper questions."""
+    expansion_prompt = f"""Please expand on the question: "{question}".
+Generate 5 additional questions that are meaningful, delve deeper into the subject incrementally, and are related to the original question.
+Ensure that each expanded question is a maximum of 6 words long, while preserving its meaning and relevance.
+Return the original question and the 5 expanded questions as a JSON array of strings.
+
+Example JSON output:
+[
+  "{question}",
+  "Question 1 (max 6 words)",
+  "Question 2 (max 6 words)",
+  "Question 3 (max 6 words)",
+  "Question 4 (max 6 words)",
+  "Question 5 (max 6 words)"
+]
+
+Only output the JSON array."""
+    print("\nExpanding question with Ollama...")
+    try:
+        json_response = query_ollama(expansion_prompt)
+        print(f"Ollama Question Expansion Response: {json_response}")
+
+        try:
+            expanded_questions = json.loads(json_response)
+            if isinstance(expanded_questions, list):
+                print(f"Expanded Questions (Parsed as JSON array): {expanded_questions}")
+                return expanded_questions
+            else:
+                print(f"Warning: Parsed JSON, but not a list (array). Unexpected format. Raw response: {json_response}")
+                return [question]
+
+        except json.JSONDecodeError as json_err:
+            print(f"JSON Decode Error: {json_err}. Raw response was: {json_err}. Falling back to original question.")
+            return [question]
+
+    except Exception as e:
+        print(f"Error during question expansion with Ollama: {e}. Falling back to original question.")
+        return [question]
+
+# --- Main Function ---
+async def main(user_question):
+    # user_question = input("Ask me anything: ") # No input here for web interface
+
+    # --- Expand the question using Ollama ---
+    expanded_questions = expand_question_with_ollama(user_question)
+
+    expanded_questions_and_answers = [] # List to store expanded questions and answers
+
+    for q in expanded_questions:
+        print(f"\n--- Answering Expanded Question: '{q}' ---")
+        expanded_answer = query_ollama(q) # Get answer for each expanded question (NO SCRAPING)
+        print(f"Answer for question '{q}': {expanded_answer}")
+        expanded_questions_and_answers.append({"question": q, "answer": expanded_answer}) # Store question and answer
+
+
+    # For simplicity, for final answer, let's just use the answer to the original question (first in expanded list)
+    llm_response = expanded_questions_and_answers[0]['answer'] if expanded_questions_and_answers else "No expanded answers generated." # Fallback if no expanded answers
+
+
+    print("\n--- Final Response from Ollama ---")
+    print(llm_response)
+
+    return llm_response, None, [] # Return response, no error message, EMPTY webpages list
+
+if __name__ == "__main__":
+    user_input_question = input("Ask me anything: ")
+    response, error_msg, webpages = asyncio.run(main(user_input_question)) # webpages will always be empty
+    if error_msg:
+        print(f"Error: {error_msg}")
+    elif response:
+        print("\n--- Final Response: ---")
+        print(response)

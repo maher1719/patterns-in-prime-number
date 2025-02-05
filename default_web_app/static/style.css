@@ -1,0 +1,107 @@
+/* static/style.css (Default Web App - Basic Styling) */
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding-bottom: 20px; /* Added padding to bottom of container */
+}
+
+.chat-area {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 400px; /* Limit chat area height */
+}
+
+.expanded-questions-area {
+    padding: 20px;
+    background-color: #f0f0f0; /* Light gray background for expanded questions area */
+    border-top: 1px solid #ddd; /* Separator line */
+    margin-top: 20px; /* Space between chat and expanded questions */
+    display: none; /* Initially hide the expanded questions area */
+}
+
+.expanded-questions-area.show {
+    display: block; /* Show expanded questions area when 'show' class is added by JS */
+}
+
+
+.expanded-questions-area h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.expanded-question {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #e9ecef; /* Lighter background for each expanded question */
+    border-radius: 6px;
+    font-size: 0.95em;
+}
+
+.expanded-question b {
+    font-weight: bold;
+}
+.input-area {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.input-area input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-area button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    clear: both;
+}
+
+.user-message {
+    background-color: #e0f7fa;
+    text-align: right;
+    float: right;
+}
+
+.bot-message {
+    background-color: #f0f0f0;
+    text-align: left;
+    float: left;
+}
