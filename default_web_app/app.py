@@ -1,10 +1,10 @@
-# app.py
+# app.py (Modified)
 import nest_asyncio
 nest_asyncio.apply()
 
 from flask import Flask, render_template, request, jsonify, send_from_directory
 import asyncio
-from your_ollama_script import query_ollama, expand_question_with_ollama
+from your_ollama_script import query_ollama, expand_question_with_ollama  # Import functions
 import bleach
 import os
 import datetime
@@ -13,11 +13,10 @@ import sqlite3
 
 app = Flask(__name__)
 
-# --- Database Setup ---
+# --- Database Setup --- (Same as before)
 DB_PATH = 'conversations.db'
 
 def init_db():
-    """Initializes the database."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("""
@@ -37,19 +36,15 @@ def init_db():
             )
         """)
         conn.commit()
-
-init_db()  # Initialize the database on startup
-
+init_db()
 
 def get_thread_messages(thread_id):
-    """Retrieves all messages for a given thread ID."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT role, content FROM messages WHERE thread_id = ? ORDER BY message_id", (thread_id,))
         return [{"role": row[0], "content": row[1]} for row in cursor.fetchall()]
 
 def create_thread(user_question):
-    """Creates a new conversation thread."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO threads (user_question) VALUES (?)", (user_question,))
@@ -58,27 +53,32 @@ def create_thread(user_question):
         return thread_id
 
 def add_message(thread_id, role, content):
-    """Adds a message to a conversation thread."""
     with sqlite3.connect(DB_PATH) as conn:
         cursor = conn.cursor()
         cursor.execute("INSERT INTO messages (thread_id, role, content) VALUES (?, ?, ?)", (thread_id, role, content))
         conn.commit()
 
+
 def get_previous_messages_string(thread_id):
-    """Retrieves and formats previous messages for context."""
     messages = get_thread_messages(thread_id)
     formatted_messages = ""
     for message in messages:
         formatted_messages += f"{message['role']}: {message['content']}\n"
     return formatted_messages
 
+def get_all_threads():
+    """Retrieves all threads for the sidebar."""
+    with sqlite3.connect(DB_PATH) as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT thread_id, user_question, timestamp FROM threads ORDER BY timestamp DESC")
+        return [{"id": row[0], "user_question": row[1], "timestamp": row[2]} for row in cursor.fetchall()]
 
 
-# --- Helper Functions ---
 
+# --- Helper Functions --- (Same as before, except save_conversation)
 def sanitize_filename(filename):
-    """Sanitizes a filename for safe storage."""
     return re.sub(r'[\\/*?:"<>|]', "", filename)
+
 
 def save_conversation_to_file(thread_id):
     """Saves the conversation from the database to a text file."""
@@ -114,10 +114,15 @@ def save_conversation_to_file(thread_id):
 
     return filename
 
+# --- Routes ---
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    threads = get_all_threads()  # Get threads for the sidebar
+    return render_template('index.html', threads=threads, current_thread_id=None)  # Pass threads to the template
+
+
+
 
 @app.route("/ask", methods=['POST'])
 async def ask_ollama():
@@ -129,16 +134,21 @@ async def ask_ollama():
         summarize_checked = request.form.get('summarize') == 'true'
         textbooks_checked = request.form.get('textbooks') == 'true'
         more_questions_checked = request.form.get('more_questions') == 'true'
+        current_thread_id = request.form.get('current_thread_id', type=int)  # Get current thread ID
 
-        # Create a new thread and add the initial user question
-        thread_id = create_thread(user_question)
-        add_message(thread_id, "user", user_question)
 
+        if current_thread_id: # continue on current thread
+            thread_id = current_thread_id
+            add_message(thread_id, "user", user_question) # add the new question
+
+        else: # start a new thread
+            thread_id = create_thread(user_question)
+            add_message(thread_id, "user", user_question)
 
         messages = []
         messages.append({"role": "user", "content": user_question})
         expanded_questions_and_answers = []
-        previous_messages_context = ""
+        previous_messages_context = get_previous_messages_string(thread_id)
 
 
         if expand_checked:
@@ -146,15 +156,12 @@ async def ask_ollama():
 
             for q in expanded_questions:
                 print(f"\n--- Answering Expanded Question to llama: '{q}' ---")
-                # Include previous messages for context
                 prompt = f"{previous_messages_context}Answer for question with extreme rigor and as long as you can: {q}"
                 expanded_answer = query_ollama(prompt)
-                # Store expanded Q&A
                 expanded_questions_and_answers.append({"question": q, "answer": expanded_answer})
                 add_message(thread_id, "bot", f"Question: {q}\nAnswer: {expanded_answer}")
                 messages.append({"role": "bot", "content": f"**Question:** {q}\n\n**Answer:** {expanded_answer}"})
-                previous_messages_context = get_previous_messages_string(thread_id) # Update context
-
+                previous_messages_context = get_previous_messages_string(thread_id)  # Update
 
             if len(expanded_questions_and_answers) > 0:
                 all_answers = "\n".join([item["answer"] for item in expanded_questions_and_answers])
@@ -163,36 +170,30 @@ async def ask_ollama():
                     print("Summarizing...")
                     prompt = f"{previous_messages_context}Summarize the text into an essay considering all the points and relating them together if it possible : {all_answers}"
                     synthesis_answer = query_ollama(prompt)
-                    #Store summary
                     expanded_questions_and_answers.append({"question": "Summary", "answer": synthesis_answer})
                     add_message(thread_id, "bot", f"Summary: {synthesis_answer}")
                     messages.append({"role": "bot", "content": f"**Summary:** {synthesis_answer}"})
                     previous_messages_context = get_previous_messages_string(thread_id)
 
-
                 if textbooks_checked:
                     print("Suggesting textbooks...")
                     prompt = f"{previous_messages_context}Suggest best textbooks on the topics in this text?: {all_answers}"
                     textbooks_answer = query_ollama(prompt)
-                    # Store textbook recs
                     expanded_questions_and_answers.append({"question": "Textbook Recommendations", "answer": textbooks_answer})
                     add_message(thread_id, "bot", f"Textbook Recommendations: {textbooks_answer}")
                     messages.append({"role": "bot", "content": f"**Textbook Recommendations:** {textbooks_answer}"})
                     previous_messages_context = get_previous_messages_string(thread_id)
 
-
                 if more_questions_checked:
                     print("Generating more questions...")
                     prompt = f"{previous_messages_context}Provide questions in the topics in this text that will deepen the understanding and link to other related topics?: {all_answers}"
                     more_questions_answer = query_ollama(prompt)
-                    # Store more questions
                     expanded_questions_and_answers.append({"question": "Further Questions", "answer": more_questions_answer})
                     add_message(thread_id, "bot", f"Further Questions: {more_questions_answer}")
                     messages.append({"role": "bot", "content": f"**Further Questions:** {more_questions_answer}"})
-                    previous_messages_context = get_previous_messages_string(thread_id) # No need to update context after this (it's the last)
+                    previous_messages_context = get_previous_messages_string(thread_id)
 
         else:
-            # Include previous messages for context
             prompt = f"{previous_messages_context}Answer this with great rigor and in a comprehensive way as long as you can: {user_question}"
             llm_response_text = query_ollama(prompt)
             add_message(thread_id, "bot", llm_response_text)
@@ -202,10 +203,12 @@ async def ask_ollama():
 
         filename = save_conversation_to_file(thread_id)
 
+        # Return the thread_id to the frontend
         return jsonify({
-            'messages': messages,
+            'messages': messages,  # All messages (for immediate display)
             'is_expanded': expand_checked,
-            'filename': filename
+            'filename': filename,
+            'thread_id': thread_id # Return the current thread ID
         })
 
     except Exception as e:
@@ -216,9 +219,28 @@ async def ask_ollama():
             'filename': None
         }), 500
 
+
+
 @app.route('/download/<filename>')
 def download_file(filename):
     return send_from_directory("conversations", filename, as_attachment=True)
 
+@app.route("/thread/<int:thread_id>")
+def get_thread(thread_id):
+    """Loads messages for a specific thread, formatting for Markdown."""
+    messages = get_thread_messages(thread_id)
+    threads = get_all_threads()  # for sidebar
+
+    # Format messages for Markdown (if needed)
+    formatted_messages = []
+    for message in messages:
+      formatted_content = message['content'] #we use marked.parse in HTML
+
+      formatted_messages.append({
+          "role": message["role"],
+          "content": formatted_content,  # Use the formatted content
+      })
+
+    return render_template('index.html', messages=formatted_messages, threads=threads, current_thread_id=thread_id)
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
