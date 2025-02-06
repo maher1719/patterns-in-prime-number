@@ -71,7 +71,7 @@ async def ask_ollama():
 
                 if summarize_checked:
                     print("Summarizing...")
-                    synthesis_answer = query_ollama(f"Summarize the text into an essay considering all the points and relating them together: {all_answers}")
+                    synthesis_answer = query_ollama(f"Summarize the text into an essay considering all the points and relating them together if it possible : {all_answers}")
                     expanded_questions_and_answers.append({"question": "Summary", "answer": synthesis_answer})
                     messages.append({"role": "bot", "content": f"**Summary:** {synthesis_answer}"})
 
