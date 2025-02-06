@@ -166,7 +166,9 @@ async def ask_ollama():
         if expand_checked:
             expanded_questions = expand_question_with_ollama(user_question, num_questions)
             for q in expanded_questions:
-                prompt = f"{previous_messages_context}Answer for question with extreme rigor and as long as you can: {q}"
+                print(f"answering question {q}")
+                prompt = f" Answer for question with extreme rigor and as long as you can: {q}. "
+                #prompt = f"{previous_messages_context} Answer for question with extreme rigor and as long as you can: {q}"
                 expanded_answer = query_ollama(prompt)
                 expanded_questions_and_answers.append({"question": q, "answer": expanded_answer})
                 add_message(thread_id, "bot", f"Question: {q}\nAnswer: {expanded_answer}")
@@ -177,7 +179,10 @@ async def ask_ollama():
                 all_answers = "\n".join([item["answer"] for item in expanded_questions_and_answers])
 
                 if summarize_checked:
-                    prompt = f"{previous_messages_context}Summarize the text into an essay considering all the points and relating them together if it possible : {all_answers}"
+                    print("answering summerization")
+                    prompt = f"Summarize the text into an essay considering all the points and relating them together if it possible : {all_answers}"
+                    #prompt = f"{previous_messages_context}Summarize the text into an essay considering all the points and relating them together if it possible : {all_answers}"
+
                     synthesis_answer = query_ollama(prompt)
                     expanded_questions_and_answers.append({"question": "Summary", "answer": synthesis_answer})
                     add_message(thread_id, "bot", f"Summary: {synthesis_answer}")
@@ -185,7 +190,8 @@ async def ask_ollama():
                     previous_messages_context = get_previous_messages_string(thread_id)
 
                 if textbooks_checked:
-                    prompt = f"{previous_messages_context}Suggest best textbooks on the topics in this text?: {all_answers}"
+                    print("answering textbooks")
+                    prompt = f"Suggest best textbooks on the topics in this text?: {all_answers}"
                     textbooks_answer = query_ollama(prompt)
                     expanded_questions_and_answers.append({"question": "Textbook Recommendations", "answer": textbooks_answer})
                     add_message(thread_id, "bot", f"Textbook Recommendations: {textbooks_answer}")
@@ -193,14 +199,15 @@ async def ask_ollama():
                     previous_messages_context = get_previous_messages_string(thread_id)
 
                 if more_questions_checked:
-                    prompt = f"{previous_messages_context}Provide questions in the topics in this text that will deepen the understanding and link to other related topics?: {all_answers}"
+                    print("answering more questions")
+                    prompt = f"Provide questions in the topics in this text that will deepen the understanding and link to other related topics?: {all_answers}"
                     more_questions_answer = query_ollama(prompt)
                     expanded_questions_and_answers.append({"question": "Further Questions", "answer": more_questions_answer})
                     add_message(thread_id, "bot", f"Further Questions: {more_questions_answer}")
                     messages.append({"role": "bot", "content": f"**Further Questions:** {more_questions_answer}"})
                     previous_messages_context = get_previous_messages_string(thread_id)
         else:
-            prompt = f"{previous_messages_context}Answer this with great rigor and in a comprehensive way as long as you can: {user_question}"
+            prompt = f"Answer this with great rigor and in a comprehensive way as long as you can: {user_question}. if the answer contains any math notations wrap the math in $...$ for inline or $$...$$ Obligatory!!."
             llm_response_text = query_ollama(prompt)
             add_message(thread_id, "bot", llm_response_text)
             messages.append({"role": "bot", "content": llm_response_text})

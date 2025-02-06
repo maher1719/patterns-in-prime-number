@@ -6,8 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ollama Chat</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='highlight/styles/atom-one-dark.min.css') }}">
+
     <script defer src="{{ url_for('static', filename='marked.min.js') }}"></script>
     <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['(', ')']],
+    
+    displayMath: [['$$', '$$'],,['[',']']],
+
+    packages: ['base', 'ams']  // Load AMS packages for align* support
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+        </script>
+    
+    <script async src="{{ url_for('static', filename='es5/tex-mml-chtml.js') }}"></script>
+    <script  src="{{ url_for('static', filename='highlight/highlight.min.js') }}"></script>
 </head>
 <body data-theme="light">
     <div class="container">
@@ -48,39 +67,7 @@
             </div>
 
             <div class="chat-and-options-container">
-                <div class="options-sidebar" id='options-sidebar'>
-                  <div class="sidebar-header">
-                    <h3>Options</h3>
-                  </div>
-                    <div class="options-container">
-                        <div class="option-group">
-
-                            <label for="expand-checkbox" class="option-label">Expand Question</label>
-                            <input type="checkbox" id="expand-checkbox" class="option-checkbox">
-
-                        </div>
-
-                        <div class="option-group">
-                            <label for="num-questions" class="option-label">Number of Questions:</label>
-                            <input type="number" id="num-questions" name="num_questions" min="1" max="10" value="5" class="option-input" disabled>
-                        </div>
-
-                       <div class="option-group">
-                          <input type="checkbox" id="summarize-checkbox" name="summarize" class="option-checkbox visually-hidden">
-                          <label for="summarize-checkbox" class="option-button">Summarize Answers</label>
-                      </div>
-
-                      <div class="option-group">
-                          <input type="checkbox" id="textbooks-checkbox" name="textbooks" class="option-checkbox visually-hidden">
-                          <label for="textbooks-checkbox" class="option-button">Recommend Textbooks</label>
-                      </div>
-
-                      <div class="option-group">
-                          <input type="checkbox" id="more-questions-checkbox" name="more_questions" class="option-checkbox visually-hidden">
-                          <label for="more-questions-checkbox" class="option-button">Generate More Questions</label>
-                      </div>
-                  </div>
-                </div>
+                
 
                 <div class="chat-container">
                     <div class="chat-area" id="chat-area">
@@ -101,7 +88,7 @@
                     <div class="input-area">
                       <!-- Hidden input to store the current thread ID -->
                       <input type="hidden" id="current-thread-id" name="current_thread_id" value="{{ current_thread_id }}">
-                        <input type="text" id="question-input" placeholder="Type your question here..." class="question-input">
+                        <textarea type="textarea" id="question-input" placeholder="Type your question here..." class="question-input"></textarea>
                         <button onclick="askQuestion()" class="ask-button">Ask</button>
                     </div>
 
@@ -112,11 +99,44 @@
                          {% endif %}
                     </div>
                 </div>
+                <div class="options-sidebar" id='options-sidebar'>
+                    <div class="sidebar-header">
+                      <h3>Options</h3>
+                    </div>
+                      <div class="options-container">
+                          <div class="option-group">
+  
+                              <label for="expand-checkbox" class="option-label">Expand Question</label>
+                              <input type="checkbox" id="expand-checkbox" class="option-checkbox">
+  
+                          </div>
+  
+                          <div class="option-group">
+                              <label for="num-questions" class="option-label">Number of Questions:</label>
+                              <input type="number" id="num-questions" name="num_questions" min="1" max="10" value="5" class="option-input" disabled>
+                          </div>
+  
+                         <div class="option-group">
+                            <input type="checkbox" id="summarize-checkbox" name="summarize" class="option-checkbox visually-hidden">
+                            <label for="summarize-checkbox" class="option-button">Summarize Answers</label>
+                        </div>
+  
+                        <div class="option-group">
+                            <input type="checkbox" id="textbooks-checkbox" name="textbooks" class="option-checkbox visually-hidden">
+                            <label for="textbooks-checkbox" class="option-button">Recommend Textbooks</label>
+                        </div>
+  
+                        <div class="option-group">
+                            <input type="checkbox" id="more-questions-checkbox" name="more_questions" class="option-checkbox visually-hidden">
+                            <label for="more-questions-checkbox" class="option-button">Generate More Questions</label>
+                        </div>
+                    </div>
+                  </div>
             </div>
         </div>
     </div>
 
-<script>
+<script >
 document.addEventListener('DOMContentLoaded', () => {
     const themeToggleButton = document.getElementById('theme-toggle');
     const optionsToggle = document.getElementById('options-toggle');
@@ -195,14 +215,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     const newChatArea = doc.querySelector('.chat-area');
                     const currentThreadIdInput = doc.getElementById('current-thread-id');
                     const newThreadId = currentThreadIdInput ? currentThreadIdInput.value : null; // Get new ID or null
-
+                    const math_p=doc.querySelectorAll("math")
+                    console.log(math_p.length)
                     // --- Apply marked.parse to each message ---
                     if (newChatArea) { // Check if newChatArea exists
                         const messageDivs = newChatArea.querySelectorAll('.message > p');
+                        
                         messageDivs.forEach(p => {
                           p.innerHTML = marked.parse(p.textContent, { sanitize: false });
+                          
                         });
+
                         document.getElementById('chat-area').innerHTML = newChatArea.innerHTML; // Set innerHTML *after* processing
+                        MathJax.typesetPromise().catch((err) => console.log(err));
                     }
 
                     document.getElementById('current-thread-id').value = newThreadId;
@@ -218,6 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (activeThreadLink) {
                         activeThreadLink.closest('.thread-list-item').classList.add('active');
                     }
+                }).then(()=>{
+                    hljs.highlightAll();
                 })
                 .catch(error => console.error('Error loading thread:', error));
         }
@@ -275,5 +302,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+
+<script  src="{{ url_for('static', filename='highlight/languages/python.min.js') }}"></script>
+<script  src="{{ url_for('static', filename='highlight/languages/javascript.min.js') }}"></script>
+<script  src="{{ url_for('static', filename='highlight/languages/sql.min.js') }}"></script>
+<script  src="{{ url_for('static', filename='highlight/languages/bash.min.js') }}"></script>
+<script  src="{{ url_for('static', filename='highlight/languages/json.min.js') }}"></script>
+<script >        // Ensure the DOM is fully loaded before calling highlightAll
+   document.addEventListener('DOMContentLoaded', (event) => {
+  document.querySelectorAll('pre code').forEach((el) => {
+    hljs.highlightElement(el);
+  });
+});
+    </script>
 </body>
 </html>

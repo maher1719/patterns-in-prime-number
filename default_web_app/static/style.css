@@ -358,7 +358,6 @@ body[data-theme="dark"] .option-checkbox {
 /* Style for the option buttons */
 .option-button {
     display: block;
-    width: 100%;
     padding: 10px 15px;
     background-color: rgba(200, 200, 200, 0.8); /* Light gray, semi-transparent */
     color: #333;

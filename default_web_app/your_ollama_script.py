@@ -8,7 +8,7 @@ import asyncio
 import os
 
 # --- Configuration ---
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama3.2")
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:3b")
 
 
 # --- Ollama Query Function ---
@@ -39,17 +39,17 @@ def expand_question_with_ollama(question, num_questions=5):
     """Expands the initial question using Ollama, generating a specified number of related questions."""
     expansion_prompt = f"""Please expand on the question: "{question}".
 Generate {num_questions} additional questions that are meaningful, delve deeper into the subject incrementally, and are related to the original question.
-Return the original question and the {num_questions + 1} expanded questions as a JSON array of strings.
-
+Return the original question and the {num_questions + 1} expanded questions as a JSON array of strings.use always comma between items of the array.
+it is Obligatory to write json in the right format.
 Example JSON output (if num_questions is 3):
 [
   "{question}",
   "Question 1",
   "Question 2",
-  "Question 3"
+  "Question 3",
 ]
 
-Only output the JSON array."""
+Only output the JSON array with coma between its items IT IS OBLIGATORY!!."""
     print("\nExpanding question with Ollama...")
     try:
         json_response = query_ollama(expansion_prompt)

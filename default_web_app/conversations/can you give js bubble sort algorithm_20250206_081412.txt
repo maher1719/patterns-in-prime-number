@@ -1,0 +1,65 @@
+Original Question: can you give js bubble sort algorithm?
+
+Question: can you give js bubble sort algorithm?
+Answer: Certainly! Bubble Sort is a simple comparison-based sorting algorithm. It works by repeatedly stepping through the list to be sorted, comparing adjacent pairs and swapping them if they are in the wrong order. The process is repeated until the list is sorted.
+
+### Algorithm Description
+
+Let's denote the array we need to sort as `arr`. Here's how Bubble Sort works:
+
+1. **Iteration Process**: Bubble Sort performs multiple iterations over the array. Each iteration brings the next largest (or smallest, depending on sorting direction) element into its correct position at the end of the unsorted part of the array.
+
+2. **Comparing and Swapping Elements**:
+   - For each pass through the array, we compare adjacent elements.
+   - If they are in wrong order (for ascending sort: `arr[i] > arr[i + 1]` or for descending sort: `arr[i] < arr[i + 1]`, depending on the sorting direction), we swap them.
+
+3. **Termination**: Bubble Sort terminates when a pass through the array requires no swaps, indicating that the array is sorted.
+
+### Pseudocode
+
+Here's how you could write this in pseudocode:
+```pseudocode
+function bubbleSort(arr) {
+    var n = arr.length;
+    for (var i = 0; i < n - 1; i++) {
+        // Last i elements are already in place, so the inner loop starts from i+1 and goes till n-i-1.
+        for (var j = 0; j < n - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) { // For ascending order
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+```
+
+### JavaScript Implementation
+
+In JavaScript, this algorithm can be implemented as follows:
+```javascript
+function bubbleSort(arr) {
+    var n = arr.length;
+    for (var i = 0; i < n - 1; i++) { // Passes through the array
+        for (var j = 0; j < n - i - 1; j++) { // Comparing adjacent elements
+            if (arr[j] > arr[j + 1]) { // Swap if out of order
+                var temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+    return arr; // Returning the sorted array
+}
+
+// Example Usage:
+var sampleArray = [64, 34, 25, 12, 22, 11, 90];
+console.log("Sorted Array: ", bubbleSort(sampleArray)); // Output will be [11, 12, 22, 25, 34, 64, 90]
+```
+
+### Complexity
+
+- **Time Complexity**: Bubble Sort has a worst-case and average time complexity of $O(n^2)$ where n is the number of items being sorted.
+- **Space Complexity**: It uses $O(1)$ extra space, which means it's an in-place sorting algorithm.
+
+### Notes
+It’s important to note that while Bubble Sort is simple to understand, its performance can be very poor compared to other algorithms like Quick Sort or Merge Sort for large datasets. Nevertheless, it remains useful as a simple teaching tool and sometimes used when small datasets are involved or when the array is nearly sorted initially.
+

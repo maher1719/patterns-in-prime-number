@@ -70,8 +70,9 @@ function askQuestion() {
                     <p>${marked.parse(message.content, { sanitize: false })}</p>
                 </div>
             `;
+            MathJax.typesetPromise().catch((err) => console.log(err));
         });
-
+        MathJax.typesetPromise().catch((err) => console.log(err));
         chatArea.scrollTop = chatArea.scrollHeight;
 
         // Update current thread ID (important for new threads)
@@ -95,6 +96,10 @@ function askQuestion() {
         }
 
 
+    })
+    .then(()=>{
+            hljs.highlightAll();
+        
     })
     .catch(error => {
         const thinkingMessage = document.getElementById('thinking-message');
@@ -142,6 +147,9 @@ function loadThread(threadId) {
         if (activeThreadLink) {
             activeThreadLink.closest('.thread-list-item').classList.add('active');
         }
+    })
+    .then(()=>{
+        hljs.highlightAll();
     })
     .catch(error => console.error('Error loading thread:', error));
 }
