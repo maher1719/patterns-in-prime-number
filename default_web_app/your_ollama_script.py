@@ -8,8 +8,8 @@ import asyncio
 import os
 
 # --- Configuration ---
-OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5:3b")
-
+OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "qwen2.5-coder:3b")
+# llama3.2 qwen2.5-coder:3b qwen2.5:3b granite3.1-moe
 
 # --- Ollama Query Function ---
 
@@ -49,7 +49,7 @@ Example JSON output (if num_questions is 3):
   "Question 3",
 ]
 
-Only output the JSON array with coma between its items IT IS OBLIGATORY!!."""
+Only output the JSON array with coma between its items IT IS OBLIGATORY!!, only write the json array IT IS OBLIGATORY!!."""
     print("\nExpanding question with Ollama...")
     try:
         json_response = query_ollama(expansion_prompt)
