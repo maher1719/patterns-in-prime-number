@@ -1,5 +1,4 @@
-/* static/style.css (Modified) */
-
+/* static/style.css (Modified Header and Sidebar Toggle Styles) */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -51,10 +50,10 @@ body[data-theme="dark"]::before {
 body[data-theme="dark"] .container {
     background-color: rgba(51, 51, 51, 0.9);
 }
-
+/* Header Styles */
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Distribute space */
     align-items: center;
     padding: 15px 25px;
     background-color: rgba(0, 123, 255, 0.8);
@@ -70,18 +69,19 @@ body[data-theme='dark'] .header {
      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
 }
-
 .header h1 {
     margin: 0;
     font-size: 1.8em;
-    flex-grow: 1;
+    flex-grow: 1; /* Allow the title to take up available space */
     text-align: center;
+    /*margin-left: ; push the header to center*/
 }
-
 .header-buttons {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-left: auto; /* Push buttons to the right */
+
 }
 
 .options-toggle, .sidebar-toggle {
@@ -210,9 +210,6 @@ body[data-theme="dark"] .sidebar-header {
 body[data-theme="dark"] .new-thread-button {
     background-color: #4682b4; /* SteelBlue */
 }
-
-/* static/style.css (Continued) */
-
 body[data-theme="dark"] .new-thread-button:hover {
     background-color: #6A5ACD; /* SlateBlue */
 }
@@ -339,6 +336,10 @@ body[data-theme='dark'] .option-label{
     outline: none;
     border-color: #007bff;
 }
+
+/* static/style.css (Continued - Header and Sidebar) */
+
+/* ... (previous styles) ... */
 
 body[data-theme="dark"] .option-input,
 body[data-theme="dark"] .option-checkbox {

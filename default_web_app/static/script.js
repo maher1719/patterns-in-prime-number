@@ -1,4 +1,4 @@
-// static/script.js (Complete, with loadThread modification)
+// static/script.js (No changes needed)
 
 function askQuestion() {
     const questionInput = document.getElementById('question-input');
@@ -10,27 +10,34 @@ function askQuestion() {
     const expandChecked = expandCheckbox.checked;
     const downloadLinkContainer = document.getElementById('download-link-container');
     const currentThreadIdInput = document.getElementById('current-thread-id');
-    const currentThreadId = currentThreadIdInput.value;
+    const currentThreadId = currentThreadIdInput.value;  // Get current thread ID
 
+
+    // Get values from new input fields
     const numQuestions = document.getElementById('num-questions').value;
     const summarizeChecked = document.getElementById('summarize-checkbox').checked;
     const textbooksChecked = document.getElementById('textbooks-checkbox').checked;
     const moreQuestionsChecked = document.getElementById('more-questions-checkbox').checked;
 
-    chatArea.innerHTML += `
+    // Add user message to chat (using Markdown)
+      chatArea.innerHTML += `
         <div class="message user-message">
             <p>${marked.parse(question)}</p>
         </div>
     `;
     questionInput.value = '';
 
+    // Show "Thinking..." message
     chatArea.innerHTML += `
         <div class="message bot-message thinking-message" id="thinking-message">
             <p>Thinking...</p>
         </div>
     `;
+      // Clear previous download link
     downloadLinkContainer.innerHTML = '';
 
+
+    // Construct form data
     const formData = new URLSearchParams();
     formData.append('question', question);
     formData.append('expand', expandChecked);
@@ -38,7 +45,8 @@ function askQuestion() {
     formData.append('summarize', summarizeChecked);
     formData.append('textbooks', textbooksChecked);
     formData.append('more_questions', moreQuestionsChecked);
-    formData.append('current_thread_id', currentThreadId);
+    formData.append('current_thread_id', currentThreadId); // Send current thread ID
+
 
     fetch('/ask', {
         method: 'POST',
@@ -54,6 +62,7 @@ function askQuestion() {
             thinkingMessage.remove();
         }
 
+        // Append new messages to the chat area
         (data.messages || []).forEach(message => {
             const messageClass = message.role === 'user' ? 'user-message' : 'bot-message';
             chatArea.innerHTML += `
@@ -65,20 +74,27 @@ function askQuestion() {
 
         chatArea.scrollTop = chatArea.scrollHeight;
 
+        // Update current thread ID (important for new threads)
         if (data.thread_id) {
             currentThreadIdInput.value = data.thread_id;
         }
+        // Add download link (if filename is provided) and thread id not empty
         if (data.filename && data.thread_id) {
             downloadLinkContainer.innerHTML = `<a href="/download/${data.filename}" download>Download Conversation</a>`;
 
+             // Add 'active' class to the new thread in the sidebar
             const newThreadLink = document.querySelector(`.thread-list-item a[data-thread-id="${data.thread_id}"]`);
             if (newThreadLink) {
+                // Remove 'active' from all other threads
                 document.querySelectorAll('.thread-list-item').forEach(item => {
                     item.classList.remove('active');
                 });
                 newThreadLink.closest('.thread-list-item').classList.add('active');
             }
+
         }
+
+
     })
     .catch(error => {
         const thinkingMessage = document.getElementById('thinking-message');
@@ -129,123 +145,3 @@ function loadThread(threadId) {
     })
     .catch(error => console.error('Error loading thread:', error));
 }
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const themeToggleButton = document.getElementById('theme-toggle');
-    const optionsToggle = document.getElementById('options-toggle');
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const sidebar = document.querySelector('.sidebar');
-    const optionsSidebar = document.getElementById('options-sidebar');
-    const body = document.body;
-    const expandCheckbox = document.getElementById('expand-checkbox');
-    const numQuestionsInput = document.getElementById('num-questions');
-    const optionButtons = document.querySelectorAll('.option-button');
-    const newThreadButton = document.getElementById('new-thread-button');
-
-    // Initialize current_thread_id, handling null/None case
-    let current_thread_id = null;
-    if (current_thread_id === null) {
-        current_thread_id = ''; // Or any other default value you want
-    }
-
-     // --- Theme Toggle ---
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        body.setAttribute('data-theme', currentTheme);
-
-        themeToggleButton.addEventListener('click', () => {
-            const newTheme = body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-        });
-
-        // --- Options Toggle ---
-         optionsToggle.addEventListener('click', () => {
-          optionsSidebar.classList.toggle('show'); //show the options
-        });
-
-        // --- Sidebar Toggle ---
-        sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
-        });
-
-         // --- Enable/Disable Options based on Expand ---
-        function updateOptionStates() {
-            const isExpanded = expandCheckbox.checked;
-            numQuestionsInput.disabled = !isExpanded;
-
-            optionButtons.forEach(button => {
-                button.classList.toggle('disabled', !isExpanded);
-                const checkbox = button.previousElementSibling;
-                if(!isExpanded){
-                    checkbox.checked = false;
-                }
-                checkbox.disabled = !isExpanded;
-            });
-        }
-
-        updateOptionStates();
-        expandCheckbox.addEventListener('change', updateOptionStates);
-
-
-         // --- Thread link click ---
-        document.querySelectorAll('.thread-list-item a').forEach(link => {
-            link.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default link behavior
-                const threadId = this.dataset.threadId;
-                loadThread(threadId);
-            });
-        });
-
-      // --- New Thread Button ---
-        newThreadButton.addEventListener('click', () => {
-          // Clear current chat, reset thread ID, clear input
-          document.getElementById('chat-area').innerHTML = `
-              <div class="message bot-message">
-                  <p>Welcome! Ask me anything.</p>
-              </div>
-          `;
-          document.getElementById('current-thread-id').value = '';
-          document.getElementById('question-input').value = '';
-          document.getElementById('download-link-container').innerHTML = '';
-
-           // Remove 'active' class from all thread list items
-            document.querySelectorAll('.thread-list-item').forEach(item => {
-                item.classList.remove('active');
-            });
-      });
-
-
-       // --- update Download link---
-        function updateDownloadLink(threadId) {
-            if(!threadId){
-                document.getElementById('download-link-container').innerHTML = '';
-                return;
-            }
-                // Create dummy form data (we only need thread ID, but server expects a POST)
-                const formData = new URLSearchParams();
-                formData.append('question', 'dummy'); // Dummy question
-                formData.append('current_thread_id', threadId);
-                formData.append('expand', 'false'); // dummy to pass server side checks
-                //fetch to get file name
-                fetch('/ask', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.filename) {
-                         // Update the download link with the correct filename and thread ID
-                        document.getElementById('download-link-container').innerHTML = `<a href="/download/${data.filename}" download>Download Conversation</a>`;
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching for download link update", error);
-                });
-        }
-
-});

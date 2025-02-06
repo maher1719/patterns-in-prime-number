@@ -1,3 +1,4 @@
+<!-- templates/index.html (Corrected Download Link Logic) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,14 +12,16 @@
 <body data-theme="light">
     <div class="container">
         <div class="header">
+            <div class="header-buttons">
+                <button value="converstations" id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </button>
+        </div>
             <h1>Ollama Chat</h1>
             <div class="header-buttons">
-                 <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                </button>
-                <button id="options-toggle" class="options-toggle" aria-label="Toggle Options">
+                <button  id="options-toggle" class="options-toggle" aria-label="Toggle Options">
                     <div class="dot"></div>
                     <div class="dot"></div>
                     <div class="dot"></div>
@@ -104,9 +107,9 @@
 
                     <div id="download-link-container">
                         <!-- Download link will be added here -->
-                         {% if current_thread_id %}
-                        <a href="/download/{{ filename }}" download>Download Conversation</a>
-                        {% endif %}
+                         {% if current_thread_id and filename %}
+                            <a href="/download/{{ filename }}" download>Download Conversation</a>
+                         {% endif %}
                     </div>
                 </div>
             </div>
@@ -114,7 +117,7 @@
     </div>
 
 <script>
-/*document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const themeToggleButton = document.getElementById('theme-toggle');
     const optionsToggle = document.getElementById('options-toggle');
     const sidebarToggle = document.getElementById('sidebar-toggle');
@@ -189,12 +192,19 @@
                     // Replace the entire chat area with the new HTML
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(html, 'text/html');
-                    const newChatArea = doc.querySelector('.chat-area').innerHTML;
+                    const newChatArea = doc.querySelector('.chat-area');
                     const currentThreadIdInput = doc.getElementById('current-thread-id');
                     const newThreadId = currentThreadIdInput ? currentThreadIdInput.value : null; // Get new ID or null
 
+                    // --- Apply marked.parse to each message ---
+                    if (newChatArea) { // Check if newChatArea exists
+                        const messageDivs = newChatArea.querySelectorAll('.message > p');
+                        messageDivs.forEach(p => {
+                          p.innerHTML = marked.parse(p.textContent, { sanitize: false });
+                        });
+                        document.getElementById('chat-area').innerHTML = newChatArea.innerHTML; // Set innerHTML *after* processing
+                    }
 
-                    document.getElementById('chat-area').innerHTML = newChatArea;
                     document.getElementById('current-thread-id').value = newThreadId;
 
                     //update download link
@@ -238,32 +248,32 @@
                 document.getElementById('download-link-container').innerHTML = '';
                 return;
             }
-                // Create dummy form data (we only need thread ID, but server expects a POST)
-                const formData = new URLSearchParams();
-                formData.append('question', 'dummy'); // Dummy question
-                formData.append('current_thread_id', threadId);
-                formData.append('expand', 'false'); // dummy to pass server side checks
-                //fetch to get file name
-                fetch('/ask', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.filename) {
-                         // Update the download link with the correct filename and thread ID
-                        document.getElementById('download-link-container').innerHTML = `<a href="/download/${data.filename}" download>Download Conversation</a>`;
+            // NO need to send dummy data.  Just fetch /thread/<id> to get filename.
+            fetch(`/thread/${threadId}`)
+                .then(response => response.text()) // Get the entire HTML response
+                .then(html => {
+                    // Parse the HTML to extract the filename from the download link
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const downloadLink = doc.querySelector('#download-link-container a');
+
+                    if (downloadLink) {
+                      const filename = downloadLink.getAttribute('href').split('/').pop();
+                      document.getElementById('download-link-container').innerHTML = `<a href="/download/${filename}" download>Download Conversation</a>`;
+
+                    } else {
+                        // If no download link in the fetched HTML, clear it.
+                        document.getElementById('download-link-container').innerHTML = '';
                     }
                 })
                 .catch(error => {
                     console.error("Error fetching for download link update", error);
+                    document.getElementById('download-link-container').innerHTML = ''; // Clear on error
                 });
+
         }
 
 });
-*/</script>
+</script>
 </body>
 </html>
