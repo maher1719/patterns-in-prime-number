@@ -1,5 +1,4 @@
-/* static/style.css */
-
+/* static/style.css (Modified Header and Sidebar Toggle Styles) */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
@@ -51,10 +50,10 @@ body[data-theme="dark"]::before {
 body[data-theme="dark"] .container {
     background-color: rgba(51, 51, 51, 0.9);
 }
-
+/* Header Styles */
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Distribute space */
     align-items: center;
     padding: 15px 25px;
     background-color: rgba(0, 123, 255, 0.8);
@@ -70,21 +69,22 @@ body[data-theme='dark'] .header {
      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
 }
-
 .header h1 {
     margin: 0;
     font-size: 1.8em;
-    flex-grow: 1;
+    flex-grow: 1; /* Allow the title to take up available space */
     text-align: center;
+    /*margin-left: ; push the header to center*/
 }
-
 .header-buttons {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-left: auto; /* Push buttons to the right */
+
 }
 
-.options-toggle {
+.options-toggle, .sidebar-toggle {
     background: none;
     border: none;
     cursor: pointer;
@@ -98,22 +98,22 @@ body[data-theme='dark'] .header {
     transition: background-color 0.3s;
 }
 
-.options-toggle:hover, .options-toggle:focus {
+.options-toggle:hover, .options-toggle:focus,.sidebar-toggle:hover, .sidebar-toggle:focus {
     background-color: rgba(0, 0, 0, 0.1);
     outline: none;
 }
 
-.options-toggle .dot {
+.options-toggle .dot, .sidebar-toggle .dot {
     width: 5px;
     height: 5px;
     background-color: white;
     border-radius: 50%;
 }
 
-body[data-theme="dark"] .options-toggle .dot{
+body[data-theme="dark"] .options-toggle .dot,body[data-theme="dark"] .sidebar-toggle .dot{
     background-color: #333;
 }
-body[data-theme="dark"] .options-toggle:hover{
+body[data-theme="dark"] .options-toggle:hover, body[data-theme='dark'] .sidebar-toggle:hover{
     background-color: rgba(255, 255, 255, 0.2);
 }
 .theme-toggle {
@@ -148,6 +148,8 @@ body[data-theme='dark'] .theme-toggle:hover{
     overflow: hidden;
     width: 100%;
     box-sizing: border-box;
+     position: relative; /* Make sure main-content is a positioning context */
+
 }
 
 .sidebar {
@@ -159,33 +161,139 @@ body[data-theme='dark'] .theme-toggle:hover{
     transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
     overflow-y: auto;
     overflow-x: hidden;
-}
+    z-index:2;
+    position:absolute;
+    height:100%;
 
-.sidebar.show {
-    width: 280px;
-    padding: 20px;
+}
+.sidebar.show{
+  width:250px;
+  padding:20px;
 }
 
 body[data-theme="dark"] .sidebar {
     background-color: rgba(51, 51, 51, 0.9);
     border-right: 1px solid rgba(255,255,255, 0.1);
 }
-
 .sidebar-header {
     margin-bottom: 15px;
     color: #555;
     font-size: 1.2em;
     font-weight: bold;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Subtle border */
-    padding-bottom:10px;
+    justify-content: space-between;  /* Distribute space between title and button */
+    align-items: center;  /* Align items vertically */
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 10px;
 }
 body[data-theme="dark"] .sidebar-header {
     color: #ddd;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
+}
+
+.new-thread-button {
+    padding: 5px 10px;
+    background-color: #007bff; /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+
+.new-thread-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+body[data-theme="dark"] .new-thread-button {
+    background-color: #4682b4; /* SteelBlue */
+}
+body[data-theme="dark"] .new-thread-button:hover {
+    background-color: #6A5ACD; /* SlateBlue */
+}
+
+.thread-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.thread-list-item {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+     display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space out the link and timestamp */
+    align-items: center; /* Vertically center items */
+
+}
+
+.thread-list-item a {
+    color: #333;
+    text-decoration: none;
+    display: block; /* Make the link take up the full width */
+    flex-grow: 1; /* Allow the link to grow and take available space */
+
+}
+
+.thread-list-item:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+.thread-list-item.active {
+    background-color: rgba(0, 123, 255, 0.2); /* Highlight active thread */
+    font-weight: bold;
+}
+
+body[data-theme="dark"] .thread-list-item a {
+    color: #ddd;
+}
+
+body[data-theme="dark"] .thread-list-item:hover {
+    background-color: rgba(85, 85, 136, 0.2);
+}
+body[data-theme='dark'] .thread-list-item.active{
+    background-color: rgba(85, 85, 136, 0.4);
+
+}
+.timestamp {
+    font-size: 0.8em;
+    color: #888;
+      margin-left: 10px; /* Add some margin to separate from the link */
+     white-space: nowrap; /* Prevent timestamp from wrapping */
+
+}
+body[data-theme='dark'] .timestamp{
+    color:#aaa;
+}
+.chat-and-options-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row; /* Options on the left, chat on the right */
+    overflow: hidden;
+
+}
+.options-sidebar{
+    width: 0;
+    background-color: rgba(240, 240, 240, 0.9);
+    padding: 0;
+    flex-shrink: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index:1;
+}
+
+.options-sidebar.show {
+    width: 280px;
+    padding: 20px;
+}
+
+body[data-theme="dark"] .options-sidebar {
+    background-color: rgba(51, 51, 51, 0.9);
+    border-right: 1px solid rgba(255,255,255, 0.1);
 }
 .options-container {
     display: flex;
@@ -228,6 +336,10 @@ body[data-theme='dark'] .option-label{
     outline: none;
     border-color: #007bff;
 }
+
+/* static/style.css (Continued - Header and Sidebar) */
+
+/* ... (previous styles) ... */
 
 body[data-theme="dark"] .option-input,
 body[data-theme="dark"] .option-checkbox {
@@ -314,6 +426,7 @@ body[data-theme="dark"] .option-button.disabled {
     color: #bbb;
     border-color: #aaa;
 }
+
 
 .chat-container {
     flex: 1;
@@ -476,29 +589,29 @@ body[data-theme="dark"] .chat-area::-webkit-scrollbar-thumb:hover{
 }
 
 /* Sidebar scrollbar (optional) */
-.sidebar::-webkit-scrollbar {
+.sidebar::-webkit-scrollbar, .options-sidebar::-webkit-scrollbar {
     width: 8px;
 }
 
-.sidebar::-webkit-scrollbar-track {
+.sidebar::-webkit-scrollbar-track, .options-sidebar::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 4px;
 }
 
-.sidebar::-webkit-scrollbar-thumb {
+.sidebar::-webkit-scrollbar-thumb, .options-sidebar::-webkit-scrollbar-thumb{
     background: rgba(0, 123, 255, 0.7);
     border-radius: 4px;
 }
 
-.sidebar::-webkit-scrollbar-thumb:hover {
+.sidebar::-webkit-scrollbar-thumb:hover, .options-sidebar::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 123, 255, 0.9);
 }
-body[data-theme="dark"] .sidebar::-webkit-scrollbar-track{
+body[data-theme="dark"] .sidebar::-webkit-scrollbar-track, body[data-theme="dark"] .options-sidebar::-webkit-scrollbar-track{
       background: rgba(255, 255, 255, 0.1);
 }
-body[data-theme="dark"] .sidebar::-webkit-scrollbar-thumb{
+body[data-theme="dark"] .sidebar::-webkit-scrollbar-thumb,body[data-theme="dark"] .options-sidebar::-webkit-scrollbar-thumb{
       background:  rgba(85, 85, 136, 0.7);
 }
-body[data-theme="dark"] .sidebar::-webkit-scrollbar-thumb:hover{
+body[data-theme="dark"] .sidebar::-webkit-scrollbar-thumb:hover, body[data-theme='dark'] .options-sidebar::-webkit-scrollbar-thumb:hover{
         background:  rgba(85, 85, 136, 0.9);
 }
