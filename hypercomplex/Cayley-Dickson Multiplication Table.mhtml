@@ -1,0 +1,1319 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: file:///home/maher/programming/unusual_patterns/hypercomplex/cayley_dickson_table_n7_same_signs_dimension_2.html
+Subject: Cayley-Dickson Multiplication Table
+Date: Fri, 11 Apr 2025 10:39:08 +0100
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--sEMHiB0hgP0YbOtNnlhmojO3Ikew4d8d5AaiHCnivJ----"
+
+
+------MultipartBoundary--sEMHiB0hgP0YbOtNnlhmojO3Ikew4d8d5AaiHCnivJ----
+Content-Type: text/html
+Content-ID: <frame-7652D8DCE7E5C4615FFE3569007E9748@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: file:///home/maher/programming/unusual_patterns/hypercomplex/cayley_dickson_table_n7_same_signs_dimension_2.html
+
+<!DOCTYPE html><html><head><meta http-equiv=3D"Content-Type" content=3D"tex=
+t/html; charset=3Dwindows-1252"><link rel=3D"stylesheet" type=3D"text/css" =
+href=3D"cid:css-51ac98ca-3664-4a9c-a95c-b186998c8ce2@mhtml.blink" />
+    <title>Cayley-Dickson Multiplication Table</title>
+   =20
+</head>
+<body>
+    <table>
+        <tbody><tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #811F48;">"9"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #B91EF3;">"3"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #775AD3;">"1"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #068EC5;">"11"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+            <td style=3D"background-color: #0B0554;">"12"</td>
+            <td style=3D"background-color: #054764;">"2"</td>
+            <td style=3D"background-color: #3FB42F;">"6"</td>
+            <td style=3D"background-color: #AB0462;">"10"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #DADCC9;">"8"</td>
+            <td style=3D"background-color: #2B3ECB;">"7"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+            <td style=3D"background-color: #32DB2F;">"4"</td>
+            <td style=3D"background-color: #621743;">"5"</td>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+        <tr>
+        </tr>
+    </tbody></table>
+
+
+</body></html>
+------MultipartBoundary--sEMHiB0hgP0YbOtNnlhmojO3Ikew4d8d5AaiHCnivJ----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-51ac98ca-3664-4a9c-a95c-b186998c8ce2@mhtml.blink
+
+@charset "windows-1252";
+
+table { border-collapse: collapse; color: white; }
+
+td { border: 1px solid black; padding: 5px; text-align: center; }
+------MultipartBoundary--sEMHiB0hgP0YbOtNnlhmojO3Ikew4d8d5AaiHCnivJ------
